@@ -8,8 +8,8 @@
 | Fase | Nombre | Rama | Estado | PR | Notas |
 |------|--------|------|--------|----|-------|
 | 0 | Auditoría del entorno y planificación | `chore/fase-00-auditoria` | Completada | PR #1 mergeado | PHP 8.5.12, Laravel 13.38, Tailwind v4 |
-| 1 | Bootstrap de Laravel | `feature/fase-01-bootstrap` | En curso | Pendiente push | Livewire v4.4.8, build verde, tests verdes |
-| 2 | Internacionalización y layout accesible | `feature/fase-02-internacionalizacion` | Pendiente | — | — |
+| 1 | Bootstrap de Laravel | `feature/fase-01-bootstrap` | Completada | PR #2 mergeado | Livewire v4.4.8, build verde, tests verdes |
+| 2 | Internacionalización y layout accesible | `feature/fase-02-internacionalizacion` | En curso | Pendiente push | Middleware locale, rutas /es /en, layout semántico |
 | 3 | Datos y modelos Eloquent | `feature/fase-03-datos-modelos` | Pendiente | — | — |
 | 4 | Panel de administración privado | `feature/fase-04-panel-privado` | Pendiente | — | — |
 | 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | Pendiente | — | — |
@@ -68,19 +68,24 @@
 ---
 
 ### Fase 2 — Internacionalización y layout accesible
-- **Estado:** Pendiente
+- **Estado:** En curso — implementada, pendiente push y PR
 - **Rama:** `feature/fase-02-internacionalizacion`
 - **Criterios de aceptación:**
-  - [ ] Middleware de locale con validación estricta
-  - [ ] Rutas `/es` y `/en` funcionando
-  - [ ] Layout Blade semántico (`<html lang>`, skip link, header, main, footer)
-  - [ ] Selector de idioma funcional
-  - [ ] Focus-visible implementado
-  - [ ] Diseño responsive
-  - [ ] Tests de rutas e idiomas verdes
-- **Commits:** —
-- **PR:** —
-- **Merge por propietario:** —
+  - [✓] Middleware `SetLocale` con validación estricta (solo `es`/`en`, abort 404 si inválido)
+  - [✓] Rutas `/es` y `/en` funcionando; `/` redirige a `/es`
+  - [✓] Layout Blade semántico (`<html lang>`, skip link, `<header>`, `<main id="main-content">`, `<footer>`)
+  - [✓] Selector de idioma funcional (`aria-current="page"` en locale activo, `hreflang` en alternativas)
+  - [✓] Focus-visible implementado (`*:focus-visible { outline: 2px solid currentColor }` en `@layer base`)
+  - [✓] Diseño responsive (Tailwind v4, max-w-5xl, px-4 sm:px-6 lg:px-8)
+  - [✓] Tests de rutas e idiomas verdes (11/11 — `LocaleTest.php`)
+- **Notas:**
+  - `URL::defaults(['locale' => $locale])` en middleware para generación automática de rutas con locale
+  - `tabindex="-1"` en `<main>` permite recibir foco desde el skip link sin mostrar ring
+  - Locale activo en selector → `<span aria-current="page">`, no `<a>` (evita enlace a la página actual)
+  - Archivos de traducción: `lang/es/ui.php`, `lang/en/ui.php`
+- **Commits:** `feat: add bilingual accessible shell`
+- **PR:** Pendiente push autorizado
+- **Merge por propietario:** Pendiente
 
 ---
 
