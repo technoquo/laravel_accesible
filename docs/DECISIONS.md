@@ -80,6 +80,24 @@ Este documento registra las decisiones técnicas relevantes, el contexto que las
   - Renderizado en cliente (JS): el contenido publicado debe ser legible sin JavaScript (SEO + accesibilidad).
 - **Consecuencias:** Sanitizar siempre antes de persistir HTML; nunca confiar en el input del editor.
 
+### DEC-006 — Livewire v4.4.8 con Alpine auto-inyectado
+- **Fecha:** 2026-10-26
+- **Fase:** 1 (bootstrap)
+- **Estado:** Aceptada
+- **Contexto:** El plan requiere Livewire 4 integrado con Alpine sin duplicación. Livewire 4 ofrece dos modos: auto-inyección (por defecto) y bundling manual en `app.js`.
+- **Decisión:** Usar la auto-inyección predeterminada. No importar Alpine por separado en `app.js`.
+- **Alternativas descartadas:** Bundling manual — innecesario para el MVP; añade complejidad sin beneficio actual.
+- **Consecuencias:** Si en Fases posteriores se necesitan plugins Alpine personalizados, se deberá migrar al modo bundling manual importando desde `vendor/livewire/livewire/dist/livewire.esm`.
+
+### DEC-007 — APP_LOCALE=es como locale predeterminado desde el bootstrap
+- **Fecha:** 2026-10-26
+- **Fase:** 1 (bootstrap)
+- **Estado:** Aceptada
+- **Contexto:** El sitio es español de forma predeterminada; el inglés es idioma secundario.
+- **Decisión:** `APP_LOCALE=es`, `APP_FALLBACK_LOCALE=en`, `APP_FAKER_LOCALE=es_ES` en `.env` y `.env.example`.
+- **Alternativas descartadas:** `APP_LOCALE=en` — contradice la especificación del plan maestro.
+- **Consecuencias:** Los archivos de traducción de interfaz deben existir en `lang/es/` como locale primario.
+
 ---
 
 ## Pendiente de decisión

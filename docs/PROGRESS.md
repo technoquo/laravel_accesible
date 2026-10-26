@@ -7,8 +7,8 @@
 
 | Fase | Nombre | Rama | Estado | PR | Notas |
 |------|--------|------|--------|----|-------|
-| 0 | Auditoría del entorno y planificación | `chore/fase-00-auditoria` | En curso | Pendiente push | PHP 8.5.12, Laravel 13.38, Tailwind v4 |
-| 1 | Bootstrap de Laravel | `feature/fase-01-bootstrap` | Pendiente | — | — |
+| 0 | Auditoría del entorno y planificación | `chore/fase-00-auditoria` | Completada | PR #1 mergeado | PHP 8.5.12, Laravel 13.38, Tailwind v4 |
+| 1 | Bootstrap de Laravel | `feature/fase-01-bootstrap` | En curso | Pendiente push | Livewire v4.4.8, build verde, tests verdes |
 | 2 | Internacionalización y layout accesible | `feature/fase-02-internacionalizacion` | Pendiente | — | — |
 | 3 | Datos y modelos Eloquent | `feature/fase-03-datos-modelos` | Pendiente | — | — |
 | 4 | Panel de administración privado | `feature/fase-04-panel-privado` | Pendiente | — | — |
@@ -45,21 +45,25 @@
 ---
 
 ### Fase 1 — Bootstrap de Laravel
-- **Estado:** Pendiente
+- **Estado:** En curso — implementada, pendiente push y PR
 - **Rama:** `feature/fase-01-bootstrap`
 - **Criterios de aceptación:**
-  - [ ] Laravel 13 instalado
-  - [ ] `.env.example` configurado
-  - [ ] MySQL local conectado
-  - [ ] Pest instalado y funcionando
-  - [ ] Livewire 4 instalado sin duplicar Alpine
-  - [ ] Tailwind CSS configurado con build exitoso
-  - [ ] Pint, `.editorconfig`, `.gitignore` configurados
-  - [ ] Prueba smoke en `/` verde
-  - [ ] Migraciones base ejecutadas
-- **Commits:** —
-- **PR:** —
-- **Merge por propietario:** —
+  - [✓] Laravel 13.38.0 instalado (commit inicial)
+  - [✓] `.env.example` configurado (MySQL, APP_LOCALE=es, APP_URL=laravel-accesible.test)
+  - [✓] MySQL local conectado (laravel_accesible, migraciones confirmadas)
+  - [✓] Pest 5.3.3 instalado y funcionando (2/2 tests verdes)
+  - [✓] Livewire 4.4.8 instalado sin duplicar Alpine (auto-inyección)
+  - [✓] Tailwind CSS v4 configurado con build exitoso (38.78 kB CSS)
+  - [✓] Pint 1.32.1, `.editorconfig`, `.gitignore` configurados
+  - [✓] Prueba smoke en `/` verde
+  - [✓] Migraciones base ejecutadas (users/password_reset_tokens/sessions, cache, jobs)
+- **Notas:**
+  - Livewire v4.4.8 usa auto-inyección de Alpine; no importar Alpine por separado
+  - `.env` corregido: espacios en variables DB_ eliminados, APP_LOCALE=es
+  - `phpunit.xml` ya usa SQLite en memoria para tests (aislamiento correcto)
+- **Commits:** `chore: bootstrap laravel accesible`
+- **PR:** Pendiente push autorizado
+- **Merge por propietario:** Pendiente
 
 ---
 
