@@ -7,7 +7,7 @@ export default defineConfig({
     retries: 0,
     reporter: [['html', { open: 'never' }], ['list']],
     use: {
-        baseURL: 'http://laravel-accesible.test',
+        baseURL: 'https://laravel-accesible.test',
         trace: 'on-first-retry',
         ignoreHTTPSErrors: true,
     },
