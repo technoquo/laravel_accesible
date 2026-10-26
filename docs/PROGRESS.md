@@ -11,8 +11,8 @@
 | 1 | Bootstrap de Laravel | `feature/fase-01-bootstrap` | Completada | PR #2 mergeado | Livewire v4.4.8, build verde, tests verdes |
 | 2 | Internacionalización y layout accesible | `feature/fase-02-internacionalizacion` | Completada | PR #3 mergeado | Middleware locale, rutas /es /en, layout semántico |
 | 3 | Datos y modelos Eloquent | `feature/fase-03-datos-modelos` | Completada | PR #4 mergeado | Migraciones, modelos, factories, seeders, 27/27 tests |
-| 4 | Panel de administración privado | `feature/fase-04-panel-privado` | En curso | PR #5 abierto | Auth, CRUD, Markdown, 37/37 tests |
-| 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | Pendiente | — | — |
+| 4 | Panel de administración privado | `feature/fase-04-panel-privado` | Completada | PR #5 mergeado | Auth, CRUD, Markdown, 37/37 tests |
+| 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | En curso | PR #6 abierto | Portada, índice, detalle, categorías, etiquetas, búsqueda, 404, 89/89 tests |
 | 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | Pendiente | — | — |
 | 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | Pendiente | — | — |
 | 8 | Seguridad y preparación de producción | `chore/fase-08-seguridad-produccion` | Pendiente | — | — |
@@ -143,19 +143,25 @@
 ---
 
 ### Fase 5 — Páginas públicas del blog
-- **Estado:** Pendiente
+- **Estado:** En curso — implementada, pendiente push y PR
 - **Rama:** `feature/fase-05-paginas-publicas`
 - **Criterios de aceptación:**
-  - [ ] Portada con artículos recientes
-  - [ ] Índice paginado de artículos
-  - [ ] Detalle de artículo con Markdown renderizado
-  - [ ] Código resaltado con etiquetas semánticas
-  - [ ] Botón copiar código con feedback accesible
-  - [ ] Filtros por categoría y etiqueta
-  - [ ] Búsqueda por título/resumen (locale)
-  - [ ] Página 404 accesible
-  - [ ] Ningún borrador visible en público
-  - [ ] Tests de XSS y visibilidad verdes
+  - [✓] Portada con artículos recientes (HomeController + home.blade.php)
+  - [✓] Índice paginado de artículos (PostController@index, /es/articulos, /en/articles)
+  - [✓] Detalle de artículo con Markdown renderizado (PostController@show, MarkdownService)
+  - [✓] Código resaltado con etiquetas semánticas (highlight.js CDN + `<pre><code>` semántico)
+  - [✓] Botón copiar código con feedback accesible (JS + aria-live region, reduced-motion)
+  - [✓] Filtros por categoría y etiqueta (CategoryController, TagController)
+  - [✓] Búsqueda por título/resumen (locale) (GET form, LIKE query parameterizada)
+  - [✓] Página 404 accesible (resources/views/errors/404.blade.php)
+  - [✓] Ningún borrador visible en público (abort_if + publishedForLocale scope)
+  - [✓] Tests de XSS y visibilidad verdes (25 nuevos tests, 89/89 total)
+- **Notas:**
+  - Rutas con segmentos localizados: `/es/articulos`, `/en/articles`, `/es/categorias`, etc.
+  - `locale_route()` helper en `app/helpers.php` para generación de URLs locale-aware
+  - Parámetros de ruta inyectados posicionalmente en Laravel: `show(string $locale, string $slug)` necesario
+  - Estilos prose en `app.css` para el cuerpo de artículos sin dependencia de `@tailwindcss/typography`
+  - `LocaleTest.php` actualizado con `RefreshDatabase` al consultar ahora la BD desde `HomeController`
 - **Commits:** —
 - **PR:** —
 - **Merge por propietario:** —

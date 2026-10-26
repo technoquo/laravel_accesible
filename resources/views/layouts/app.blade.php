@@ -7,6 +7,7 @@
     <title>@yield('title', __('ui.site_name'))</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    @stack('styles')
 </head>
 <body class="min-h-full flex flex-col bg-white text-gray-900 antialiased">
 
@@ -17,25 +18,33 @@
     </a>
 
     <header role="banner" class="border-b border-gray-200">
-        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
 
             <a href="{{ route('home', ['locale' => app()->getLocale()]) }}"
                class="text-lg font-semibold tracking-tight hover:underline">
                 {{ __('ui.site_name') }}
             </a>
 
+            <nav aria-label="{{ __('ui.nav_home') }}" class="flex items-center gap-6 text-sm">
+                <a href="{{ locale_route('articles.index') }}"
+                   class="hover:underline underline-offset-2
+                          {{ request()->routeIs('*.articles.*') ? 'font-semibold underline' : '' }}">
+                    {{ __('ui.nav_articles') }}
+                </a>
+            </nav>
+
             <nav aria-label="{{ __('ui.lang_selector') }}" class="flex items-center gap-3 text-sm">
-                @foreach (['es' => __('ui.lang_es'), 'en' => __('ui.lang_en')] as $locale => $label)
-                    @if (app()->getLocale() === $locale)
-                        <span lang="{{ $locale }}"
+                @foreach (['es' => __('ui.lang_es'), 'en' => __('ui.lang_en')] as $lang => $label)
+                    @if (app()->getLocale() === $lang)
+                        <span lang="{{ $lang }}"
                               aria-current="page"
                               class="font-semibold underline underline-offset-2">
                             {{ $label }}
                         </span>
                     @else
-                        <a href="{{ route('home', ['locale' => $locale]) }}"
-                           lang="{{ $locale }}"
-                           hreflang="{{ $locale }}"
+                        <a href="{{ ($alternateUrls ?? [])[$lang] ?? route('home', ['locale' => $lang]) }}"
+                           lang="{{ $lang }}"
+                           hreflang="{{ $lang }}"
                            class="hover:underline underline-offset-2">
                             {{ $label }}
                         </a>
@@ -57,5 +66,6 @@
     </footer>
 
     @livewireScripts
+    @stack('scripts')
 </body>
 </html>
