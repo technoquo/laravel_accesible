@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Markdown\ImageRenderer;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
 
@@ -21,6 +23,9 @@ class MarkdownService
 
         $environment->addExtension(new CommonMarkCoreExtension);
         $environment->addExtension(new GithubFlavoredMarkdownExtension);
+
+        // Override default image renderer to support YouTube embeds and lazy loading.
+        $environment->addRenderer(Image::class, new ImageRenderer, 10);
 
         $this->converter = new MarkdownConverter($environment);
     }

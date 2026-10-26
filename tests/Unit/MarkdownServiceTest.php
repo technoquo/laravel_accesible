@@ -59,3 +59,89 @@ test('renders github flavored markdown fenced code blocks', function (): void {
     expect($html)->toContain('<code');
     expect($html)->toContain("echo 'hi';");
 });
+
+// ─── Images ──────────────────────────────────────────────────────────────────
+
+test('renders markdown image with loading lazy and alt text', function (): void {
+    $service = new MarkdownService;
+
+    $html = $service->toHtml('![Captura de pantalla del formulario](https://example.com/img.png)');
+
+    expect($html)->toContain('<img')
+        ->toContain('src="https://example.com/img.png"')
+        ->toContain('alt="Captura de pantalla del formulario"')
+        ->toContain('loading="lazy"');
+});
+
+test('renders markdown image with optional title attribute', function (): void {
+    $service = new MarkdownService;
+
+    $html = $service->toHtml('![Alt text](https://example.com/img.png "Título de la imagen")');
+
+    expect($html)->toContain('title="Título de la imagen"');
+});
+
+// ─── YouTube embeds ───────────────────────────────────────────────────────────
+
+test('renders youtube watch url as accessible iframe', function (): void {
+    $service = new MarkdownService;
+
+    $html = $service->toHtml('![Demostración de accesibilidad](https://www.youtube.com/watch?v=dQw4w9WgXcQ)');
+
+    expect($html)
+        ->toContain('<iframe')
+        ->toContain('src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"')
+        ->toContain('title="Demostración de accesibilidad"')
+        ->toContain('loading="lazy"')
+        ->toContain('allowfullscreen')
+        ->not->toContain('<img');
+});
+
+test('renders youtu.be short url as iframe', function (): void {
+    $service = new MarkdownService;
+
+    $html = $service->toHtml('![Video corto](https://youtu.be/dQw4w9WgXcQ)');
+
+    expect($html)
+        ->toContain('src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"')
+        ->toContain('title="Video corto"');
+});
+
+test('youtube iframe uses nocookie domain for privacy', function (): void {
+    $service = new MarkdownService;
+
+    $html = $service->toHtml('![Test](https://www.youtube.com/watch?v=dQw4w9WgXcQ)');
+
+    expect($html)
+        ->toContain('youtube-nocookie.com')
+        ->not->toContain('youtube.com/embed');
+});
+
+test('youtube iframe has accessible role and aria-label', function (): void {
+    $service = new MarkdownService;
+
+    $html = $service->toHtml('![Tutorial de WCAG 2.2](https://youtu.be/dQw4w9WgXcQ)');
+
+    expect($html)
+        ->toContain('role="figure"')
+        ->toContain('aria-label="Tutorial de WCAG 2.2"');
+});
+
+test('non-youtube url renders as regular image not iframe', function (): void {
+    $service = new MarkdownService;
+
+    $html = $service->toHtml('![Foto](https://vimeo.com/123456)');
+
+    expect($html)
+        ->toContain('<img')
+        ->not->toContain('<iframe');
+});
+
+test('youtube video id is sanitized in iframe src', function (): void {
+    $service = new MarkdownService;
+
+    // A URL with extra query params after the video ID — ID still extracted correctly
+    $html = $service->toHtml('![Video](https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=30s)');
+
+    expect($html)->toContain('embed/dQw4w9WgXcQ');
+});
