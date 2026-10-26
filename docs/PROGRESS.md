@@ -15,8 +15,8 @@
 | 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | Completada | PR #6 mergeado | Portada, índice, detalle, categorías, etiquetas, búsqueda, 404, 89/89 tests |
 | 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | Completada | PR #8 mergeado | Canonical, OG, hreflang, sitemap, robots.txt, caché, 120/120 tests |
 | 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | Completada | PR #9 mergeado | 8 hallazgos corregidos, 21 tests axe verdes, pruebas manuales responsabilidad del propietario |
-| 8 | Seguridad y preparación de producción | `chore/fase-08-seguridad-produccion` | En curso | — | SecurityHeaders middleware, HTTPS forzado en prod, .env.example actualizado |
-| 9 | Contenido y lanzamiento | `docs/fase-09-contenido-lanzamiento` | Pendiente | — | — |
+| 8 | Seguridad y preparación de producción | `chore/fase-08-seguridad-produccion` | Completada | PR #10 mergeado | SecurityHeaders middleware, HTTPS forzado en prod, .env.example actualizado |
+| 9 | Contenido y lanzamiento | `docs/fase-09-contenido-lanzamiento` | En curso | — | 4 artículos bilingües en borrador con imagen y video |
 
 ---
 
@@ -280,3 +280,4 @@
 | Fecha | Fase | PR | Merged por |
 |-------|------|----|------------|
 | 2026-10-26 | 7 — Auditoría WCAG 2.2 AA | PR #9 | Propietario |
+| 2026-10-26 | 8 — Seguridad y preparación de producción | PR #10 | Propietario |
