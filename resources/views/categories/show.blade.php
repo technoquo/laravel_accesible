@@ -62,7 +62,7 @@
             </ul>
 
             @if ($posts->hasPages())
-                <nav aria-label="Pagination" class="mt-10">
+                <nav aria-label="{{ __('ui.pagination_nav') }}" class="mt-10">
                     {{ $posts->links() }}
                 </nav>
             @endif

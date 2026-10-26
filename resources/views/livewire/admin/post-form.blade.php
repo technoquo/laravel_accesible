@@ -122,7 +122,7 @@
                         <div class="mt-4 space-y-4">
                             <div>
                                 <label for="metaTitle{{ $suffix }}" class="block text-sm font-medium text-gray-700 mb-1">
-                                    Meta título <span class="text-xs text-gray-400">(máx. 70 caracteres)</span>
+                                    Meta título <span class="text-xs text-gray-500">(máx. 70 caracteres)</span>
                                 </label>
                                 <input id="metaTitle{{ $suffix }}"
                                     type="text"
@@ -135,7 +135,7 @@
                             </div>
                             <div>
                                 <label for="metaDescription{{ $suffix }}" class="block text-sm font-medium text-gray-700 mb-1">
-                                    Meta descripción <span class="text-xs text-gray-400">(máx. 160 caracteres)</span>
+                                    Meta descripción <span class="text-xs text-gray-500">(máx. 160 caracteres)</span>
                                 </label>
                                 <textarea id="metaDescription{{ $suffix }}"
                                     wire:model="metaDescription{{ $suffix }}"
@@ -223,7 +223,7 @@
                                 {{ $tagName }}
                             </label>
                         @empty
-                            <p class="text-sm text-gray-400">No hay etiquetas.</p>
+                            <p class="text-sm text-gray-500">No hay etiquetas.</p>
                         @endforelse
                     </div>
                 </fieldset>

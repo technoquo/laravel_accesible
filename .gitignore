@@ -1,4 +1,6 @@
 *.log
+/playwright-report
+/test-results
 .DS_Store
 .env
 .env.backup

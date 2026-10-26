@@ -102,8 +102,8 @@
                                 <p class="mt-3">
                                     <a href="{{ locale_route('articles.show', ['slug' => $t->slug]) }}"
                                        class="text-sm font-medium hover:underline underline-offset-2"
-                                       aria-label="{{ __('ui.articles_read_more', ['title' => $t->title]) }}">
-                                        {{ __('ui.articles_read_more', ['title' => '']) }} →
+                                       aria-label="{{ __('ui.read_more_label', ['title' => $t->title]) }}">
+                                        {{ __('ui.read_more') }} →
                                     </a>
                                 </p>
                             </article>
@@ -114,7 +114,7 @@
 
             {{-- Pagination --}}
             @if ($posts->hasPages())
-                <nav aria-label="Pagination" class="mt-10">
+                <nav aria-label="{{ __('ui.pagination_nav') }}" class="mt-10">
                     {{ $posts->links() }}
                 </nav>
             @endif
