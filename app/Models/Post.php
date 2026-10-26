@@ -18,6 +18,13 @@ class Post extends Model
     /** @use HasFactory<PostFactory> */
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'author_id',
+        'category_id',
+        'status',
+        'published_at',
+    ];
+
     protected function casts(): array
     {
         return [

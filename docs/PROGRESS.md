@@ -10,8 +10,8 @@
 | 0 | Auditoría del entorno y planificación | `chore/fase-00-auditoria` | Completada | PR #1 mergeado | PHP 8.5.12, Laravel 13.38, Tailwind v4 |
 | 1 | Bootstrap de Laravel | `feature/fase-01-bootstrap` | Completada | PR #2 mergeado | Livewire v4.4.8, build verde, tests verdes |
 | 2 | Internacionalización y layout accesible | `feature/fase-02-internacionalizacion` | Completada | PR #3 mergeado | Middleware locale, rutas /es /en, layout semántico |
-| 3 | Datos y modelos Eloquent | `feature/fase-03-datos-modelos` | En curso | Pendiente push | Migraciones, modelos, factories, seeders, 27/27 tests |
-| 4 | Panel de administración privado | `feature/fase-04-panel-privado` | Pendiente | — | — |
+| 3 | Datos y modelos Eloquent | `feature/fase-03-datos-modelos` | Completada | PR #4 mergeado | Migraciones, modelos, factories, seeders, 27/27 tests |
+| 4 | Panel de administración privado | `feature/fase-04-panel-privado` | En curso | Pendiente push | Auth, CRUD, Markdown, 37/37 tests |
 | 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | Pendiente | — | — |
 | 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | Pendiente | — | — |
 | 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | Pendiente | — | — |
@@ -116,16 +116,24 @@
 ---
 
 ### Fase 4 — Panel de administración privado
-- **Estado:** Pendiente
+- **Estado:** En curso — implementada, pendiente push y PR
 - **Rama:** `feature/fase-04-panel-privado`
 - **Criterios de aceptación:**
-  - [ ] Filament verificado (o alternativa propuesta y aprobada)
-  - [ ] Autenticación segura sin registro público
-  - [ ] Políticas de acceso para admin
-  - [ ] CRUD de posts, categorías, etiquetas y traducciones
-  - [ ] Editor Markdown con vista previa privada
-  - [ ] Sanitización de Markdown → HTML (allowlist, sin XSS)
-  - [ ] Tests de permisos, CSRF y validación verdes
+  - [✓] Filament verificado (incompatible con Livewire 4); alternativa propuesta y aprobada: panel artesanal
+  - [✓] Autenticación segura sin registro público; rate limiting en login (5 intentos/min)
+  - [✓] Middleware `EnsureUserIsAdmin` (abort 403 si no admin); `redirectGuestsTo` → `/admin/login`
+  - [✓] CRUD de posts con traducciones ES/EN (tabs por idioma), categoría, etiquetas, estado
+  - [✓] CRUD inline de categorías con traducciones ES/EN
+  - [✓] CRUD inline de etiquetas con traducciones ES/EN
+  - [✓] Editor Markdown (`<textarea>`) con vista previa privada (toggle)
+  - [✓] Sanitización Markdown → HTML (`league/commonmark` v2.10; `html_input: strip`, `allow_unsafe_links: false`)
+  - [✓] Tests de permisos, CRUD, validación, XSS y sanitización verdes (37/37)
+- **Notas:**
+  - Filament v4 requiere Livewire 3; usar con Livewire 4 requeriría downgrade — descartado (DEC-004)
+  - Layout admin separado (`layouts/admin.blade.php`) sin selector de idioma
+  - Slug auto-generado desde título si el campo está vacío; preservado si ya fue editado
+  - `MarkdownService` registrado como singleton en AppServiceProvider
+  - `Post.$fillable` añadido para reforzar protección de asignación masiva
 - **Commits:** —
 - **PR:** —
 - **Merge por propietario:** —
