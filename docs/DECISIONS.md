@@ -99,6 +99,28 @@ Este documento registra las decisiones técnicas relevantes, el contexto que las
 - **Alternativas descartadas:** `APP_LOCALE=en` — contradice la especificación del plan maestro.
 - **Consecuencias:** Los archivos de traducción de interfaz deben existir en `lang/es/` como locale primario.
 
+### DEC-008 — Rutas localizadas con segmentos distintos por idioma
+- **Fecha:** 2026-10-26
+- **Fase:** 5 (páginas públicas)
+- **Estado:** Aceptada
+- **Contexto:** El plan maestro especifica URLs distintas por idioma (`/es/articulos` vs. `/en/articles`). Laravel no tiene soporte nativo para segmentos de ruta localizados sin paquetes externos.
+- **Decisión:** Rutas explícitas dentro del grupo `{locale}` con restricción `.where('locale', 'es|en')`. Nombres prefijados por locale (`es.articles.index`, `en.articles.index`). Helper `locale_route()` en `app/helpers.php` para generación de URLs.
+- **Alternativas descartadas:**
+  - `mcamara/laravel-localization`: añade dependencia; el proyecto tiene una lógica sencilla que no justifica un paquete.
+  - Segmentos iguales para ambos locales (solo slug diferente): más simple pero no cumple las URLs del plan.
+- **Consecuencias:** Los métodos `show(string $locale, string $slug)` deben declarar `$locale` primero; Laravel inyecta parámetros de ruta posicionalmente en métodos de controlador.
+
+### DEC-009 — Resaltado de código vía highlight.js CDN
+- **Fecha:** 2026-10-26
+- **Fase:** 5 (páginas públicas)
+- **Estado:** Aceptada
+- **Contexto:** Los artículos contienen bloques de código que deben resaltarse semánticamente. El contenido debe ser legible sin JS.
+- **Decisión:** highlight.js v11 cargado desde cdnjs.cloudflare.com solo en la vista de detalle de artículo (`@push('scripts')`). Sin paquete PHP adicional.
+- **Alternativas descartadas:**
+  - `spatie/commonmark-shiki-highlighter`: PHP server-side, pero requiere Shiki y añade complejidad de build.
+  - Prism.js: alternativa válida; highlight.js tiene mejor cobertura de lenguajes y auto-detección.
+- **Consecuencias:** El resaltado es una mejora progresiva; sin JS el código es legible con estilos base en `app.css`. El botón copiar también depende de JS (clipboard API) con misma consideración.
+
 ---
 
 ## Pendiente de decisión
