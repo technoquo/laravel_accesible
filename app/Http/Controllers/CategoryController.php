@@ -14,8 +14,10 @@ class CategoryController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
+        $alternateLocale = $locale === 'es' ? 'en' : 'es';
+
         $category = Category::with([
-            'translations' => fn ($q) => $q->where('locale', $locale)
+            'translations' => fn ($q) => $q->whereIn('locale', [$locale, $alternateLocale])
                 ->select('id', 'category_id', 'locale', 'name', 'slug', 'description'),
         ])->findOrFail($categoryTranslation->category_id);
 
@@ -32,7 +34,6 @@ class CategoryController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        $alternateLocale = $locale === 'es' ? 'en' : 'es';
         $alternateCategoryTranslation = $category->translations->firstWhere('locale', $alternateLocale);
         $alternateUrls = [
             $alternateLocale => $alternateCategoryTranslation
@@ -40,6 +41,16 @@ class CategoryController extends Controller
                 : locale_route('articles.index', [], $alternateLocale),
         ];
 
-        return view('categories.show', compact('category', 'categoryTranslation', 'posts', 'alternateUrls', 'locale'));
+        $baseUrl = locale_route('categories.show', ['slug' => $categoryTranslation->slug]);
+        $canonicalUrl = $posts->currentPage() > 1
+            ? $baseUrl.'?page='.$posts->currentPage()
+            : $baseUrl;
+
+        $hreflangUrls = [$locale => $baseUrl];
+        if ($alternateCategoryTranslation) {
+            $hreflangUrls[$alternateLocale] = locale_route('categories.show', ['slug' => $alternateCategoryTranslation->slug], $alternateLocale);
+        }
+
+        return view('categories.show', compact('category', 'categoryTranslation', 'posts', 'alternateUrls', 'locale', 'canonicalUrl', 'hreflangUrls'));
     }
 }

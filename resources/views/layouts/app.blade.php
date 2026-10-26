@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@yield('description', __('ui.meta_description'))">
     <title>@yield('title', __('ui.site_name'))</title>
+
+    @isset($canonicalUrl)
+        <link rel="canonical" href="{{ $canonicalUrl }}">
+    @endisset
+
+    @isset($hreflangUrls)
+        @foreach ($hreflangUrls as $lang => $url)
+            <link rel="alternate" hreflang="{{ $lang }}" href="{{ $url }}">
+        @endforeach
+        @if (isset($hreflangUrls['es'], $hreflangUrls['en']))
+            <link rel="alternate" hreflang="x-default" href="{{ $hreflangUrls['es'] }}">
+        @endif
+    @endisset
+
+    <meta property="og:site_name" content="{{ __('ui.site_name') }}">
+    <meta property="og:locale" content="{{ app()->getLocale() === 'es' ? 'es_ES' : 'en_US' }}">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:title" content="@yield('title', __('ui.site_name'))">
+    <meta property="og:description" content="@yield('description', __('ui.meta_description'))">
+    @isset($canonicalUrl)
+        <meta property="og:url" content="{{ $canonicalUrl }}">
+    @endisset
+    @stack('og')
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @stack('styles')

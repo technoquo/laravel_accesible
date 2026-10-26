@@ -21,6 +21,12 @@ class HomeController extends Controller
             ->limit(5)
             ->get();
 
-        return view('home', compact('recentPosts', 'locale'));
+        $canonicalUrl = route('home', ['locale' => $locale]);
+        $hreflangUrls = [
+            'es' => route('home', ['locale' => 'es']),
+            'en' => route('home', ['locale' => 'en']),
+        ];
+
+        return view('home', compact('recentPosts', 'locale', 'canonicalUrl', 'hreflangUrls'));
     }
 }

@@ -12,8 +12,8 @@
 | 2 | Internacionalización y layout accesible | `feature/fase-02-internacionalizacion` | Completada | PR #3 mergeado | Middleware locale, rutas /es /en, layout semántico |
 | 3 | Datos y modelos Eloquent | `feature/fase-03-datos-modelos` | Completada | PR #4 mergeado | Migraciones, modelos, factories, seeders, 27/27 tests |
 | 4 | Panel de administración privado | `feature/fase-04-panel-privado` | Completada | PR #5 mergeado | Auth, CRUD, Markdown, 37/37 tests |
-| 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | En curso | PR #6 abierto | Portada, índice, detalle, categorías, etiquetas, búsqueda, 404, 89/89 tests |
-| 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | Pendiente | — | — |
+| 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | Completada | PR #6 mergeado | Portada, índice, detalle, categorías, etiquetas, búsqueda, 404, 89/89 tests |
+| 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | En curso | — | Canonical, OG, hreflang, sitemap, robots.txt, caché, 120/120 tests |
 | 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | Pendiente | — | — |
 | 8 | Seguridad y preparación de producción | `chore/fase-08-seguridad-produccion` | Pendiente | — | — |
 | 9 | Contenido y lanzamiento | `docs/fase-09-contenido-lanzamiento` | Pendiente | — | — |
@@ -169,17 +169,21 @@
 ---
 
 ### Fase 6 — SEO y rendimiento
-- **Estado:** Pendiente
+- **Estado:** En curso — implementada, pendiente push y PR
 - **Rama:** `feature/fase-06-seo-rendimiento`
 - **Criterios de aceptación:**
-  - [ ] `<title>` y `<meta description>` por idioma
-  - [ ] Canonical correcto en paginación
-  - [ ] Open Graph implementado
-  - [ ] hreflang solo para traducciones publicadas
-  - [ ] Sitemap XML generado
-  - [ ] `robots.txt` configurado
-  - [ ] Caché con invalidación al publicar
-  - [ ] Tests de canonical/hreflang/sitemap verdes
+  - [✓] `<title>` y `<meta description>` por idioma (en layout + vistas)
+  - [✓] Canonical correcto en paginación (page 1 sin param, page N con `?page=N`)
+  - [✓] Open Graph implementado (`og:type`, `og:title`, `og:description`, `og:url`, `og:locale`, `og:site_name`, `article:published_time`)
+  - [✓] hreflang solo para traducciones publicadas (`<link rel="alternate">` + `x-default`)
+  - [✓] Sitemap XML generado (`/sitemap.xml`, caché 1h, incluye home/índices/artículos/categorías/etiquetas)
+  - [✓] `robots.txt` configurado (`/robots.txt` dinámico con URL del sitemap)
+  - [✓] Caché con invalidación al publicar (`PostObserver` limpia `sitemap.xml` en save/delete/restore)
+  - [✓] Tests de canonical/hreflang/sitemap verdes (23/23 nuevos tests, 120/120 total)
+- **Notas:**
+  - `CategoryController` y `TagController` corregidos: ahora cargan traducciones para ambos locales (antes solo el locale activo hacía que `$alternateUrls` siempre cayera al fallback)
+  - hreflang en `<link>` tags solo para contenido real; el `<a hreflang>` del selector de idioma es independiente
+  - Sitemap excluye borradores y artículos futuros via `Post::published()` scope
 - **Commits:** —
 - **PR:** —
 - **Merge por propietario:** —
