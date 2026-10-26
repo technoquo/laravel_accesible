@@ -9,8 +9,8 @@
 |------|--------|------|--------|----|-------|
 | 0 | Auditoría del entorno y planificación | `chore/fase-00-auditoria` | Completada | PR #1 mergeado | PHP 8.5.12, Laravel 13.38, Tailwind v4 |
 | 1 | Bootstrap de Laravel | `feature/fase-01-bootstrap` | Completada | PR #2 mergeado | Livewire v4.4.8, build verde, tests verdes |
-| 2 | Internacionalización y layout accesible | `feature/fase-02-internacionalizacion` | En curso | Pendiente push | Middleware locale, rutas /es /en, layout semántico |
-| 3 | Datos y modelos Eloquent | `feature/fase-03-datos-modelos` | Pendiente | — | — |
+| 2 | Internacionalización y layout accesible | `feature/fase-02-internacionalizacion` | Completada | PR #3 mergeado | Middleware locale, rutas /es /en, layout semántico |
+| 3 | Datos y modelos Eloquent | `feature/fase-03-datos-modelos` | En curso | Pendiente push | Migraciones, modelos, factories, seeders, 27/27 tests |
 | 4 | Panel de administración privado | `feature/fase-04-panel-privado` | Pendiente | — | — |
 | 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | Pendiente | — | — |
 | 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | Pendiente | — | — |
@@ -90,18 +90,25 @@
 ---
 
 ### Fase 3 — Datos y modelos Eloquent
-- **Estado:** Pendiente
+- **Estado:** En curso — implementada, pendiente push y PR
 - **Rama:** `feature/fase-03-datos-modelos`
 - **Criterios de aceptación:**
-  - [ ] Migración `users` (con `is_admin`)
-  - [ ] Migración `posts` con soft deletes
-  - [ ] Migración `post_translations` (UNIQUE post_id+locale, locale+slug)
-  - [ ] Migraciones `categories` y `category_translations`
-  - [ ] Migraciones `tags`, `tag_translations` y `post_tag`
-  - [ ] Factories y seeders locales
-  - [ ] Scopes para artículos visibles por idioma
-  - [ ] Protección contra N+1
-  - [ ] Tests de integridad y colisiones de slug verdes
+  - [✓] Migración `users` (columna `is_admin` boolean)
+  - [✓] Migración `posts` con soft deletes e índice `status+published_at`
+  - [✓] Migración `post_translations` (UNIQUE post_id+locale, locale+slug)
+  - [✓] Migraciones `categories` y `category_translations`
+  - [✓] Migraciones `tags`, `tag_translations` y `post_tag`
+  - [✓] Factories con estados (`published`, `scheduledFuture`, `admin`, `forLocale`)
+  - [✓] Seeders locales (AdminUser, Category, Tag, Post)
+  - [✓] Scope `publishedForLocale(string $locale)` en `Post`
+  - [✓] `Model::preventLazyLoading(!app()->isProduction())` en AppServiceProvider
+  - [✓] Tests de integridad, scopes, soft deletes y colisiones de slug verdes (16 tests)
+- **Notas:**
+  - `PostStatus` enum backed string (Draft/Published)
+  - `post_tag` usa clave primaria compuesta, sin `id` autoincremental
+  - `author_id` usa `restrictOnDelete` para evitar borrado accidental de autores con posts
+  - `category_id` nullable con `nullOnDelete`
+  - Índice `(locale, post_id)` en `post_translations` para búsquedas por idioma
 - **Commits:** —
 - **PR:** —
 - **Merge por propietario:** —
