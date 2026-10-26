@@ -19,15 +19,18 @@
             <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
                 <nav aria-label="Navegación del panel" class="flex items-center gap-6 text-sm font-medium">
                     <a href="{{ route('admin.posts.index') }}"
-                       class="hover:underline focus:outline-none focus:ring-2 focus:ring-gray-900 rounded">
+                       @if (request()->routeIs('admin.posts.*')) aria-current="page" @endif
+                       class="hover:underline focus:outline-none focus:ring-2 focus:ring-gray-900 rounded {{ request()->routeIs('admin.posts.*') ? 'underline' : '' }}">
                         Posts
                     </a>
                     <a href="{{ route('admin.categories.index') }}"
-                       class="hover:underline focus:outline-none focus:ring-2 focus:ring-gray-900 rounded">
+                       @if (request()->routeIs('admin.categories.*')) aria-current="page" @endif
+                       class="hover:underline focus:outline-none focus:ring-2 focus:ring-gray-900 rounded {{ request()->routeIs('admin.categories.*') ? 'underline' : '' }}">
                         Categorías
                     </a>
                     <a href="{{ route('admin.tags.index') }}"
-                       class="hover:underline focus:outline-none focus:ring-2 focus:ring-gray-900 rounded">
+                       @if (request()->routeIs('admin.tags.*')) aria-current="page" @endif
+                       class="hover:underline focus:outline-none focus:ring-2 focus:ring-gray-900 rounded {{ request()->routeIs('admin.tags.*') ? 'underline' : '' }}">
                         Etiquetas
                     </a>
                 </nav>

@@ -13,8 +13,8 @@
 | 3 | Datos y modelos Eloquent | `feature/fase-03-datos-modelos` | Completada | PR #4 mergeado | Migraciones, modelos, factories, seeders, 27/27 tests |
 | 4 | Panel de administración privado | `feature/fase-04-panel-privado` | Completada | PR #5 mergeado | Auth, CRUD, Markdown, 37/37 tests |
 | 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | Completada | PR #6 mergeado | Portada, índice, detalle, categorías, etiquetas, búsqueda, 404, 89/89 tests |
-| 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | En curso | — | Canonical, OG, hreflang, sitemap, robots.txt, caché, 120/120 tests |
-| 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | Pendiente | — | — |
+| 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | Completada | PR #8 mergeado | Canonical, OG, hreflang, sitemap, robots.txt, caché, 120/120 tests |
+| 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | En curso | — | 8 hallazgos corregidos, 21 tests axe verdes, pruebas manuales pendientes |
 | 8 | Seguridad y preparación de producción | `chore/fase-08-seguridad-produccion` | Pendiente | — | — |
 | 9 | Contenido y lanzamiento | `docs/fase-09-contenido-lanzamiento` | Pendiente | — | — |
 
@@ -191,19 +191,37 @@
 ---
 
 ### Fase 7 — Auditoría WCAG 2.2 AA
-- **Estado:** Pendiente
+- **Estado:** En curso — automatización completa, pruebas manuales pendientes del propietario
 - **Rama:** `feature/fase-07-accesibilidad`
 - **Criterios de aceptación:**
-  - [ ] Playwright + @axe-core/playwright instalados
-  - [ ] Pruebas automáticas en todas las páginas clave
+  - [✓] Playwright + @axe-core/playwright instalados (npm devDependencies)
+  - [✓] Pruebas automáticas en todas las páginas clave (21 tests axe WCAG 2.2 AA — 0 violaciones)
   - [ ] Prueba manual: solo teclado
   - [ ] Prueba manual: NVDA/Firefox o Chrome
   - [ ] Prueba manual: zoom 200% y 400%
   - [ ] Prueba manual: reflow 320 CSS px
   - [ ] Prueba manual: reduced motion
-  - [ ] Hallazgos registrados con severidad y WCAG
-  - [ ] Hallazgos corregidos y pruebas repetidas
-  - [ ] Ver `docs/ACCESSIBILITY_CHECKLIST.md`
+  - [✓] Hallazgos registrados con severidad y WCAG (8 hallazgos en ACCESSIBILITY_CHECKLIST.md)
+  - [✓] Hallazgos automatizados corregidos y pruebas repetidas — 0 violaciones
+  - [✓] Ver `docs/ACCESSIBILITY_CHECKLIST.md`
+- **Archivos creados/modificados:**
+  - `playwright.config.js` — configuración Playwright
+  - `tests/e2e/a11y/public.spec.js` — tests axe páginas públicas
+  - `tests/e2e/a11y/admin.spec.js` — tests axe panel admin
+  - `resources/views/layouts/app.blade.php` — nav aria-label corregido
+  - `resources/views/layouts/admin.blade.php` — aria-current en nav admin
+  - `resources/views/articles/index.blade.php` — paginación + aria-label "Leer más: título"
+  - `resources/views/categories/show.blade.php` — paginación localizada
+  - `resources/views/tags/show.blade.php` — paginación localizada
+  - `resources/views/home.blade.php` — text-gray-400→text-gray-600
+  - `resources/views/errors/404.blade.php` — text-gray-300→text-gray-500
+  - `resources/views/livewire/admin/post-form.blade.php` — text-gray-400→text-gray-500
+  - `resources/css/app.css` — blockquote color #6b7280→#4b5563
+  - `lang/es/ui.php` y `lang/en/ui.php` — claves pagination_nav, read_more, read_more_label, nav_main
+- **Notas:**
+  - axe-core excluye `#herd-ai-host` (badge de Laravel Herd, herramienta de desarrollo)
+  - 3 tests omitidos: detalle EN y páginas de categoría/etiqueta por falta de contenido (se activarán en Fase 9)
+  - Las pruebas manuales (teclado, NVDA, zoom, reflow, reduced motion) son responsabilidad del propietario; instrucciones detalladas en `ACCESSIBILITY_CHECKLIST.md`
 - **Commits:** —
 - **PR:** —
 - **Merge por propietario:** —

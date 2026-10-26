@@ -40,7 +40,7 @@
                                         {{ $t->excerpt }}
                                     </p>
                                 @endif
-                                <p class="mt-2 text-xs text-gray-400">
+                                <p class="mt-2 text-xs text-gray-600">
                                     {{ $post->published_at->isoFormat('LL') }}
                                 </p>
                             </article>

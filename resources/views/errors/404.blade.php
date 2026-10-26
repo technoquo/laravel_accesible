@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-24 text-center">
-    <p class="text-5xl font-semibold text-gray-300" aria-hidden="true">404</p>
+    <p class="text-5xl font-semibold text-gray-500" aria-hidden="true">404</p>
     <h1 class="mt-4 text-2xl font-semibold tracking-tight">
         {{ __('ui.page_404_heading') }}
     </h1>

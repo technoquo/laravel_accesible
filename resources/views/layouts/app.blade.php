@@ -49,7 +49,7 @@
                 {{ __('ui.site_name') }}
             </a>
 
-            <nav aria-label="{{ __('ui.nav_home') }}" class="flex items-center gap-6 text-sm">
+            <nav aria-label="{{ __('ui.nav_main') }}" class="flex items-center gap-6 text-sm">
                 <a href="{{ locale_route('articles.index') }}"
                    class="hover:underline underline-offset-2
                           {{ request()->routeIs('*.articles.*') ? 'font-semibold underline' : '' }}">
