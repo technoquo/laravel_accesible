@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Panel') — Laravel Accesible</title>
+    <title>{{ isset($title) ? $title.' — ' : '' }}Panel — Laravel Accesible</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -44,7 +44,7 @@
 
     <main id="main-content" tabindex="-1" class="flex-1 outline-none py-8">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            @yield('content')
+            {{ $slot }}
         </div>
     </main>
 
