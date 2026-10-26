@@ -11,7 +11,7 @@
 | 1 | Bootstrap de Laravel | `feature/fase-01-bootstrap` | Completada | PR #2 mergeado | Livewire v4.4.8, build verde, tests verdes |
 | 2 | Internacionalización y layout accesible | `feature/fase-02-internacionalizacion` | Completada | PR #3 mergeado | Middleware locale, rutas /es /en, layout semántico |
 | 3 | Datos y modelos Eloquent | `feature/fase-03-datos-modelos` | Completada | PR #4 mergeado | Migraciones, modelos, factories, seeders, 27/27 tests |
-| 4 | Panel de administración privado | `feature/fase-04-panel-privado` | En curso | Pendiente push | Auth, CRUD, Markdown, 37/37 tests |
+| 4 | Panel de administración privado | `feature/fase-04-panel-privado` | En curso | PR #5 abierto | Auth, CRUD, Markdown, 37/37 tests |
 | 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | Pendiente | — | — |
 | 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | Pendiente | — | — |
 | 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | Pendiente | — | — |
@@ -134,9 +134,11 @@
   - Slug auto-generado desde título si el campo está vacío; preservado si ya fue editado
   - `MarkdownService` registrado como singleton en AppServiceProvider
   - `Post.$fillable` añadido para reforzar protección de asignación masiva
-- **Commits:** —
-- **PR:** —
-- **Merge por propietario:** —
+- **Commits:**
+  - `feat: add secure editorial admin panel`
+  - `fix: use slot instead of yield in admin layout` (Livewire 4 pasa contenido vía `{{ $slot }}`, no `@yield`)
+- **PR:** [#5 — feat: fase 4 — panel de administración privado](https://github.com/technoquo/laravel_accesible/pull/5)
+- **Merge por propietario:** Pendiente
 
 ---
 
