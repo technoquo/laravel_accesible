@@ -60,25 +60,26 @@ Este documento registra las decisiones técnicas relevantes, el contexto que las
 
 ### DEC-004 — Panel de administración (Filament vs. alternativa)
 - **Fecha:** 2026-10-26
-- **Fase:** 0 (planificación)
-- **Estado:** Propuesta — pendiente verificación de versión compatible en Fase 4
-- **Contexto:** Se necesita un CRUD editorial privado. Filament es la opción preferida del ecosistema Laravel, pero su compatibilidad con Laravel 13 debe confirmarse.
-- **Decisión provisional:** Usar Filament si la versión compatible está disponible; de lo contrario, proponer alternativa antes de instalar.
-- **Alternativas a evaluar si Filament no es compatible:**
-  - Panel Blade + Livewire artesanal: más trabajo, control total de accesibilidad.
-  - Laravel Nova: pago; posible opción.
-- **Consecuencias:** Documentar limitaciones de accesibilidad de componentes de terceros si se usa Filament.
+- **Fase:** 4 (confirmada)
+- **Estado:** Aceptada
+- **Contexto:** Filament v4 requiere Livewire 3; el proyecto usa Livewire 4.4. Instalar Filament exigiría un downgrade de Livewire, rompiendo el stack acordado en DEC-001 y DEC-006.
+- **Decisión:** Panel artesanal con Blade + Livewire 4 (componentes class-based). Sin dependencias adicionales.
+- **Alternativas descartadas:**
+  - Filament v4: incompatible con Livewire 4 (requiere Livewire 3).
+  - Laravel Nova: pago; no justificado para el MVP.
+- **Consecuencias:** Control total de accesibilidad en el panel; sin limitaciones de terceros. Mayor código a mantener, compensado por la simplicidad del dominio (editorial CRUD).
 
 ### DEC-005 — Renderizado de Markdown
 - **Fecha:** 2026-10-26
-- **Fase:** 0 (planificación)
-- **Estado:** Propuesta — confirmar paquete en Fase 4/5
-- **Contexto:** El contenido de artículos se almacena en Markdown y debe renderizarse a HTML de forma segura, con resaltado de código semántico y sin XSS.
-- **Decisión provisional:** Usar `league/commonmark` con configuración de allowlist HTML; `spatie/laravel-markdown` o similar para integración; resaltado con `highlight.php` o equivalente sin JS obligatorio.
+- **Fase:** 4 (confirmada)
+- **Estado:** Aceptada
+- **Contexto:** El contenido de artículos se almacena en Markdown (`markdown_content`) y debe renderizarse a HTML de forma segura, sin XSS.
+- **Decisión:** `league/commonmark` v2 con `GithubFlavoredMarkdownExtension`; opciones `html_input: strip` y `allow_unsafe_links: false`. Sin `spatie/laravel-markdown` (capa innecesaria). `MarkdownService` registrado como singleton.
 - **Alternativas descartadas:**
   - `Parsedown`: menor mantenimiento activo.
+  - `spatie/laravel-markdown`: wrapper sobre CommonMark; añade configuración sin beneficio real.
   - Renderizado en cliente (JS): el contenido publicado debe ser legible sin JavaScript (SEO + accesibilidad).
-- **Consecuencias:** Sanitizar siempre antes de persistir HTML; nunca confiar en el input del editor.
+- **Consecuencias:** Toda la sanitización ocurre en `MarkdownService::toHtml()`; el HTML resultante es seguro para `{!! !!}` solo en el panel privado. En páginas públicas (Fase 5), usar el mismo servicio.
 
 ### DEC-006 — Livewire v4.4.8 con Alpine auto-inyectado
 - **Fecha:** 2026-10-26
@@ -102,7 +103,6 @@ Este documento registra las decisiones técnicas relevantes, el contexto que las
 
 ## Pendiente de decisión
 
-- Editor Markdown en el panel admin (TipTap, CodeMirror, textarea simple).
 - Estrategia de caché (Laravel Cache con tags vs. sin tags según driver disponible).
 - Motor de búsqueda (MySQL FULLTEXT vs. Laravel Scout + driver local).
 - Almacenamiento de imágenes (local vs. S3-compatible).
