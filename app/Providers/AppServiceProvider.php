@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Observers\PostObserver;
 use App\Services\MarkdownService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if ($this->app->isProduction()) {
+            URL::forceScheme('https');
+        }
+
         Model::preventLazyLoading(! app()->isProduction());
         Post::observe(PostObserver::class);
     }

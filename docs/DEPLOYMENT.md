@@ -2,7 +2,7 @@
 
 > Proyecto: Laravel Accesible
 > Última actualización: 2026-10-26
-> Estado: Borrador — pendiente completar en Fase 8
+> Estado: Completado en Fase 8
 
 **IMPORTANTE:** No desplegar a producción sin autorización explícita del propietario del proyecto.
 
@@ -38,6 +38,11 @@ APP_ENV=production
 APP_DEBUG=false
 APP_URL=https://tudominio.com
 
+APP_LOCALE=es
+APP_FALLBACK_LOCALE=en
+
+LOG_LEVEL=error
+
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -46,15 +51,38 @@ DB_USERNAME=usuario_prod
 DB_PASSWORD=contraseña_segura
 
 SESSION_DRIVER=database
+SESSION_LIFETIME=120
+SESSION_ENCRYPT=true
+SESSION_SECURE_COOKIE=true
+SESSION_SAME_SITE=lax
+
 CACHE_STORE=redis  # o database si no hay Redis
 QUEUE_CONNECTION=sync  # cambiar a redis/database si se usan colas
+
+BCRYPT_ROUNDS=12
 ```
 
 > Nunca comitear el archivo `.env` al repositorio.
 
+### Headers de seguridad (implementados vía middleware)
+
+El middleware `SecurityHeaders` añade automáticamente en todas las respuestas web:
+
+| Header | Valor | Propósito |
+|--------|-------|-----------|
+| `X-Content-Type-Options` | `nosniff` | Evita MIME sniffing |
+| `X-Frame-Options` | `SAMEORIGIN` | Previene clickjacking |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` | Limita información en Referer |
+| `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` | Deshabilita APIs sensibles del navegador |
+| `X-XSS-Protection` | `0` | Deshabilita filtro XSS obsoleto (reemplazado por CSP) |
+
+### Nota sobre CSP (Content Security Policy)
+
+Una CSP completa requiere nonces para Livewire (scripts inline) y whitelisting de CDNs (highlight.js en `cdn.jsdelivr.net`, YouTube en `youtube-nocookie.com`). Implementar en Fase 9+ o antes del primer deploy, validando que no rompa el panel admin ni la renderización de artículos.
+
 ---
 
-## Proceso de despliegue (pendiente detallar en Fase 8)
+## Proceso de despliegue
 
 ### Primera vez
 
@@ -111,16 +139,21 @@ php artisan up
 
 ---
 
-## Checklist pre-despliegue (pendiente Fase 8)
+## Checklist pre-despliegue
 
 ### Seguridad
 - [ ] `APP_DEBUG=false`
 - [ ] `APP_ENV=production`
 - [ ] Sin claves ni secretos en el repositorio
-- [ ] HTTPS configurado y forzado
-- [ ] Headers de seguridad (CSP, HSTS, X-Frame-Options)
-- [ ] Rate limiting activo en rutas sensibles
-- [ ] Sin registro público habilitado
+- [ ] `APP_URL=https://...` configurado (activa `URL::forceScheme('https')` automáticamente)
+- [ ] HTTPS configurado en servidor web (certificado SSL/TLS vigente)
+- [ ] `SESSION_SECURE_COOKIE=true` en `.env` de producción
+- [ ] `SESSION_ENCRYPT=true` en `.env` de producción
+- [ ] `LOG_LEVEL=error` en `.env` de producción
+- [ ] Headers de seguridad activos (middleware `SecurityHeaders` registrado en `bootstrap/app.php`) ✅
+- [ ] Rate limiting en login activo (5 intentos/min, clave email|IP) ✅
+- [ ] Sin registro público habilitado ✅
+- [ ] Dependencias auditadas: `composer audit` y `npm audit` sin vulnerabilidades ✅
 
 ### Base de datos
 - [ ] Migraciones reversibles verificadas

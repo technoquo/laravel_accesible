@@ -14,8 +14,8 @@
 | 4 | Panel de administración privado | `feature/fase-04-panel-privado` | Completada | PR #5 mergeado | Auth, CRUD, Markdown, 37/37 tests |
 | 5 | Páginas públicas del blog | `feature/fase-05-paginas-publicas` | Completada | PR #6 mergeado | Portada, índice, detalle, categorías, etiquetas, búsqueda, 404, 89/89 tests |
 | 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | Completada | PR #8 mergeado | Canonical, OG, hreflang, sitemap, robots.txt, caché, 120/120 tests |
-| 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | En curso | — | 8 hallazgos corregidos, 21 tests axe verdes, pruebas manuales pendientes |
-| 8 | Seguridad y preparación de producción | `chore/fase-08-seguridad-produccion` | Pendiente | — | — |
+| 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | Completada | PR #9 mergeado | 8 hallazgos corregidos, 21 tests axe verdes, pruebas manuales responsabilidad del propietario |
+| 8 | Seguridad y preparación de producción | `chore/fase-08-seguridad-produccion` | En curso | — | SecurityHeaders middleware, HTTPS forzado en prod, .env.example actualizado |
 | 9 | Contenido y lanzamiento | `docs/fase-09-contenido-lanzamiento` | Pendiente | — | — |
 
 ---
@@ -191,7 +191,7 @@
 ---
 
 ### Fase 7 — Auditoría WCAG 2.2 AA
-- **Estado:** En curso — automatización completa, pruebas manuales pendientes del propietario
+- **Estado:** Completada — PR #9 mergeado
 - **Rama:** `feature/fase-07-accesibilidad`
 - **Criterios de aceptación:**
   - [✓] Playwright + @axe-core/playwright instalados (npm devDependencies)
@@ -229,17 +229,28 @@
 ---
 
 ### Fase 8 — Seguridad y preparación de producción
-- **Estado:** Pendiente
+- **Estado:** En curso — implementada, pendiente push y PR
 - **Rama:** `chore/fase-08-seguridad-produccion`
 - **Criterios de aceptación:**
-  - [ ] Revisión de dependencias (composer audit, npm audit)
-  - [ ] XSS, CSRF, CSP revisados
-  - [ ] Rate limiting configurado
-  - [ ] `APP_DEBUG=false` en producción
-  - [ ] HTTPS forzado
-  - [ ] Logs sin datos sensibles
-  - [ ] `docs/DEPLOYMENT.md` completo con rollback
+  - [✓] Revisión de dependencias — `composer audit` y `npm audit`: 0 vulnerabilidades
+  - [✓] XSS revisado — Blade `{{ }}` en todo el público; `{!! !!}` solo tras MarkdownService con `html_input: strip`
+  - [✓] CSRF activo — middleware `web` de Laravel cubre todos los formularios POST
+  - [✓] Headers de seguridad — middleware `SecurityHeaders` (X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy)
+  - [✓] Rate limiting en login — 5 intentos/min, clave email|IP
+  - [✓] HTTPS forzado en producción — `URL::forceScheme('https')` en AppServiceProvider cuando `APP_ENV=production`
+  - [✓] Logs sin datos sensibles — sin llamadas `Log::` con passwords/tokens; `LOG_LEVEL=error` documentado para producción
+  - [✓] `APP_DEBUG=false` documentado en `.env.example` con sección de producción
+  - [✓] `SESSION_SECURE_COOKIE=true` y `SESSION_ENCRYPT=true` documentados en `.env.example` para producción
+  - [✓] `docs/DEPLOYMENT.md` completado con checklist, headers, variables de entorno y rollback
   - [ ] No despliegue sin permiso del propietario
+- **Archivos creados/modificados:**
+  - `app/Http/Middleware/SecurityHeaders.php` — nuevo middleware de cabeceras HTTP
+  - `bootstrap/app.php` — registra `SecurityHeaders` en el stack web
+  - `app/Providers/AppServiceProvider.php` — `URL::forceScheme('https')` en producción
+  - `.env.example` — secciones de producción comentadas (APP_DEBUG, LOG_LEVEL, SESSION_*)
+  - `docs/DEPLOYMENT.md` — completado con variables, headers, checklist y nota sobre CSP
+  - `docs/PROGRESS.md` — fase 7 marcada como completada
+- **Nota sobre CSP:** CSP completa requiere nonces para Livewire y whitelist de CDNs (highlight.js, YouTube). Documentado en DEPLOYMENT.md como trabajo post-lanzamiento.
 - **Commits:** —
 - **PR:** —
 - **Merge por propietario:** —
@@ -268,4 +279,4 @@
 
 | Fecha | Fase | PR | Merged por |
 |-------|------|----|------------|
-| — | — | — | — |
+| 2026-10-26 | 7 — Auditoría WCAG 2.2 AA | PR #9 | Propietario |
