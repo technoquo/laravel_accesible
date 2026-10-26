@@ -40,7 +40,17 @@ class PostController extends Controller
 
         $posts = $query->paginate(10)->withQueryString();
 
-        return view('articles.index', compact('posts', 'search', 'locale'));
+        $baseUrl = locale_route('articles.index');
+        $canonicalUrl = $posts->currentPage() > 1
+            ? $baseUrl.'?page='.$posts->currentPage()
+            : $baseUrl;
+
+        $hreflangUrls = [
+            'es' => locale_route('articles.index', [], 'es'),
+            'en' => locale_route('articles.index', [], 'en'),
+        ];
+
+        return view('articles.index', compact('posts', 'search', 'locale', 'canonicalUrl', 'hreflangUrls'));
     }
 
     public function show(string $locale, string $slug): View
@@ -73,6 +83,12 @@ class PostController extends Controller
                 : locale_route('articles.index', [], $alternateLocale),
         ];
 
-        return view('articles.show', compact('post', 'translation', 'html', 'alternateUrls', 'locale'));
+        $canonicalUrl = locale_route('articles.show', ['slug' => $slug]);
+        $hreflangUrls = [$locale => $canonicalUrl];
+        if ($alternateTranslation) {
+            $hreflangUrls[$alternateLocale] = locale_route('articles.show', ['slug' => $alternateTranslation->slug], $alternateLocale);
+        }
+
+        return view('articles.show', compact('post', 'translation', 'html', 'alternateUrls', 'locale', 'canonicalUrl', 'hreflangUrls'));
     }
 }

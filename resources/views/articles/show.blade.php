@@ -2,6 +2,11 @@
 
 @section('title', ($translation->meta_title ?: $translation->title) . ' — ' . __('ui.site_name'))
 @section('description', $translation->meta_description ?: $translation->excerpt)
+@section('og_type', 'article')
+
+@push('og')
+<meta property="article:published_time" content="{{ $post->published_at->toIso8601String() }}">
+@endpush
 
 @push('styles')
 <link rel="stylesheet"

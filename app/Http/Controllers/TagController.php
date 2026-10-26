@@ -14,8 +14,10 @@ class TagController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
+        $alternateLocale = $locale === 'es' ? 'en' : 'es';
+
         $tag = Tag::with([
-            'translations' => fn ($q) => $q->where('locale', $locale)
+            'translations' => fn ($q) => $q->whereIn('locale', [$locale, $alternateLocale])
                 ->select('id', 'tag_id', 'locale', 'name', 'slug'),
         ])->findOrFail($tagTranslation->tag_id);
 
@@ -32,7 +34,6 @@ class TagController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        $alternateLocale = $locale === 'es' ? 'en' : 'es';
         $alternateTagTranslation = $tag->translations->firstWhere('locale', $alternateLocale);
         $alternateUrls = [
             $alternateLocale => $alternateTagTranslation
@@ -40,6 +41,16 @@ class TagController extends Controller
                 : locale_route('articles.index', [], $alternateLocale),
         ];
 
-        return view('tags.show', compact('tag', 'tagTranslation', 'posts', 'alternateUrls', 'locale'));
+        $baseUrl = locale_route('tags.show', ['slug' => $tagTranslation->slug]);
+        $canonicalUrl = $posts->currentPage() > 1
+            ? $baseUrl.'?page='.$posts->currentPage()
+            : $baseUrl;
+
+        $hreflangUrls = [$locale => $baseUrl];
+        if ($alternateTagTranslation) {
+            $hreflangUrls[$alternateLocale] = locale_route('tags.show', ['slug' => $alternateTagTranslation->slug], $alternateLocale);
+        }
+
+        return view('tags.show', compact('tag', 'tagTranslation', 'posts', 'alternateUrls', 'locale', 'canonicalUrl', 'hreflangUrls'));
     }
 }

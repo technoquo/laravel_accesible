@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RobotsController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TagController;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\SetLocale;
@@ -15,6 +17,9 @@ use App\Livewire\Admin\TagsIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route('home', ['locale' => 'es']));
+
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+Route::get('/robots.txt', RobotsController::class)->name('robots.txt');
 
 Route::prefix('{locale}')
     ->middleware(SetLocale::class)
