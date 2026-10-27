@@ -304,6 +304,21 @@
 
 ---
 
+## Mejora — Página Acerca de
+
+- **Rama:** `feature/pagina-acerca-de`
+- **Estado:** Implementada — pendiente de push/PR
+- **Alcance:**
+  - [x] Rutas `/es/acerca-de` (`es.about`) y `/en/about` (`en.about`), con canonical, hreflang y selector de idioma hacia la página equivalente
+  - [x] Enlace en el menú principal (con `aria-current="page"`) y en el footer
+  - [x] Vista semántica (`<article>`, un `<h1>`, `<p>`) dentro del `<main>` del layout; textos ES/EN en `lang/*/ui.php`, nombres en español marcados con `lang="es"` en la versión inglesa
+  - [x] Ambas URLs en `sitemap.xml`
+  - [x] Pest: `AboutPageTest.php` (200 y título, 404 con locale cruzado, enlaces en nav y footer, estado actual, selector de idioma, sitemap)
+  - [x] Playwright: axe en ES/EN (claro y `chromium-dark`) y sin scroll horizontal a 320 CSS px
+- **PR:** pendiente
+
+---
+
 ## Registro de merges en main
 
 | Fecha | Fase | PR | Merged por |

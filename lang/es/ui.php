@@ -10,6 +10,7 @@ return [
     'nav_main' => 'Navegación principal',
     'nav_home' => 'Inicio',
     'nav_articles' => 'Artículos',
+    'nav_about' => 'Acerca de',
     'pagination_nav' => 'Paginación',
     'read_more' => 'Leer más',
     'read_more_label' => 'Leer más: :title',
@@ -43,6 +44,14 @@ return [
     'category_heading' => 'Categoría: :name',
     'tag_title' => 'Etiqueta: :name — Laravel Accesible',
     'tag_heading' => 'Etiqueta: :name',
+
+    // About page (about_bio may contain inline HTML, e.g. lang attributes; rendered unescaped)
+    'about_title' => 'Acerca de — Laravel Accesible',
+    'about_meta_description' => 'Quién está detrás de Laravel Accesible y por qué existe este blog sobre accesibilidad web con Laravel.',
+    'about_heading' => 'Acerca de',
+    'about_intro' => 'Laravel Accesible nació para compartir las experiencias de personas usuarias, con o sin discapacidad, que se benefician de la accesibilidad. El proyecto se enfoca en Laravel para que las personas desarrolladoras puedan construir aplicaciones con igualdad de acceso y sin barreras.',
+    'about_bio' => 'Soy Leonel López, una persona sorda, graduado de la Universidad Latinoamericana de Ciencia y Tecnología (ULACIT) de Costa Rica. He participado en varias actividades sobre accesibilidad web para personas sordas, como WordCamp, el Congreso Accesible América, DeafTech y el Zero Project en Austria. También participé en Laracon EU 2026 en Ámsterdam. Fui emprendedor con Acceso Visual. Soy profesor de lengua de señas y desarrollador Laravel desde hace más de 4 años, y llevo años luchando por el derecho de acceso de las personas sordas.',
+    'about_goal' => 'El objetivo de este blog es compartir conocimiento con quienes desarrollan en Laravel y con cualquier persona interesada en la accesibilidad. Es un proyecto voluntario, y espero que compartas nuestra experiencia.',
 
     // Theme toggle
     'theme_dark_mode' => 'Modo oscuro',

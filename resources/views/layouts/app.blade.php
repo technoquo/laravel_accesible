@@ -56,6 +56,12 @@
                           {{ request()->routeIs('*.articles.*') ? 'font-semibold underline' : '' }}">
                     {{ __('ui.nav_articles') }}
                 </a>
+                <a href="{{ locale_route('about') }}"
+                   @if (request()->routeIs('*.about')) aria-current="page" @endif
+                   class="hover:underline underline-offset-2
+                          {{ request()->routeIs('*.about') ? 'font-semibold underline' : '' }}">
+                    {{ __('ui.nav_about') }}
+                </a>
             </nav>
 
             <div class="flex items-center gap-4">
@@ -90,8 +96,11 @@
     </main>
 
     <footer role="contentinfo" class="border-t border-gray-200 mt-auto">
-        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 text-sm text-gray-600">
-            {{ __('ui.footer_rights', ['year' => date('Y')]) }}
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 text-sm text-gray-600 flex flex-wrap items-center justify-between gap-4">
+            <p>{{ __('ui.footer_rights', ['year' => date('Y')]) }}</p>
+            <a href="{{ locale_route('about') }}" class="underline underline-offset-2 hover:text-gray-900">
+                {{ __('ui.nav_about') }}
+            </a>
         </div>
     </footer>
 

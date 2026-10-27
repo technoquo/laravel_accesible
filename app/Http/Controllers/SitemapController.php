@@ -32,6 +32,11 @@ class SitemapController extends Controller
                 'changefreq' => 'daily',
                 'priority' => '0.9',
             ];
+            $urls[] = [
+                'loc' => locale_route('about', [], $locale),
+                'changefreq' => 'yearly',
+                'priority' => '0.4',
+            ];
         }
 
         Post::published()

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
@@ -35,6 +36,8 @@ Route::prefix('{locale}')
             ->name('es.categories.show')->where('locale', 'es');
         Route::get('etiquetas/{slug}', [TagController::class, 'show'])
             ->name('es.tags.show')->where('locale', 'es');
+        Route::get('acerca-de', AboutController::class)
+            ->name('es.about')->where('locale', 'es');
 
         // EN public routes
         Route::get('articles', [PostController::class, 'index'])
@@ -45,6 +48,8 @@ Route::prefix('{locale}')
             ->name('en.categories.show')->where('locale', 'en');
         Route::get('tags/{slug}', [TagController::class, 'show'])
             ->name('en.tags.show')->where('locale', 'en');
+        Route::get('about', AboutController::class)
+            ->name('en.about')->where('locale', 'en');
     });
 
 Route::prefix('admin')
