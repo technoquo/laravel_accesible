@@ -1,7 +1,7 @@
 # Progreso del proyecto — Laravel Accesible
 
 > Fecha de inicio: 2026-10-26
-> Última actualización: 2026-10-26
+> Última actualización: 2026-10-27
 
 ## Estado general
 
@@ -307,7 +307,7 @@
 ## Mejora — Página Acerca de
 
 - **Rama:** `feature/pagina-acerca-de`
-- **Estado:** Implementada — pendiente de push/PR
+- **Estado:** Completada — PR #16 mergeado
 - **Alcance:**
   - [x] Rutas `/es/acerca-de` (`es.about`) y `/en/about` (`en.about`), con canonical, hreflang y selector de idioma hacia la página equivalente
   - [x] Enlace en el menú principal (con `aria-current="page"`) y en el footer
@@ -315,14 +315,14 @@
   - [x] Ambas URLs en `sitemap.xml`
   - [x] Pest: `AboutPageTest.php` (200 y título, 404 con locale cruzado, enlaces en nav y footer, estado actual, selector de idioma, sitemap)
   - [x] Playwright: axe en ES/EN (claro y `chromium-dark`) y sin scroll horizontal a 320 CSS px
-- **PR:** pendiente
+- **PR:** #16
 
 ---
 
 ## Mejora — Menú responsive
 
 - **Rama:** `feature/menu-responsive` (creada sobre `feature/pagina-acerca-de`, porque el menú incluye el enlace "Acerca de")
-- **Estado:** Implementada — pendiente de push/PR, después del merge de `feature/pagina-acerca-de`
+- **Estado:** Completada — PR #17 mergeado
 - **Alcance:**
   - [x] Por debajo de `lg` (móvil y tableta): botón ☰/✕ con `aria-expanded` y panel lateral que se desliza desde la derecha, bajo el header
   - [x] Botones de tema y de accesibilidad siempre visibles; solo un panel abierto a la vez
@@ -330,7 +330,7 @@
   - [x] Etiquetas "Menú" y "Accesibilidad" solo para lectores de pantalla por debajo de `sm`
   - [x] Encabezado de la portada más grande y centrado
   - [x] Playwright: `navigation.spec.js` (320/375/768/1280 px, teclado, sin solapes, panel dentro de la pantalla, texto al 200 %, axe con el menú abierto)
-- **PR:** pendiente
+- **PR:** #17
 
 ---
 
@@ -344,3 +344,5 @@
 | 2026-10-27 | Mantenimiento — skill `laravel-best-practices` | PR #12 | Propietario |
 | 2026-10-27 | Mejora — Modo claro/oscuro | PR #13 | Propietario |
 | 2026-10-27 | Mejora — Herramientas de accesibilidad | PR #14 | Propietario |
+| 2026-10-27 | Mejora — Página Acerca de | PR #16 | Propietario |
+| 2026-10-27 | Mejora — Menú responsive | PR #17 | Propietario |
