@@ -61,3 +61,15 @@ test('home renders a translated theme toggle with its pre-paint script', functio
     'es' => ['es', 'Modo oscuro'],
     'en' => ['en', 'Dark mode'],
 ]);
+
+test('home renders translated accessibility tools with zoom and colour modes', function (string $locale, string $toggleLabel, string $colorLabel): void {
+    $this->get(route('home', ['locale' => $locale]))
+        ->assertSee('aria-controls="a11y-tools-panel"', false)
+        ->assertSee($toggleLabel)
+        ->assertSee($colorLabel)
+        ->assertSee('value="yellow-black"', false)
+        ->assertSee("localStorage.getItem('colorMode')", false);
+})->with([
+    'es' => ['es', 'Accesibilidad', 'Amarillo sobre negro'],
+    'en' => ['en', 'Accessibility', 'Yellow on black'],
+]);

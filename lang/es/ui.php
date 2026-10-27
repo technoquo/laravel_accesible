@@ -47,6 +47,22 @@ return [
     // Theme toggle
     'theme_dark_mode' => 'Modo oscuro',
 
+    // Accessibility tools
+    'a11y_tools' => 'Accesibilidad',
+    'a11y_text_zoom' => 'Tamaño del texto',
+    'a11y_zoom_decrease' => 'Reducir texto',
+    'a11y_zoom_increase' => 'Aumentar texto',
+    'a11y_zoom_reset' => 'Restablecer',
+    'a11y_zoom_level' => 'Nivel actual:',
+    'a11y_colors' => 'Colores',
+    'a11y_color_default' => 'Esquema del sitio',
+    'a11y_color_invert_brightness' => 'Invertir brillo',
+    'a11y_color_invert_colors' => 'Invertir colores',
+    'a11y_color_yellow_black' => 'Amarillo sobre negro',
+    'a11y_color_blue_dye' => 'Tinte azul',
+    'a11y_color_grayscale' => 'Blanco y negro',
+    'a11y_color_white_black' => 'Blanco sobre negro',
+
     // Copy code
     'copy_code' => 'Copiar código',
     'code_copied' => '¡Copiado!',

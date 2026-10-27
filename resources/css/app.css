@@ -113,8 +113,113 @@
         --hl-deletion: #ffdcd7;
     }
 
-    /* Without JavaScript the toggle cannot work, so it is only shown once theme-init has run */
-    :root:not(.js) [data-theme-toggle] {
+    /*
+     * Accessibility tools (components/accessibility-tools.blade.php).
+     * Text zoom scales the root font size, so every rem-based utility grows with it.
+     */
+    :root[data-text-zoom='125'] { font-size: 125%; }
+    :root[data-text-zoom='150'] { font-size: 150%; }
+    :root[data-text-zoom='175'] { font-size: 175%; }
+    :root[data-text-zoom='200'] { font-size: 200%; }
+
+    /* Filter-based colour modes apply to the whole page; media is re-inverted where photos would look wrong */
+    :root[data-color-mode='invert-brightness'] { filter: invert(1) hue-rotate(180deg); }
+    :root[data-color-mode='invert-brightness'] :is(img, video, iframe) { filter: invert(1) hue-rotate(180deg); }
+    :root[data-color-mode='invert-colors'] { filter: invert(1); }
+    :root[data-color-mode='blue-dye'] { filter: sepia(1) hue-rotate(180deg) saturate(1.5); }
+    :root[data-color-mode='grayscale'] { filter: grayscale(1); }
+
+    /*
+     * High-contrast colour modes: like the dark theme, the palettes are remapped so existing utilities adapt.
+     * Light shades (backgrounds) become --hc-bg and every other shade (text, borders) becomes --hc-fg.
+     * Declared after :root.dark with the same specificity, so they win over the dark theme.
+     */
+    :root[data-color-mode='yellow-black'] { --hc-fg: #ff0; }
+    :root[data-color-mode='white-black'] { --hc-fg: #fff; }
+
+    :root:is([data-color-mode='yellow-black'], [data-color-mode='white-black']) {
+        color-scheme: dark;
+        --hc-bg: #000;
+
+        --color-white: var(--hc-bg);
+        --color-black: var(--hc-fg);
+
+        --color-gray-50: var(--hc-bg);
+        --color-gray-100: var(--hc-bg);
+        --color-gray-200: var(--hc-fg);
+        --color-gray-300: var(--hc-fg);
+        --color-gray-400: var(--hc-fg);
+        --color-gray-500: var(--hc-fg);
+        --color-gray-600: var(--hc-fg);
+        --color-gray-700: var(--hc-fg);
+        --color-gray-800: var(--hc-fg);
+        --color-gray-900: var(--hc-fg);
+        --color-gray-950: var(--hc-fg);
+
+        --color-red-50: var(--hc-bg);
+        --color-red-100: var(--hc-bg);
+        --color-red-200: var(--hc-bg);
+        --color-red-300: var(--hc-fg);
+        --color-red-400: var(--hc-fg);
+        --color-red-500: var(--hc-fg);
+        --color-red-600: var(--hc-fg);
+        --color-red-700: var(--hc-fg);
+        --color-red-800: var(--hc-fg);
+        --color-red-900: var(--hc-fg);
+        --color-red-950: var(--hc-fg);
+
+        --color-green-50: var(--hc-bg);
+        --color-green-100: var(--hc-bg);
+        --color-green-200: var(--hc-bg);
+        --color-green-300: var(--hc-fg);
+        --color-green-400: var(--hc-fg);
+        --color-green-500: var(--hc-fg);
+        --color-green-600: var(--hc-fg);
+        --color-green-700: var(--hc-fg);
+        --color-green-800: var(--hc-fg);
+        --color-green-900: var(--hc-fg);
+        --color-green-950: var(--hc-fg);
+
+        --color-blue-50: var(--hc-bg);
+        --color-blue-100: var(--hc-bg);
+        --color-blue-200: var(--hc-bg);
+        --color-blue-300: var(--hc-fg);
+        --color-blue-400: var(--hc-fg);
+        --color-blue-500: var(--hc-fg);
+        --color-blue-600: var(--hc-fg);
+        --color-blue-700: var(--hc-fg);
+        --color-blue-800: var(--hc-fg);
+        --color-blue-900: var(--hc-fg);
+        --color-blue-950: var(--hc-fg);
+
+        --color-yellow-50: var(--hc-bg);
+        --color-yellow-100: var(--hc-bg);
+        --color-yellow-200: var(--hc-bg);
+        --color-yellow-300: var(--hc-fg);
+        --color-yellow-400: var(--hc-fg);
+        --color-yellow-500: var(--hc-fg);
+        --color-yellow-600: var(--hc-fg);
+        --color-yellow-700: var(--hc-fg);
+        --color-yellow-800: var(--hc-fg);
+        --color-yellow-900: var(--hc-fg);
+        --color-yellow-950: var(--hc-fg);
+
+        --hl-text: var(--hc-fg);
+        --hl-keyword: var(--hc-fg);
+        --hl-title: var(--hc-fg);
+        --hl-constant: var(--hc-fg);
+        --hl-string: var(--hc-fg);
+        --hl-builtin: var(--hc-fg);
+        --hl-comment: var(--hc-fg);
+        --hl-tag: var(--hc-fg);
+        --hl-bullet: var(--hc-fg);
+        --hl-addition-bg: var(--hc-bg);
+        --hl-deletion-bg: var(--hc-bg);
+        --hl-deletion: var(--hc-fg);
+    }
+
+    /* Without JavaScript the toggle and the accessibility tools cannot work, so they are only shown once theme-init has run */
+    :root:not(.js) :is([data-theme-toggle], [data-a11y-tools]) {
         display: none;
     }
 
