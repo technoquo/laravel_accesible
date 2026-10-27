@@ -16,7 +16,7 @@
 | 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | Completada | PR #8 mergeado | Canonical, OG, hreflang, sitemap, robots.txt, caché, 120/120 tests |
 | 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | Completada | PR #9 mergeado | 8 hallazgos corregidos, 21 tests axe verdes, pruebas manuales responsabilidad del propietario |
 | 8 | Seguridad y preparación de producción | `chore/fase-08-seguridad-produccion` | Completada | PR #10 mergeado | SecurityHeaders middleware, HTTPS forzado en prod, .env.example actualizado |
-| 9 | Contenido y lanzamiento | `docs/fase-09-contenido-lanzamiento` | En curso | — | 4 artículos bilingües en borrador con imagen y video |
+| 9 | Contenido y lanzamiento | `docs/fase-09-contenido-lanzamiento` | En curso | PR #11 mergeado (borradores) | 4 artículos bilingües en borrador con imagen y video; falta revisión, release y autorización |
 
 ---
 
@@ -258,27 +258,27 @@
 ---
 
 ### Fase 9 — Contenido y lanzamiento
-- **Estado:** Pendiente
+- **Estado:** En curso — borradores mergeados en PR #11
 - **Rama:** `docs/fase-09-contenido-lanzamiento`
 - **Criterios de aceptación:**
-  - [ ] Artículo 1 (borrador ES+EN): Formularios Blade accesibles
-  - [ ] Artículo 2 (borrador ES+EN): Mensajes de error accesibles
-  - [ ] Artículo 3 (borrador ES+EN): Teclado en Livewire
-  - [ ] Artículo 4 (borrador ES+EN): Pruebas con axe-core
+  - [x] Artículo 1 (borrador ES+EN): Formularios Blade accesibles
+  - [x] Artículo 2 (borrador ES+EN): Mensajes de error accesibles
+  - [x] Artículo 3 (borrador ES+EN): Teclado en Livewire
+  - [x] Artículo 4 (borrador ES+EN): Pruebas con axe-core
   - [ ] Revisión técnica y de lenguaje completada
   - [ ] SEO y accesibilidad de artículos verificados
   - [ ] Release v1.0 documentado
   - [ ] Autorización del propietario antes de publicar
-- **Commits:** —
-- **PR:** —
-- **Merge por propietario:** —
+- **Commits:** `docs: seed 4 bilingual draft articles with image and video embeds`
+- **PR:** #11 (borradores)
+- **Merge por propietario:** 2026-10-26 (borradores); lanzamiento pendiente
 
 ---
 
 ## Mejora — Modo claro/oscuro
 
 - **Rama:** `feature/modo-claro-oscuro`
-- **Estado:** Implementado, pendiente de PR y merge por el propietario
+- **Estado:** Completada — PR #13 mergeado
 - **Alcance:**
   - [x] Botón luna/sol en layout público y panel admin (`aria-pressed`, etiqueta traducida)
   - [x] Preferencia en `localStorage`, fallback a `prefers-color-scheme`, sin FOUC (script inline en `<head>`)
@@ -286,21 +286,21 @@
   - [x] Pest: botón y script presentes en ES/EN
   - [x] Playwright: `theme.spec.js` (alternancia, teclado, persistencia, preferencia del sistema) y proyecto `chromium-dark` que repite las auditorías axe
 - **Incidencias conocidas (previas, también en `main`):** el detalle de artículo falla axe por el iframe de YouTube (terceros) y `scrollable-region-focusable` en `<pre>`.
-- **PR:** —
+- **PR:** #13
 
 ---
 
 ## Mejora — Herramientas de accesibilidad
 
 - **Rama:** `feature/herramientas-accesibilidad`
-- **Estado:** Implementado, pendiente de PR y merge por el propietario
+- **Estado:** Completada — PR #14 mergeado
 - **Alcance:**
   - [x] Panel "Accesibilidad" en layout público y admin (disclosure accesible por teclado)
   - [x] Zoom de texto 100–200 % persistido
   - [x] Modos de color: esquema del sitio, invertir brillo, invertir colores, amarillo sobre negro, tinte azul, blanco y negro, blanco sobre negro
   - [x] Pest: panel traducido y script previo al pintado en ES/EN
   - [x] Playwright: `accessibility-tools.spec.js` (teclado, zoom, persistencia, axe en modos de alto contraste)
-- **PR:** —
+- **PR:** #14
 
 ---
 
@@ -310,3 +310,7 @@
 |-------|------|----|------------|
 | 2026-10-26 | 7 — Auditoría WCAG 2.2 AA | PR #9 | Propietario |
 | 2026-10-26 | 8 — Seguridad y preparación de producción | PR #10 | Propietario |
+| 2026-10-26 | 9 — Contenido y lanzamiento (borradores) | PR #11 | Propietario |
+| 2026-10-27 | Mantenimiento — skill `laravel-best-practices` | PR #12 | Propietario |
+| 2026-10-27 | Mejora — Modo claro/oscuro | PR #13 | Propietario |
+| 2026-10-27 | Mejora — Herramientas de accesibilidad | PR #14 | Propietario |
