@@ -21,7 +21,7 @@
             <circle cx="12" cy="4" r="2"/>
             <path d="M4 8l8 2 8-2M12 10v5M9 21l3-6 3 6"/>
         </svg>
-        <span>{{ __('ui.a11y_tools') }}</span>
+        <span class="sr-only sm:not-sr-only">{{ __('ui.a11y_tools') }}</span>
     </button>
 
     <div id="a11y-tools-panel"
