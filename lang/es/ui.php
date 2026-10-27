@@ -44,6 +44,9 @@ return [
     'tag_title' => 'Etiqueta: :name — Laravel Accesible',
     'tag_heading' => 'Etiqueta: :name',
 
+    // Theme toggle
+    'theme_dark_mode' => 'Modo oscuro',
+
     // Copy code
     'copy_code' => 'Copiar código',
     'code_copied' => '¡Copiado!',

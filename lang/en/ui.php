@@ -44,6 +44,9 @@ return [
     'tag_title' => 'Tag: :name — Laravel Accessible',
     'tag_heading' => 'Tag: :name',
 
+    // Theme toggle
+    'theme_dark_mode' => 'Dark mode',
+
     // Copy code
     'copy_code' => 'Copy code',
     'code_copied' => 'Copied!',

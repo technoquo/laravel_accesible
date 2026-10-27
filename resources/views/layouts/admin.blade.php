@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ isset($title) ? $title.' — ' : '' }}Panel — Laravel Accesible</title>
+    <x-theme-init />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -34,13 +35,16 @@
                         Etiquetas
                     </a>
                 </nav>
-                <form method="POST" action="{{ route('admin.logout') }}">
-                    @csrf
-                    <button type="submit"
-                        class="text-sm text-gray-600 hover:text-gray-900 hover:underline focus:outline-none focus:ring-2 focus:ring-gray-900 rounded">
-                        Cerrar sesión
-                    </button>
-                </form>
+                <div class="flex items-center gap-4">
+                    <x-theme-toggle />
+                    <form method="POST" action="{{ route('admin.logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="text-sm text-gray-600 hover:text-gray-900 hover:underline focus:outline-none focus:ring-2 focus:ring-gray-900 rounded">
+                            Cerrar sesión
+                        </button>
+                    </form>
+                </div>
             </div>
         </header>
     @endauth

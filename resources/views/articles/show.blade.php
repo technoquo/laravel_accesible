@@ -8,20 +8,6 @@
 <meta property="article:published_time" content="{{ $post->published_at->toIso8601String() }}">
 @endpush
 
-@push('styles')
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css"
-      media="print"
-      onload="this.media='all'"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer">
-<noscript>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css"
-          crossorigin="anonymous">
-</noscript>
-@endpush
-
 @section('content')
 <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
 

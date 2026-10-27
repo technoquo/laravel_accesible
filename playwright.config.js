@@ -16,5 +16,11 @@ export default defineConfig({
             name: 'chromium',
             use: { ...devices['Desktop Chrome'] },
         },
+        {
+            // Repeats the axe audits with the dark theme (system preference, no stored choice)
+            name: 'chromium-dark',
+            testMatch: /a11y\/(public|admin)\.spec\.js/,
+            use: { ...devices['Desktop Chrome'], colorScheme: 'dark' },
+        },
     ],
 });
