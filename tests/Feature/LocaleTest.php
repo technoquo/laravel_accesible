@@ -50,3 +50,14 @@ test('active locale in language selector is marked with aria-current', function 
         ->assertSee('<span lang="es"', false)
         ->assertDontSee('<a lang="es"', false);
 });
+
+test('home renders a translated theme toggle with its pre-paint script', function (string $locale, string $label): void {
+    $this->get(route('home', ['locale' => $locale]))
+        ->assertSee('data-theme-toggle', false)
+        ->assertSee('aria-pressed="false"', false)
+        ->assertSee('aria-label="'.$label.'"', false)
+        ->assertSee("localStorage.getItem('theme')", false);
+})->with([
+    'es' => ['es', 'Modo oscuro'],
+    'en' => ['en', 'Dark mode'],
+]);

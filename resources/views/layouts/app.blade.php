@@ -29,6 +29,7 @@
     @endisset
     @stack('og')
 
+    <x-theme-init />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @stack('styles')
@@ -57,24 +58,28 @@
                 </a>
             </nav>
 
-            <nav aria-label="{{ __('ui.lang_selector') }}" class="flex items-center gap-3 text-sm">
-                @foreach (['es' => __('ui.lang_es'), 'en' => __('ui.lang_en')] as $lang => $label)
-                    @if (app()->getLocale() === $lang)
-                        <span lang="{{ $lang }}"
-                              aria-current="page"
-                              class="font-semibold underline underline-offset-2">
-                            {{ $label }}
-                        </span>
-                    @else
-                        <a href="{{ ($alternateUrls ?? [])[$lang] ?? route('home', ['locale' => $lang]) }}"
-                           lang="{{ $lang }}"
-                           hreflang="{{ $lang }}"
-                           class="hover:underline underline-offset-2">
-                            {{ $label }}
-                        </a>
-                    @endif
-                @endforeach
-            </nav>
+            <div class="flex items-center gap-4">
+                <nav aria-label="{{ __('ui.lang_selector') }}" class="flex items-center gap-3 text-sm">
+                    @foreach (['es' => __('ui.lang_es'), 'en' => __('ui.lang_en')] as $lang => $label)
+                        @if (app()->getLocale() === $lang)
+                            <span lang="{{ $lang }}"
+                                  aria-current="page"
+                                  class="font-semibold underline underline-offset-2">
+                                {{ $label }}
+                            </span>
+                        @else
+                            <a href="{{ ($alternateUrls ?? [])[$lang] ?? route('home', ['locale' => $lang]) }}"
+                               lang="{{ $lang }}"
+                               hreflang="{{ $lang }}"
+                               class="hover:underline underline-offset-2">
+                                {{ $label }}
+                            </a>
+                        @endif
+                    @endforeach
+                </nav>
+
+                <x-theme-toggle />
+            </div>
 
         </div>
     </header>

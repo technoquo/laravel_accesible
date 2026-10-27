@@ -275,6 +275,21 @@
 
 ---
 
+## Mejora — Modo claro/oscuro
+
+- **Rama:** `feature/modo-claro-oscuro`
+- **Estado:** Implementado, pendiente de PR y merge por el propietario
+- **Alcance:**
+  - [x] Botón luna/sol en layout público y panel admin (`aria-pressed`, etiqueta traducida)
+  - [x] Preferencia en `localStorage`, fallback a `prefers-color-scheme`, sin FOUC (script inline en `<head>`)
+  - [x] Paleta invertida en modo oscuro; prose, botón copiar y resaltado de código adaptados
+  - [x] Pest: botón y script presentes en ES/EN
+  - [x] Playwright: `theme.spec.js` (alternancia, teclado, persistencia, preferencia del sistema) y proyecto `chromium-dark` que repite las auditorías axe
+- **Incidencias conocidas (previas, también en `main`):** el detalle de artículo falla axe por el iframe de YouTube (terceros) y `scrollable-region-focusable` en `<pre>`.
+- **PR:** —
+
+---
+
 ## Registro de merges en main
 
 | Fecha | Fase | PR | Merged por |

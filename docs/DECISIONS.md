@@ -121,6 +121,21 @@ Este documento registra las decisiones técnicas relevantes, el contexto que las
   - Prism.js: alternativa válida; highlight.js tiene mejor cobertura de lenguajes y auto-detección.
 - **Consecuencias:** El resaltado es una mejora progresiva; sin JS el código es legible con estilos base en `app.css`. El botón copiar también depende de JS (clipboard API) con misma consideración.
 
+### DEC-010 — Modo claro/oscuro por inversión de paleta
+- **Fecha:** 2026-10-27
+- **Rama:** `feature/modo-claro-oscuro`
+- **Estado:** Aceptada
+- **Contexto:** Se pide un selector claro/oscuro (iconos luna/sol) en todo el sitio, público y panel. El plan exige que sea accesible, con preferencia persistida y sin FOUC excesivo.
+- **Decisión:**
+  - Clase `dark` en `<html>` (`@custom-variant dark` de Tailwind v4). Un script inline en `<head>` (`<x-theme-init />`) la aplica antes del primer pintado: preferencia guardada en `localStorage` o, si no hay, `prefers-color-scheme`.
+  - En modo oscuro se redefinen las variables de paleta (`--color-white`, `--color-gray-*`, `red`, `green`, `blue`, `yellow`) invirtiendo la escala, así las utilidades existentes (`bg-white`, `text-gray-600`…) se adaptan sin añadir `dark:` a cada clase. Los tonos 500/600 se aclaran para mantener contraste AA.
+  - Botón `<x-theme-toggle />` con etiqueta fija ("Modo oscuro"/"Dark mode") y `aria-pressed`; iconos SVG `aria-hidden`. Oculto sin JS.
+  - Los colores de highlight.js pasan a `app.css` (paletas GitHub Primer claro/oscuro vía variables `--hl-*`); se elimina la hoja CSS del CDN.
+- **Alternativas descartadas:**
+  - Añadir `dark:` a ~230 clases: más propenso a olvidos y a regresiones de contraste.
+  - Alpine para el botón: innecesario para 40 líneas de JS sin estado reactivo.
+- **Consecuencias:** Colores nuevos deben usar la paleta del tema (o variables) para heredar el modo oscuro; un color literal (hex) no se invierte. Sin JS el sitio se muestra en claro.
+
 ---
 
 ## Pendiente de decisión

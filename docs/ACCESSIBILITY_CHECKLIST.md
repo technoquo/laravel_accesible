@@ -247,6 +247,9 @@ Criterios a verificar:
 - [ ] Verificar gray-500 (#6b7280) en fondos claros (esperado ~4.5:1)
 - [ ] Verificar color de enlace prose (#1d4ed8) en blanco (esperado >4.5:1)
 - [ ] Verificar bordes de inputs (border-gray-300) para 1.4.11
+- [ ] Modo oscuro: repetir las comprobaciones anteriores con el tema oscuro activo (axe ya se ejecuta en el proyecto Playwright `chromium-dark`)
+- [ ] Modo oscuro: el botón luna/sol anuncia "Modo oscuro, botón de alternancia, (no) presionado" en NVDA
+- [ ] Modo oscuro: el anillo de foco es visible sobre fondos oscuros (2.4.7, 2.4.13)
 
 ---
 
