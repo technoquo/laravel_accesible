@@ -170,3 +170,71 @@ const isKnownColorMode = [...document.querySelectorAll('[data-a11y-color-mode]')
 
 applyTextZoom(currentTextZoom());
 applyColorMode(isKnownColorMode ? storedColorMode : defaultColorMode);
+
+/**
+ * Site menu (layouts/app.blade.php): below the lg breakpoint the main navigation and language selector
+ * live in a drawer that slides in from the right, under the header, so the menu, theme and accessibility
+ * buttons stay usable while it is open. From lg up the menu is inline and the toggle is hidden by CSS.
+ */
+function placeSiteMenu(header, menu) {
+    const headerBottom = Math.max(header.getBoundingClientRect().bottom, 0);
+
+    menu.style.setProperty('--site-menu-top', `${headerBottom}px`);
+}
+
+function setSiteMenuOpen(header, isOpen) {
+    const toggle = header.querySelector('[data-site-menu-toggle]');
+    const menu = header.querySelector('[data-site-menu]');
+
+    if (isOpen) {
+        placeSiteMenu(header, menu);
+    }
+
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    menu.toggleAttribute('data-open', isOpen);
+}
+
+document.querySelectorAll('[data-site-header]').forEach((header) => {
+    const toggle = header.querySelector('[data-site-menu-toggle]');
+    const menu = header.querySelector('[data-site-menu]');
+
+    if (!toggle || !menu) {
+        return;
+    }
+
+    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+    placeSiteMenu(header, menu);
+
+    toggle.addEventListener('click', () => {
+        setSiteMenuOpen(header, !isOpen());
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape' || !isOpen()) {
+            return;
+        }
+
+        const focusWasInMenu = menu.contains(document.activeElement);
+
+        setSiteMenuOpen(header, false);
+
+        if (focusWasInMenu) {
+            toggle.focus();
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (isOpen() && !menu.contains(event.target) && !toggle.contains(event.target)) {
+            setSiteMenuOpen(header, false);
+        }
+    });
+
+    window.addEventListener('scroll', () => {
+        if (isOpen()) {
+            placeSiteMenu(header, menu);
+        }
+    }, { passive: true });
+
+    window.addEventListener('resize', () => placeSiteMenu(header, menu));
+});

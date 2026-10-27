@@ -11,6 +11,7 @@ return [
     'nav_home' => 'Home',
     'nav_articles' => 'Articles',
     'nav_about' => 'About',
+    'nav_menu' => 'Menu',
     'pagination_nav' => 'Pagination',
     'read_more' => 'Read more',
     'read_more_label' => 'Read more: :title',

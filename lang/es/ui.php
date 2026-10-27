@@ -11,6 +11,7 @@ return [
     'nav_home' => 'Inicio',
     'nav_articles' => 'Artículos',
     'nav_about' => 'Acerca de',
+    'nav_menu' => 'Menú',
     'pagination_nav' => 'Paginación',
     'read_more' => 'Leer más',
     'read_more_label' => 'Leer más: :title',

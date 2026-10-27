@@ -319,6 +319,21 @@
 
 ---
 
+## Mejora — Menú responsive
+
+- **Rama:** `feature/menu-responsive` (creada sobre `feature/pagina-acerca-de`, porque el menú incluye el enlace "Acerca de")
+- **Estado:** Implementada — pendiente de push/PR, después del merge de `feature/pagina-acerca-de`
+- **Alcance:**
+  - [x] Por debajo de `lg` (móvil y tableta): botón ☰/✕ con `aria-expanded` y panel lateral que se desliza desde la derecha, bajo el header
+  - [x] Botones de tema y de accesibilidad siempre visibles; solo un panel abierto a la vez
+  - [x] Cierre con el botón, con Escape (devuelve el foco) y al pulsar fuera; sin animación con `prefers-reduced-motion`
+  - [x] Etiquetas "Menú" y "Accesibilidad" solo para lectores de pantalla por debajo de `sm`
+  - [x] Encabezado de la portada más grande y centrado
+  - [x] Playwright: `navigation.spec.js` (320/375/768/1280 px, teclado, sin solapes, panel dentro de la pantalla, texto al 200 %, axe con el menú abierto)
+- **PR:** pendiente
+
+---
+
 ## Registro de merges en main
 
 | Fecha | Fase | PR | Merged por |
