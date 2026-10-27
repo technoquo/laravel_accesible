@@ -250,6 +250,9 @@ Criterios a verificar:
 - [ ] Modo oscuro: repetir las comprobaciones anteriores con el tema oscuro activo (axe ya se ejecuta en el proyecto Playwright `chromium-dark`)
 - [ ] Modo oscuro: el botón luna/sol anuncia "Modo oscuro, botón de alternancia, (no) presionado" en NVDA
 - [ ] Modo oscuro: el anillo de foco es visible sobre fondos oscuros (2.4.7, 2.4.13)
+- [ ] Herramientas: con zoom de texto al 200 % no hay pérdida de contenido ni scroll horizontal (1.4.4, 1.4.10)
+- [ ] Herramientas: NVDA anuncia "Accesibilidad, botón, contraído/expandido" y el nivel de zoom al cambiarlo
+- [ ] Herramientas: foco visible en los modos amarillo/blanco sobre negro
 
 ---
 

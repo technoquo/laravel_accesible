@@ -136,6 +136,16 @@ Este documento registra las decisiones técnicas relevantes, el contexto que las
   - Alpine para el botón: innecesario para 40 líneas de JS sin estado reactivo.
 - **Consecuencias:** Colores nuevos deben usar la paleta del tema (o variables) para heredar el modo oscuro; un color literal (hex) no se invierte. Sin JS el sitio se muestra en claro.
 
+### DEC-011 — Herramientas de accesibilidad: zoom de texto y modos de color
+
+- **Contexto:** Se piden herramientas en el propio sitio para ampliar el texto y cambiar los colores (invertir, alto contraste, escala de grises, tinte azul).
+- **Decisión:**
+  - Panel desplegable `<x-accessibility-tools />` (botón con `aria-expanded`/`aria-controls`, Escape cierra y devuelve el foco) en layout público y admin. Oculto sin JS.
+  - Zoom de texto: niveles 100–200 % (pasos de 25) aplicados como `font-size` del `<html>` vía `data-text-zoom`; todas las utilidades en `rem` escalan. Botones A−/A+ con `aria-disabled` en los límites y nivel anunciado en región `aria-live`.
+  - Modos de color con radios nativos en un `fieldset`, vía `data-color-mode` en `<html>`: *invertir brillo* (`invert + hue-rotate`, re-invirtiendo imágenes/vídeo), *invertir colores*, *tinte azul* y *blanco y negro* (escala de grises) usan `filter`; *amarillo sobre negro* y *blanco sobre negro* remapean la paleta como el modo oscuro y prevalecen sobre él.
+  - Preferencias en `localStorage` (`textZoom`, `colorMode`) aplicadas antes del primer pintado en `<x-theme-init />`.
+- **Consecuencias:** Tamaños en `px` no escalan con el zoom de texto. Los modos con `filter` afectan también a colores literales; los de alto contraste solo a la paleta del tema.
+
 ---
 
 ## Pendiente de decisión

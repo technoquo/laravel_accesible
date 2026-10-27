@@ -79,6 +79,7 @@
                 </nav>
 
                 <x-theme-toggle />
+                <x-accessibility-tools />
             </div>
 
         </div>

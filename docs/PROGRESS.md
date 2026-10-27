@@ -290,6 +290,20 @@
 
 ---
 
+## Mejora — Herramientas de accesibilidad
+
+- **Rama:** `feature/herramientas-accesibilidad`
+- **Estado:** Implementado, pendiente de PR y merge por el propietario
+- **Alcance:**
+  - [x] Panel "Accesibilidad" en layout público y admin (disclosure accesible por teclado)
+  - [x] Zoom de texto 100–200 % persistido
+  - [x] Modos de color: esquema del sitio, invertir brillo, invertir colores, amarillo sobre negro, tinte azul, blanco y negro, blanco sobre negro
+  - [x] Pest: panel traducido y script previo al pintado en ES/EN
+  - [x] Playwright: `accessibility-tools.spec.js` (teclado, zoom, persistencia, axe en modos de alto contraste)
+- **PR:** —
+
+---
+
 ## Registro de merges en main
 
 | Fecha | Fase | PR | Merged por |

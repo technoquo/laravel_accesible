@@ -47,6 +47,22 @@ return [
     // Theme toggle
     'theme_dark_mode' => 'Dark mode',
 
+    // Accessibility tools
+    'a11y_tools' => 'Accessibility',
+    'a11y_text_zoom' => 'Text size',
+    'a11y_zoom_decrease' => 'Decrease text',
+    'a11y_zoom_increase' => 'Increase text',
+    'a11y_zoom_reset' => 'Reset',
+    'a11y_zoom_level' => 'Current level:',
+    'a11y_colors' => 'Colors',
+    'a11y_color_default' => 'Site scheme',
+    'a11y_color_invert_brightness' => 'Invert brightness',
+    'a11y_color_invert_colors' => 'Invert colors',
+    'a11y_color_yellow_black' => 'Yellow on black',
+    'a11y_color_blue_dye' => 'Blue dye',
+    'a11y_color_grayscale' => 'Black and white',
+    'a11y_color_white_black' => 'White on black',
+
     // Copy code
     'copy_code' => 'Copy code',
     'code_copied' => 'Copied!',

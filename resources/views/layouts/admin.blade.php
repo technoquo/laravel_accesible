@@ -37,6 +37,7 @@
                 </nav>
                 <div class="flex items-center gap-4">
                     <x-theme-toggle />
+                    <x-accessibility-tools />
                     <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
                         <button type="submit"
