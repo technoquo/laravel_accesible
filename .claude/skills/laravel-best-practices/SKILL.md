@@ -19,11 +19,11 @@ Check sibling files, related controllers, models, or tests for established patte
 ## How to Apply
 
 1. Check the changed files, nearby code, project configuration, and relevant tests for established patterns. Deviate only for a correctness or security defect, and call the deviation out.
-2. Map every affected concern to the rule index below. Read each mapped rule file before editing. Skip unrelated rule files.
+2. Map every affected concern to the rule index below. Read at most the two most relevant rule files before editing; skip any already read this session. Skip unrelated rule files.
 3. Make the smallest coherent change. Keep the application's architecture and naming instead of introducing a second pattern for the same job.
 4. Verify version-sensitive Laravel APIs for the installed version with `search-docs`, or inspect the installed framework when it is unavailable.
 5. Run the narrowest relevant tests first, then the project's formatting and static-analysis checks when the change warrants them.
-6. Re-read the diff against every mapped rule before finishing.
+6. Re-check the diff before finishing.
 
 ## Rule Index
 
