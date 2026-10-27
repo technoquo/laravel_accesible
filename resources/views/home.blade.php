@@ -6,8 +6,8 @@
 @section('content')
 <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
 
-    <div class="max-w-2xl">
-        <h1 class="text-3xl font-semibold tracking-tight">
+    <div class="mx-auto max-w-2xl text-center">
+        <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight">
             {{ __('ui.home_heading') }}
         </h1>
         <p class="mt-4 text-lg text-gray-700">
