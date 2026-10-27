@@ -161,6 +161,46 @@ Indicar rama activa, commits, archivos modificados, resultados de pruebas, compr
 - Validar todo, documentar release v1.0 y solicitar autorización antes de publicar.
 - Commit: `docs: prepare bilingual launch content`.
 
+## Mejoras posteriores al MVP
+
+### Mejora — Página Acerca de
+- **Rama:** `feature/pagina-acerca-de` (desde `main` actualizado, según el protocolo Git).
+- **Rutas:** `/es/acerca-de` (nombre `es.about`) y `/en/about` (nombre `en.about`), dentro del grupo `{locale}` con `SetLocale`, restringidas con `->where('locale', ...)` como las rutas públicas existentes. Se enlazan con `locale_route('about')`.
+- **Selector de idioma:** pasar `$alternateUrls` a la vista para que ES ↔ EN apunte a la página equivalente (`/es/acerca-de` ↔ `/en/about`) en vez de a la portada.
+- **Navegación:** enlace "Acerca de" / "About" en el menú principal (`<nav aria-label="{{ __('ui.nav_main') }}">` de `layouts/app.blade.php`), con estado activo (`font-semibold underline` y `aria-current="page"`), y enlace en el `<footer>`.
+- **Vista:** `resources/views/about.blade.php` que extiende `layouts.app`. El `<main id="main-content">` lo aporta el layout, así que la vista no debe añadir un segundo `<main>`: usa un `<article>` o `<section>` con un único `<h1>` y párrafos `<p>`. Título y meta description traducidos por idioma.
+- **Textos:** todos los textos en `lang/es/ui.php` y `lang/en/ui.php` (o en `about.*`), sin texto fijo en Blade. Contenido:
+
+  **ES**
+  > **Acerca de**
+  >
+  > Laravel Accesible nació para compartir las experiencias de personas usuarias, con o sin discapacidad, que se benefician de la accesibilidad. El proyecto se enfoca en Laravel para que las personas desarrolladoras puedan construir aplicaciones con igualdad de acceso y sin barreras.
+  >
+  > Soy Leonel López, una persona sorda, graduado de la Universidad Latinoamericana de Ciencia y Tecnología (ULACIT) de Costa Rica. He participado en varias actividades sobre accesibilidad web para personas sordas, como WordCamp, el Congreso Accesible América, DeafTech y el Zero Project en Austria. También participé en Laracon EU 2026 en Ámsterdam. Fui emprendedor con Acceso Visual. Soy profesor de lengua de señas y desarrollador Laravel desde hace más de 4 años, y llevo años luchando por el derecho de acceso de las personas sordas.
+  >
+  > El objetivo de este blog es compartir conocimiento con quienes desarrollan en Laravel y con cualquier persona interesada en la accesibilidad. Es un proyecto voluntario, y espero que compartas nuestra experiencia.
+
+  **EN**
+  > **About**
+  >
+  > Laravel Accesible was created to share the experiences of users, with or without disabilities, who benefit from accessibility. The project focuses on Laravel so that developers can build applications with equal access and without barriers.
+  >
+  > I am Leonel López, a Deaf person and a graduate of the Latin American University of Science and Technology (ULACIT) in Costa Rica. I have taken part in several events on web accessibility for Deaf people, such as WordCamp, Congreso Accesible América, DeafTech and the Zero Project in Austria. I also attended Laracon EU 2026 in Amsterdam. I was an entrepreneur with Acceso Visual. I am a sign language teacher and have been a Laravel developer for more than 4 years, and I have spent years fighting for Deaf people's right to access.
+  >
+  > The goal of this blog is to share knowledge with Laravel developers and with anyone interested in accessibility. It is a volunteer project, and I hope you will share our experience.
+
+- **Contenido en otro idioma:** los nombres propios en español dentro del texto inglés (Congreso Accesible América, Acceso Visual) se marcan con `lang="es"` para que los lectores de pantalla los pronuncien bien (WCAG 3.1.2).
+- **Accesibilidad y diseño:** contraste mínimo AA (4.5:1 texto normal, 3:1 texto grande) en modo claro, modo oscuro y los modos de color del panel de accesibilidad; ancho de lectura limitado (`max-w-prose`), tipografía relativa que respeta el zoom de texto, reflow sin scroll horizontal a 320 CSS px, foco visible en los nuevos enlaces.
+- **Tests Pest** (`tests/Feature/AboutPageTest.php`):
+  - `GET /es/acerca-de` responde 200 y muestra el título "Acerca de".
+  - `GET /en/about` responde 200 y muestra el título "About".
+  - El menú principal y el footer contienen el enlace a la página en cada idioma.
+  - `/en/acerca-de` y `/es/about` responden 404.
+- **Playwright:** añadir `/es/acerca-de` y `/en/about` a las auditorías axe existentes (claro y `chromium-dark`).
+- **SEO:** incluir ambas URLs en `sitemap.xml` con hreflang recíproco.
+- Actualizar `docs/PROGRESS.md` con la nueva mejora.
+- Commit: `feat: add bilingual about page`.
+
 ## Definition of Done global
 - Tests PHP verdes, build frontend verde, Pint sin diferencias, pruebas E2E esenciales verdes.
 - No exposición de borradores, sin XSS conocido, permisos verificados.
