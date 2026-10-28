@@ -334,6 +334,22 @@
 
 ---
 
+## Mejora — Logo, encabezado e icono del sitio
+
+- **Rama:** `feature/logo-marca`
+- **Estado:** En revisión — pendiente push y PR
+- **Alcance:**
+  - [x] Archivos de marca en `resources/svg/` (logo horizontal y símbolo, variantes claro/oscuro, PNG)
+  - [x] Componente `<x-logo />` (SVG en línea, decorativo, variante según tema; en alto contraste usa la variante oscura)
+  - [x] Logo en el encabezado igual en móvil, tablet y escritorio (`h-7`/`sm:h-9`), nombre accesible "Laravel Accesible, Inicio/Home"
+  - [x] Símbolo decorativo encima del `<h1>` de la portada
+  - [x] `favicon.svg` (claro/oscuro), `favicon.ico` (16/32/48) y `apple-touch-icon.png` generados desde el símbolo; `theme-color` claro/oscuro; en ambos layouts con `<x-site-icons />`
+  - [x] Pest: `BrandingTest.php` (enlace y nombre accesible, SVG decorativos sin IDs duplicados, un único `<h1>`, iconos en público y panel)
+  - [x] Playwright: `theme.spec.js` comprueba la variante del logo en claro, oscuro y alto contraste
+- **Pendiente:** las auditorías axe del detalle de artículo fallan por contenido ajeno al logo (iframe de YouTube y `<pre>` sin foco); queda fuera de esta mejora.
+
+---
+
 ## Registro de merges en main
 
 | Fecha | Fase | PR | Merged por |

@@ -146,6 +146,19 @@ Este documento registra las decisiones técnicas relevantes, el contexto que las
   - Preferencias en `localStorage` (`textZoom`, `colorMode`) aplicadas antes del primer pintado en `<x-theme-init />`.
 - **Consecuencias:** Tamaños en `px` no escalan con el zoom de texto. Los modos con `filter` afectan también a colores literales; los de alto contraste solo a la paleta del tema.
 
+### DEC-012 — Logo en línea e iconos del sitio
+
+- **Fecha:** 2026-10-28
+- **Rama:** `feature/logo-marca`
+- **Estado:** Aceptada
+- **Contexto:** El propietario entrega el logo de Laravel Accesible (horizontal y símbolo, variantes claro/oscuro) para el encabezado, la portada y el icono del sitio.
+- **Decisión:**
+  - `<x-logo />` lee los SVG de `resources/svg/` y los inserta en línea: escalan con el zoom de texto y no requieren peticiones. Se quitan `role`, `title` e `id="t"` (se repetirían al incluir las dos variantes) y los SVG son `aria-hidden`; el nombre accesible lo da el elemento contenedor.
+  - Las variantes se alternan con `dark:hidden` / `dark:block`. Sus colores son literales (de marca), así que en los modos de alto contraste se fuerza la variante para fondo oscuro.
+  - Nombre del enlace a portada: "Laravel Accesible, Inicio/Home" con la marca en `lang="es"` en ambos idiomas, porque el logotipo dice "Laravel Accesible" (WCAG 2.5.3). El logotipo es texto en imagen permitido (excepción de 1.4.5).
+  - Favicons generados una vez desde el símbolo con Playwright (ya instalado), sin nuevas dependencias; `favicon.svg` cambia de variante con `prefers-color-scheme`.
+- **Consecuencias:** Si cambia el logo, hay que sustituir los SVG de `resources/svg/` y regenerar `favicon.ico`, `apple-touch-icon.png` y `public/favicon.svg`.
+
 ---
 
 ## Pendiente de decisión

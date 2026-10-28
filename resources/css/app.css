@@ -458,3 +458,14 @@
     .hljs-addition { color: var(--hl-tag); background-color: var(--hl-addition-bg); }
     .hljs-deletion { color: var(--hl-deletion); background-color: var(--hl-deletion-bg); }
 }
+
+@layer utilities {
+    /* High-contrast colour modes paint the page black, so the logo uses its variant made for dark backgrounds */
+    :root:is([data-color-mode='yellow-black'], [data-color-mode='white-black']) [data-logo-variant='light'] {
+        display: none;
+    }
+
+    :root:is([data-color-mode='yellow-black'], [data-color-mode='white-black']) [data-logo-variant='dark'] {
+        display: block;
+    }
+}

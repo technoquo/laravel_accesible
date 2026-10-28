@@ -29,6 +29,7 @@
     @endisset
     @stack('og')
 
+    <x-site-icons />
     <x-theme-init />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -47,8 +48,10 @@
         <div data-site-header class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center gap-x-2 gap-y-3 lg:gap-x-8">
 
             <a href="{{ route('home', ['locale' => app()->getLocale()]) }}"
-               class="mr-auto lg:mr-0 text-lg font-semibold tracking-tight hover:underline">
-                {{ __('ui.site_name') }}
+               class="mr-auto lg:mr-0 rounded-[0.6rem]">
+                {{-- The logotype reads "Laravel Accesible" in Spanish in every locale, so the name matches it (WCAG 2.5.3) --}}
+                <x-logo class="h-7 sm:h-9" />
+                <span class="sr-only"><span lang="es">Laravel Accesible</span>, {{ __('ui.nav_home') }}</span>
             </a>
 
             <button type="button"

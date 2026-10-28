@@ -7,6 +7,8 @@
 <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
 
     <div class="mx-auto max-w-2xl text-center">
+        {{-- Decorative: the heading below already gives the site name --}}
+        <x-logo variant="symbol" class="mb-6 size-20 sm:size-24" />
         <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight">
             {{ __('ui.home_heading') }}
         </h1>
