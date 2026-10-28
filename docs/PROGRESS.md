@@ -1,7 +1,7 @@
 # Progreso del proyecto — Laravel Accesible
 
 > Fecha de inicio: 2026-10-26
-> Última actualización: 2026-10-27
+> Última actualización: 2026-10-28
 
 ## Estado general
 
@@ -337,7 +337,7 @@
 ## Mejora — Logo, encabezado e icono del sitio
 
 - **Rama:** `feature/logo-marca`
-- **Estado:** En revisión — pendiente push y PR
+- **Estado:** Completada — PR #19 mergeado
 - **Alcance:**
   - [x] Archivos de marca en `resources/svg/` (logo horizontal y símbolo, variantes claro/oscuro, PNG)
   - [x] Componente `<x-logo />` (SVG en línea, decorativo, variante según tema; en alto contraste usa la variante oscura)
@@ -348,6 +348,7 @@
   - [x] Playwright: `theme.spec.js` comprueba la variante del logo en claro, oscuro y alto contraste
   - [x] Colores de marca (`brand-ink`, `brand-teal`, `brand-teal-soft`, `brand-orange`) en `app.css`, remapeados en oscuro y alto contraste: tarjetas de "Artículos recientes", títulos, etiquetas, enlaces "Leer más", botón de búsqueda y subrayado del menú activo; axe sin violaciones de contraste
 - **Pendiente:** las auditorías axe del detalle de artículo fallan por contenido ajeno al logo (iframe de YouTube y `<pre>` sin foco); queda fuera de esta mejora.
+- **PR:** #19
 
 ---
 
@@ -363,3 +364,4 @@
 | 2026-10-27 | Mejora — Herramientas de accesibilidad | PR #14 | Propietario |
 | 2026-10-27 | Mejora — Página Acerca de | PR #16 | Propietario |
 | 2026-10-27 | Mejora — Menú responsive | PR #17 | Propietario |
+| 2026-10-28 | Mejora — Logo, encabezado e icono del sitio | PR #19 | Propietario |
