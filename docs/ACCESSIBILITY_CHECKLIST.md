@@ -61,7 +61,7 @@ Este documento registra el estado de cada criterio de éxito WCAG 2.2 aplicable 
 ### 2.1 Accesible por teclado
 | Criterio | Nivel | Estado | Notas |
 |----------|-------|--------|-------|
-| 2.1.1 Teclado | A | `[ ]` | Skip link verificado por axe y Playwright; pendiente prueba manual completa |
+| 2.1.1 Teclado | A | `[ ]` | Skip link verificado por axe y Playwright; bloques de código `<pre tabindex="0">` para desplazar líneas largas con teclado; pendiente prueba manual completa |
 | 2.1.2 Sin trampa de teclado | A | `[ ]` | Pendiente prueba manual |
 | 2.1.4 Atajos de teclado de un solo carácter | A | `[N/A]` | MVP sin atajos de un carácter |
 
@@ -137,7 +137,7 @@ Este documento registra el estado de cada criterio de éxito WCAG 2.2 aplicable 
 | Criterio | Nivel | Estado | Notas |
 |----------|-------|--------|-------|
 | 4.1.1 Interpretación | A | `[✓]` | HTML válido verificado por axe; IDs únicos |
-| 4.1.2 Nombre, función, valor | A | `[✓]` | ARIA correcto; nav con aria-label; aria-current en locale activo y nav admin; verificado con axe |
+| 4.1.2 Nombre, función, valor | A | `[✓]` | ARIA correcto; nav con aria-label; aria-current en locale activo y nav admin; verificado con axe. El iframe de YouTube tiene `title`, pero el reproductor interno es de terceros (atributos ARIA no válidos y botón sin nombre) y queda excluido de axe |
 | 4.1.3 Mensajes de estado | AA | `[✓]` | aria-live="polite" en resultados de búsqueda y feedback de copiar código |
 
 ---

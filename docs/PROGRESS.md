@@ -347,8 +347,20 @@
   - [x] Pest: `BrandingTest.php` (enlace y nombre accesible, SVG decorativos sin IDs duplicados, un único `<h1>`, iconos en público y panel)
   - [x] Playwright: `theme.spec.js` comprueba la variante del logo en claro, oscuro y alto contraste
   - [x] Colores de marca (`brand-ink`, `brand-teal`, `brand-teal-soft`, `brand-orange`) en `app.css`, remapeados en oscuro y alto contraste: tarjetas de "Artículos recientes", títulos, etiquetas, enlaces "Leer más", botón de búsqueda y subrayado del menú activo; axe sin violaciones de contraste
-- **Pendiente:** las auditorías axe del detalle de artículo fallan por contenido ajeno al logo (iframe de YouTube y `<pre>` sin foco); queda fuera de esta mejora.
+- **Pendiente:** las auditorías axe del detalle de artículo fallaban por contenido ajeno al logo (iframe de YouTube y `<pre>` sin foco); resuelto en la corrección siguiente.
 - **PR:** #19
+
+---
+
+## Corrección — Auditoría axe del detalle de artículo
+
+- **Rama:** `fix/axe-detalle-articulo`
+- **Estado:** En revisión — pendiente PR
+- **Alcance:**
+  - [x] `MarkdownService` emite `<pre tabindex="0">` para que los bloques de código con scroll horizontal se puedan recorrer con teclado (axe `scrollable-region-focusable`, WCAG 2.1.1)
+  - [x] Auditoría axe: se excluye el contenido interno del reproductor de YouTube (terceros); el `<iframe>` con su `title` se sigue auditando
+  - [x] Pest: test unitario de bloques de código enfocables
+  - [x] Playwright: 74/74 en `tests/e2e/a11y/` (claro y `chromium-dark`)
 
 ---
 

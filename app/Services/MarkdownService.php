@@ -30,8 +30,14 @@ class MarkdownService
         $this->converter = new MarkdownConverter($environment);
     }
 
+    /**
+     * Code blocks are focusable so keyboard users can scroll long lines horizontally (WCAG 2.1.1).
+     * CommonMark always emits a bare `<pre>` and raw HTML input is stripped, so the replacement is safe.
+     */
     public function toHtml(string $markdown): string
     {
-        return $this->converter->convert($markdown)->getContent();
+        $html = $this->converter->convert($markdown)->getContent();
+
+        return str_replace('<pre>', '<pre tabindex="0">', $html);
     }
 }
