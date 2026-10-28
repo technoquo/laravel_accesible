@@ -145,3 +145,11 @@ test('youtube video id is sanitized in iframe src', function (): void {
 
     expect($html)->toContain('embed/dQw4w9WgXcQ');
 });
+
+test('fenced and indented code blocks are keyboard focusable', function (): void {
+    $service = new MarkdownService;
+
+    $html = $service->toHtml("```php\necho 1;\n```\n\n    indented();\n");
+
+    expect(substr_count($html, '<pre tabindex="0">'))->toBe(2);
+});

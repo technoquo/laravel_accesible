@@ -10,6 +10,8 @@ async function runAxe(page) {
     const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
         .exclude('#herd-ai-host')
+        // Third-party YouTube player markup is outside our control; the iframe element itself (title) is still audited
+        .exclude({ fromFrames: ['.video-embed iframe', 'body'] })
         .analyze();
     return results.violations;
 }
