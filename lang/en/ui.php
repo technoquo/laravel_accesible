@@ -54,6 +54,7 @@ return [
     'about_intro' => 'Laravel Accessible was created to share the experiences of users, with or without disabilities, who benefit from accessibility. The project focuses on Laravel so that developers can build applications with equal access and without barriers.',
     'about_bio' => 'I am Leonel López, a Deaf person and a graduate of the Latin American University of Science and Technology (ULACIT) in Costa Rica. I have taken part in several events on web accessibility for Deaf people, such as WordCamp, <span lang="es">Congreso Accesible América</span>, DeafTech and the Zero Project in Austria. I also attended Laracon EU 2026 in Amsterdam. I was an entrepreneur with <span lang="es">Acceso Visual</span>. I am a sign language teacher and have been a Laravel developer for more than 4 years, and I have spent years fighting for Deaf people\'s right to access.',
     'about_goal' => 'The goal of this blog is to share knowledge with Laravel developers and with anyone interested in accessibility. It is a volunteer project, and I hope you will share our experience.',
+    'about_photo_alt' => 'Leonel López wearing a white shirt and a black cap with the text PHP.',
 
     // Contact page
     'contact_title' => 'Contact Us — Laravel Accessible',

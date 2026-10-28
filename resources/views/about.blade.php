@@ -10,10 +10,17 @@
         {{ __('ui.about_heading') }}
     </h1>
 
-    <div class="mt-6 max-w-prose space-y-6 text-lg leading-relaxed text-gray-700">
-        <p>{{ __('ui.about_intro') }}</p>
-        <p>{!! __('ui.about_bio') !!}</p>
-        <p>{{ __('ui.about_goal') }}</p>
+    <div class="mt-6 flex flex-col gap-8 md:flex-row md:items-start">
+        <img src="{{ Vite::asset('resources/img/leonel.png') }}"
+             alt="{{ __('ui.about_photo_alt') }}"
+             width="344" height="280"
+             class="h-auto w-full max-w-xs shrink-0 rounded-lg md:w-64">
+
+        <div class="max-w-prose space-y-6 text-lg leading-relaxed text-gray-700">
+            <p>{{ __('ui.about_intro') }}</p>
+            <p>{!! __('ui.about_bio') !!}</p>
+            <p>{{ __('ui.about_goal') }}</p>
+        </div>
     </div>
 
 </article>
