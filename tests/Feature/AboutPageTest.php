@@ -20,6 +20,12 @@ test('English about page returns 200 and shows its title', function (): void {
         ->assertSee('<span lang="es">Congreso Accesible América</span>', false);
 });
 
+test('about page shows the author photo with localized alt text', function (string $locale, string $path): void {
+    $this->get($path)
+        ->assertOk()
+        ->assertSee('alt="'.__('ui.about_photo_alt', [], $locale).'"', false);
+})->with([['es', '/es/acerca-de'], ['en', '/en/about']]);
+
 test('about page path is not available under the other locale', function (string $path): void {
     $this->get($path)->assertNotFound();
 })->with(['/en/acerca-de', '/es/about']);
