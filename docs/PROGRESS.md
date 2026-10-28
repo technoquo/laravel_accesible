@@ -346,6 +346,7 @@
   - [x] `favicon.svg` (claro/oscuro), `favicon.ico` (16/32/48) y `apple-touch-icon.png` generados desde el símbolo; `theme-color` claro/oscuro; en ambos layouts con `<x-site-icons />`
   - [x] Pest: `BrandingTest.php` (enlace y nombre accesible, SVG decorativos sin IDs duplicados, un único `<h1>`, iconos en público y panel)
   - [x] Playwright: `theme.spec.js` comprueba la variante del logo en claro, oscuro y alto contraste
+  - [x] Colores de marca (`brand-ink`, `brand-teal`, `brand-teal-soft`, `brand-orange`) en `app.css`, remapeados en oscuro y alto contraste: tarjetas de "Artículos recientes", títulos, etiquetas, enlaces "Leer más", botón de búsqueda y subrayado del menú activo; axe sin violaciones de contraste
 - **Pendiente:** las auditorías axe del detalle de artículo fallan por contenido ajeno al logo (iframe de YouTube y `<pre>` sin foco); queda fuera de esta mejora.
 
 ---

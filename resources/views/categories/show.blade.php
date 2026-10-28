@@ -6,7 +6,7 @@
 @section('content')
 <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
 
-    <h1 class="text-3xl font-semibold tracking-tight">
+    <h1 class="text-3xl font-semibold tracking-tight text-brand-ink">
         {{ __('ui.category_heading', ['name' => $categoryTranslation->name]) }}
     </h1>
 
@@ -24,9 +24,9 @@
                     @if ($t)
                         <li class="border-b border-gray-100 pb-8 last:border-0">
                             <article>
-                                <h2 class="text-xl font-medium">
+                                <h2 class="text-xl font-semibold text-brand-ink">
                                     <a href="{{ locale_route('articles.show', ['slug' => $t->slug]) }}"
-                                       class="hover:underline underline-offset-2">
+                                       class="hover:text-brand-teal hover:underline underline-offset-2">
                                         {{ $t->title }}
                                     </a>
                                 </h2>
@@ -47,7 +47,7 @@
                                             @if ($tagT)
                                                 <li>
                                                     <a href="{{ locale_route('tags.show', ['slug' => $tagT->slug]) }}"
-                                                       class="inline-block rounded-full bg-gray-100 px-3 py-0.5 text-xs text-gray-700 hover:bg-gray-200">
+                                                       class="inline-block rounded-full bg-brand-teal-soft px-3 py-0.5 text-xs font-medium text-brand-teal hover:bg-brand-teal hover:text-white">
                                                         {{ $tagT->name }}
                                                     </a>
                                                 </li>

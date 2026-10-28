@@ -85,13 +85,13 @@
                 <nav aria-label="{{ __('ui.nav_main') }}" class="flex flex-col lg:flex-row lg:items-center gap-1 lg:gap-6">
                     <a href="{{ locale_route('articles.index') }}"
                        class="py-2 lg:py-0 hover:underline underline-offset-2
-                              {{ request()->routeIs('*.articles.*') ? 'font-semibold underline' : '' }}">
+                              {{ request()->routeIs('*.articles.*') ? 'font-semibold underline decoration-brand-orange decoration-2' : '' }}">
                         {{ __('ui.nav_articles') }}
                     </a>
                     <a href="{{ locale_route('about') }}"
                        @if (request()->routeIs('*.about')) aria-current="page" @endif
                        class="py-2 lg:py-0 hover:underline underline-offset-2
-                              {{ request()->routeIs('*.about') ? 'font-semibold underline' : '' }}">
+                              {{ request()->routeIs('*.about') ? 'font-semibold underline decoration-brand-orange decoration-2' : '' }}">
                         {{ __('ui.nav_about') }}
                     </a>
                 </nav>
@@ -101,7 +101,7 @@
                         @if (app()->getLocale() === $lang)
                             <span lang="{{ $lang }}"
                                   aria-current="page"
-                                  class="font-semibold underline underline-offset-2">
+                                  class="font-semibold underline decoration-brand-orange decoration-2 underline-offset-2">
                                 {{ $label }}
                             </span>
                         @else
