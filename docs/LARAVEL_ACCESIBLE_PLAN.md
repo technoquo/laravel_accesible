@@ -201,6 +201,38 @@ Indicar rama activa, commits, archivos modificados, resultados de pruebas, compr
 - Actualizar `docs/PROGRESS.md` con la nueva mejora.
 - Commit: `feat: add bilingual about page`.
 
+### Mejora — Logo, encabezado e icono del sitio
+- **Rama:** `feature/logo-marca` (desde `main` actualizado, según el protocolo Git).
+- **Archivos fuente** (entregados por el propietario en `resources/svg/`, se versionan como fuente de la marca):
+  - `la-logo-horizontal-light.svg` / `la-logo-horizontal-dark.svg` — logo horizontal (símbolo + texto), 607×120.
+  - `la-simbolo-light.svg` / `la-simbolo-dark.svg` — solo el símbolo `<LA>`, 120×120.
+  - `la-logo-horizontal-light-240.png` / `-480.png` — versiones raster del logo claro (1213×240 y 2427×480).
+  - La variante `light` (fondo azul `#0B1F3A`, borde `#C2410C`) va sobre fondo claro; la `dark` (fondo blanco, borde `#FBBF24`) sobre fondo oscuro.
+- **Componente Blade** `resources/views/components/logo.blade.php` (`<x-logo />`):
+  - SVG en línea (sin petición extra, escala con el zoom de texto), con las dos variantes y alternancia `dark:hidden` / `hidden dark:block` según la clase `dark` de `<html>` que ya aplica `x-theme-init`.
+  - Al incrustar dos SVG en la misma página hay que **eliminar `role="img"`, `aria-labelledby="t"` y `<title id="t">`** de los archivos originales (IDs duplicados y doble anuncio); los SVG llevan `aria-hidden="true" focusable="false"`.
+  - Prop `variant` (`horizontal` | `symbol`) y clases de tamaño por `$attributes->merge()`; altura en `rem` (p. ej. `h-9 w-auto` en el header) para respetar el zoom.
+  - Comprobar en los modos de alto contraste del panel de accesibilidad (`data-color-mode`) que el logo sigue siendo legible; si la paleta remapeada lo rompe, forzar los colores originales del SVG en esos modos.
+- **Encabezado (`layouts/app.blade.php`):**
+  - Sustituir el texto `{{ __('ui.site_name') }}` del enlace a portada por `<x-logo />`, con el mismo diseño en móvil, tablet y escritorio (mismo logo horizontal escalado; sin versión distinta por breakpoint). Comprobar a 320 CSS px que logo, botón de menú, tema y herramientas caben sin scroll horizontal; si no caben, usar el símbolo por debajo de `sm`.
+  - Nombre accesible del enlace: texto `sr-only` "Laravel Accesible" (nombre de marca, igual al texto visible del logo → WCAG 2.5.3), más el destino si aporta ("Laravel Accesible, inicio" / "Laravel Accesible, home") mediante claves en `lang/*/ui.php`. Marcar `lang="es"` en la versión inglesa, ya que el logotipo está en español.
+  - Foco visible alrededor del logo (anillo con contraste ≥ 3:1 en claro y oscuro).
+  - Aplicar el mismo logo en `layouts/admin.blade.php` si tiene encabezado con el nombre del sitio.
+- **Portada (`home.blade.php`):** mostrar el logo (símbolo grande o logo horizontal) centrado encima del `<h1>`, como encabezado de la página igual que se ve en móvil. El `<h1>` se mantiene como texto real (`ui.home_heading`) para SEO y lectores de pantalla; la imagen es decorativa (`aria-hidden`) para no repetir el nombre.
+- **Icono del sitio / SEO (ambos layouts, en `<head>`):**
+  - `public/favicon.svg` generado a partir del símbolo, con las dos variantes en un único archivo mediante `<style>@media (prefers-color-scheme: dark) {...}</style>`.
+  - `public/favicon.ico` (32×32, reemplaza el de Laravel) y `public/apple-touch-icon.png` (180×180, fondo opaco) generados desde `la-simbolo-light.svg` con una herramienta ya disponible en el sistema; **no añadir dependencias** (si no hay herramienta, pedir los PNG al propietario).
+  - Etiquetas: `<link rel="icon" href="/favicon.ico" sizes="32x32">`, `<link rel="icon" href="/favicon.svg" type="image/svg+xml">`, `<link rel="apple-touch-icon" href="/apple-touch-icon.png">`, y `<meta name="theme-color">` con `media` para claro (`#ffffff`) y oscuro (color de fondo del tema oscuro).
+  - Opcional: `og:image` por defecto con el logo PNG (`la-logo-horizontal-light-480.png` copiado a `public/images/`) cuando la página no aporte imagen propia, con `og:image:alt`.
+- **Accesibilidad y diseño:** el logotipo es texto en imagen permitido (excepción de logotipos, WCAG 1.4.5); contraste del símbolo frente al fondo ≥ 3:1 (1.4.11) en claro, oscuro y alto contraste; reflow a 320 CSS px; `prefers-reduced-motion` sin animaciones del logo.
+- **Tests Pest** (`tests/Feature/BrandingTest.php`):
+  - `/es` y `/en` contienen el enlace a portada con el nombre accesible y el SVG del logo con `aria-hidden="true"`.
+  - El `<head>` de las páginas públicas y del panel incluye `favicon.svg`, `favicon.ico` y `apple-touch-icon.png`.
+  - La portada mantiene un único `<h1>` con el texto `ui.home_heading`.
+- **Playwright:** las auditorías axe existentes (claro y `chromium-dark`) cubren el nuevo header; añadir en `theme.spec.js` que en modo oscuro se ve la variante `dark` y en claro la `light`.
+- Registrar la decisión de marca (inline SVG, alt/nombre accesible, favicon) en `docs/DECISIONS.md` y la mejora en `docs/PROGRESS.md`.
+- Commit: `feat: add Laravel Accesible logo and site icons`.
+
 ## Definition of Done global
 - Tests PHP verdes, build frontend verde, Pint sin diferencias, pruebas E2E esenciales verdes.
 - No exposición de borradores, sin XSS conocido, permisos verificados.

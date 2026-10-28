@@ -44,3 +44,33 @@ test.describe('Selector de tema', () => {
         await context.close();
     });
 });
+
+// ─── Logo: variante según el tema ───────────────────────────────────────────
+
+test.describe('Logo del encabezado', () => {
+    test.use({ colorScheme: 'light' });
+
+    test('muestra la variante clara y cambia a la oscura al activar el modo oscuro', async ({ page }) => {
+        await page.goto('/es');
+        const banner = page.getByRole('banner');
+        const lightLogo = banner.locator('[data-logo-variant="light"]');
+        const darkLogo = banner.locator('[data-logo-variant="dark"]');
+
+        await expect(banner.getByRole('link', { name: 'Laravel Accesible, Inicio' })).toBeVisible();
+        await expect(lightLogo).toBeVisible();
+        await expect(darkLogo).toBeHidden();
+
+        await page.getByRole('button', { name: 'Modo oscuro' }).click();
+        await expect(darkLogo).toBeVisible();
+        await expect(lightLogo).toBeHidden();
+    });
+
+    test('usa la variante oscura en los modos de alto contraste', async ({ page }) => {
+        await page.addInitScript(() => localStorage.setItem('colorMode', 'yellow-black'));
+        await page.goto('/en');
+        const banner = page.getByRole('banner');
+
+        await expect(banner.locator('[data-logo-variant="dark"]')).toBeVisible();
+        await expect(banner.locator('[data-logo-variant="light"]')).toBeHidden();
+    });
+});

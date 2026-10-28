@@ -6,7 +6,7 @@
 @section('content')
 <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
 
-    <h1 class="text-3xl font-semibold tracking-tight">
+    <h1 class="text-3xl font-semibold tracking-tight text-brand-ink">
         {{ __('ui.articles_heading') }}
     </h1>
 
@@ -28,7 +28,7 @@
             aria-label="{{ __('ui.articles_search_label') }}"
         >
         <button type="submit"
-                class="rounded border border-gray-900 bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900">
+                class="rounded border border-brand-ink bg-brand-ink px-4 py-2 text-sm font-medium text-white hover:border-brand-teal hover:bg-brand-teal focus:outline-none focus:ring-2 focus:ring-gray-900">
             {{ __('ui.articles_search_submit') }}
         </button>
         @if ($search !== '')
@@ -56,9 +56,9 @@
                     @if ($t)
                         <li class="border-b border-gray-100 pb-8 last:border-0">
                             <article>
-                                <h2 class="text-xl font-medium">
+                                <h2 class="text-xl font-semibold text-brand-ink">
                                     <a href="{{ locale_route('articles.show', ['slug' => $t->slug]) }}"
-                                       class="hover:underline underline-offset-2">
+                                       class="hover:text-brand-teal hover:underline underline-offset-2">
                                         {{ $t->title }}
                                     </a>
                                 </h2>
@@ -71,7 +71,7 @@
                                     @if ($cat)
                                         <span aria-hidden="true">·</span>
                                         <a href="{{ locale_route('categories.show', ['slug' => $cat->slug]) }}"
-                                           class="hover:underline">
+                                           class="font-medium text-brand-teal hover:underline">
                                             {{ $cat->name }}
                                         </a>
                                     @endif
@@ -90,7 +90,7 @@
                                             @if ($tagT)
                                                 <li>
                                                     <a href="{{ locale_route('tags.show', ['slug' => $tagT->slug]) }}"
-                                                       class="inline-block rounded-full bg-gray-100 px-3 py-0.5 text-xs text-gray-700 hover:bg-gray-200">
+                                                       class="inline-block rounded-full bg-brand-teal-soft px-3 py-0.5 text-xs font-medium text-brand-teal hover:bg-brand-teal hover:text-white">
                                                         {{ $tagT->name }}
                                                     </a>
                                                 </li>
@@ -101,7 +101,7 @@
 
                                 <p class="mt-3">
                                     <a href="{{ locale_route('articles.show', ['slug' => $t->slug]) }}"
-                                       class="text-sm font-medium hover:underline underline-offset-2"
+                                       class="text-sm font-medium text-brand-teal hover:underline underline-offset-2"
                                        aria-label="{{ __('ui.read_more_label', ['title' => $t->title]) }}">
                                         {{ __('ui.read_more') }} →
                                     </a>

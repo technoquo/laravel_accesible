@@ -29,6 +29,7 @@
     @endisset
     @stack('og')
 
+    <x-site-icons />
     <x-theme-init />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -47,8 +48,10 @@
         <div data-site-header class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center gap-x-2 gap-y-3 lg:gap-x-8">
 
             <a href="{{ route('home', ['locale' => app()->getLocale()]) }}"
-               class="mr-auto lg:mr-0 text-lg font-semibold tracking-tight hover:underline">
-                {{ __('ui.site_name') }}
+               class="mr-auto lg:mr-0 rounded-[0.6rem]">
+                {{-- The logotype reads "Laravel Accesible" in Spanish in every locale, so the name matches it (WCAG 2.5.3) --}}
+                <x-logo class="h-7 sm:h-9" />
+                <span class="sr-only"><span lang="es">Laravel Accesible</span>, {{ __('ui.nav_home') }}</span>
             </a>
 
             <button type="button"
@@ -82,13 +85,13 @@
                 <nav aria-label="{{ __('ui.nav_main') }}" class="flex flex-col lg:flex-row lg:items-center gap-1 lg:gap-6">
                     <a href="{{ locale_route('articles.index') }}"
                        class="py-2 lg:py-0 hover:underline underline-offset-2
-                              {{ request()->routeIs('*.articles.*') ? 'font-semibold underline' : '' }}">
+                              {{ request()->routeIs('*.articles.*') ? 'font-semibold underline decoration-brand-orange decoration-2' : '' }}">
                         {{ __('ui.nav_articles') }}
                     </a>
                     <a href="{{ locale_route('about') }}"
                        @if (request()->routeIs('*.about')) aria-current="page" @endif
                        class="py-2 lg:py-0 hover:underline underline-offset-2
-                              {{ request()->routeIs('*.about') ? 'font-semibold underline' : '' }}">
+                              {{ request()->routeIs('*.about') ? 'font-semibold underline decoration-brand-orange decoration-2' : '' }}">
                         {{ __('ui.nav_about') }}
                     </a>
                 </nav>
@@ -98,7 +101,7 @@
                         @if (app()->getLocale() === $lang)
                             <span lang="{{ $lang }}"
                                   aria-current="page"
-                                  class="font-semibold underline underline-offset-2">
+                                  class="font-semibold underline decoration-brand-orange decoration-2 underline-offset-2">
                                 {{ $label }}
                             </span>
                         @else
