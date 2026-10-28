@@ -115,4 +115,15 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Public Contact Address
+    |--------------------------------------------------------------------------
+    |
+    | The address shown to visitors on the public contact page.
+    |
+    */
+
+    'contact_address' => env('MAIL_CONTACT_ADDRESS', 'hola@laravel-accesible.org'),
+
 ];

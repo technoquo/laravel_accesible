@@ -225,6 +225,33 @@ test.describe('Acerca de', () => {
     });
 });
 
+// ─── Contacto ────────────────────────────────────────────────────────────────
+
+test.describe('Contacto', () => {
+    test('ES — sin violaciones axe WCAG 2.2 AA', async ({ page }) => {
+        await page.goto('/es/contacto');
+        await page.waitForLoadState('load');
+        const violations = await runAxe(page);
+        expect(violations, formatViolations(violations)).toHaveLength(0);
+    });
+
+    test('EN — sin violaciones axe WCAG 2.2 AA', async ({ page }) => {
+        await page.goto('/en/contact');
+        await page.waitForLoadState('load');
+        const violations = await runAxe(page);
+        expect(violations, formatViolations(violations)).toHaveLength(0);
+    });
+
+    test('sin scroll horizontal a 320 CSS px', async ({ page }) => {
+        await page.setViewportSize({ width: 320, height: 640 });
+        await page.goto('/es/contacto');
+        const overflows = await page.evaluate(
+            () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+        );
+        expect(overflows).toBe(false);
+    });
+});
+
 // ─── Página 404 ──────────────────────────────────────────────────────────────
 
 test.describe('Página 404', () => {

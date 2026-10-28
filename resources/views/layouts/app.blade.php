@@ -94,6 +94,12 @@
                               {{ request()->routeIs('*.about') ? 'font-semibold underline decoration-brand-orange decoration-2' : '' }}">
                         {{ __('ui.nav_about') }}
                     </a>
+                    <a href="{{ locale_route('contact') }}"
+                       @if (request()->routeIs('*.contact')) aria-current="page" @endif
+                       class="py-2 lg:py-0 hover:underline underline-offset-2
+                              {{ request()->routeIs('*.contact') ? 'font-semibold underline decoration-brand-orange decoration-2' : '' }}">
+                        {{ __('ui.nav_contact') }}
+                    </a>
                 </nav>
 
                 <nav aria-label="{{ __('ui.lang_selector') }}" class="flex items-center gap-4 lg:gap-3 py-2 lg:py-0">
@@ -131,9 +137,14 @@
     <footer role="contentinfo" class="border-t border-gray-200 mt-auto">
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 text-sm text-gray-600 flex flex-wrap items-center justify-between gap-4">
             <p>{{ __('ui.footer_rights', ['year' => date('Y')]) }}</p>
-            <a href="{{ locale_route('about') }}" class="underline underline-offset-2 hover:text-gray-900">
-                {{ __('ui.nav_about') }}
-            </a>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="{{ locale_route('about') }}" class="underline underline-offset-2 hover:text-gray-900">
+                    {{ __('ui.nav_about') }}
+                </a>
+                <a href="{{ locale_route('contact') }}" class="underline underline-offset-2 hover:text-gray-900">
+                    {{ __('ui.nav_contact') }}
+                </a>
+            </div>
         </div>
     </footer>
 

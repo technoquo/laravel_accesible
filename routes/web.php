@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RobotsController;
@@ -38,6 +39,8 @@ Route::prefix('{locale}')
             ->name('es.tags.show')->where('locale', 'es');
         Route::get('acerca-de', AboutController::class)
             ->name('es.about')->where('locale', 'es');
+        Route::get('contacto', ContactController::class)
+            ->name('es.contact')->where('locale', 'es');
 
         // EN public routes
         Route::get('articles', [PostController::class, 'index'])
@@ -50,6 +53,8 @@ Route::prefix('{locale}')
             ->name('en.tags.show')->where('locale', 'en');
         Route::get('about', AboutController::class)
             ->name('en.about')->where('locale', 'en');
+        Route::get('contact', ContactController::class)
+            ->name('en.contact')->where('locale', 'en');
     });
 
 Route::prefix('admin')
