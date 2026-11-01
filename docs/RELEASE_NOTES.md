@@ -2,8 +2,8 @@
 
 ## v1.0 — Lanzamiento
 
-- **Estado:** Preparada — pendiente de autorización del propietario para publicar y desplegar
-- **Rama de preparación:** `docs/fase-09-lanzamiento`
+- **Estado:** Autorizada por el propietario (2026-11-01) — etiqueta `v1.0`; despliegue a producción pendiente de autorización aparte
+- **PR:** #25 (revisión y release), #26 (guía WCAG), #27 (autorización)
 
 ### Funcionalidades
 
@@ -16,6 +16,7 @@
 - Menú responsive con panel lateral por debajo de `lg`.
 - SEO: canonical, Open Graph, `sitemap.xml`, `robots.txt` y caché del sitemap con invalidación al publicar.
 - Seguridad: cabeceras HTTP (`SecurityHeaders`), HTTPS forzado en producción, rate limiting en el login.
+- Guía WCAG 2.2 para Laravel (`/es/guia-wcag`, `/en/wcag-guide`): índice de los 55 criterios A y AA con filtros, 15 fichas ES/EN para Blade y Livewire, y relación artículo ↔ criterios editable en el panel.
 
 ### Contenido de lanzamiento
 
@@ -39,13 +40,14 @@ Revisión técnica y de lenguaje (2026-11-01):
 
 ### Calidad
 
-- Pest: 153/153 tests en verde (2026-11-01).
+- Pest: 182/182 tests en verde tras la guía WCAG (2026-11-01).
 - Playwright + axe-core (WCAG 2.2 AA, claro y `chromium-dark`): 80/80 en `tests/e2e/a11y/`, sin violaciones en el detalle de los 4 artículos. En la ejecución completa, 5 tests ajenos a los artículos (menú, login del panel, panel de accesibilidad, portada EN) agotaron el tiempo de 30 s y pasaron al repetirlos: son intermitentes bajo carga y conviene vigilarlos.
 - `composer audit` y `npm audit` sin vulnerabilidades en la Fase 8.
 
 ### Pendiente antes o después del lanzamiento
 
-- [ ] Autorización del propietario para publicar los artículos y desplegar (ver `docs/DEPLOYMENT.md`).
+- [x] Autorización del propietario para publicar la v1.0 (2026-11-01).
+- [ ] Autorización del propietario para desplegar a producción (ver `docs/DEPLOYMENT.md`); requiere `php artisan migrate` por la columna `posts.wcag_criteria`.
 - [ ] Pruebas manuales WCAG del propietario: teclado, lector de pantalla, zoom 200/400 %, reflow a 320 CSS px, espaciado de texto y movimiento reducido (ver `docs/ACCESSIBILITY_CHECKLIST.md`).
 - [ ] CSP completa con nonces para Livewire (trabajo posterior al lanzamiento, ver `docs/DEPLOYMENT.md`).
 - [ ] Licencia del proyecto pendiente de definir (README).
