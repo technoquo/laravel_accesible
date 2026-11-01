@@ -67,6 +67,7 @@ npm run dev
 | [`docs/DECISIONS.md`](docs/DECISIONS.md) | Decisiones de arquitectura y tecnología |
 | [`docs/ACCESSIBILITY_CHECKLIST.md`](docs/ACCESSIBILITY_CHECKLIST.md) | Checklist WCAG 2.2 AA y registro de hallazgos |
 | [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Guía de despliegue, rollback y checklist pre-deploy |
+| [`docs/RELEASE_NOTES.md`](docs/RELEASE_NOTES.md) | Notas de versión (v1.0) |
 
 ## Protocolo Git
 

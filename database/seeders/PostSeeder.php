@@ -77,8 +77,6 @@ class PostSeeder extends Seeder
 
 Los formularios son el punto de entrada más frecuente entre el usuario y la aplicación. Un campo sin etiqueta, un error sin anuncio o un botón sin nombre accesible puede bloquear completamente a personas que usan lectores de pantalla o navegan solo con teclado.
 
-![Persona trabajando en una laptop con código visible en la pantalla](https://picsum.photos/seed/forms-a11y/800/450 "Formularios accesibles en aplicaciones Laravel")
-
 ## El problema: placeholder como etiqueta
 
 Un error muy común en Blade es confiar en el atributo `placeholder` como única referencia visual del campo:
@@ -88,7 +86,7 @@ Un error muy común en Blade es confiar en el atributo `placeholder` como única
 <input type="email" placeholder="tu@email.com" name="email">
 ```
 
-El `placeholder` desaparece al escribir, tiene bajo contraste por defecto y no es anunciado de forma consistente por todos los lectores de pantalla. Incumple el criterio **WCAG 2.2 — 1.3.1 Info and Relationships (Nivel A)**.
+El `placeholder` desaparece en cuanto se escribe, suele tener un contraste insuficiente y no es una etiqueta fiable: no todos los lectores de pantalla lo anuncian igual, y quien revisa el formulario antes de enviarlo ya no sabe qué pedía cada campo. Incumple el criterio **WCAG 2.2 — 3.3.2 Labels or Instructions (Nivel A)** y, con el gris por defecto, a menudo también **1.4.3 Contrast (Minimum)**.
 
 ## La solución: `<label>` vinculado y `aria-describedby`
 
@@ -127,16 +125,16 @@ Los puntos clave:
 - `for` en `<label>` vincula la etiqueta al campo por `id`.
 - `aria-describedby` encadena el `id` de la pista y del error cuando existe.
 - `aria-invalid="true"` avisa al lector de pantalla que el campo contiene un error.
-- `role="alert"` en el párrafo de error fuerza el anuncio inmediato sin necesitar foco.
+- `role="alert"` en el párrafo de error: si el error se inserta sin recargar la página (por ejemplo, con Livewire), el lector lo anuncia sin mover el foco. Tras un envío clásico que recarga la página, ese anuncio no es fiable; lleva el foco al primer campo con error o a un resumen de errores al principio del formulario.
 
 ## Criterios WCAG 2.2 aplicables
 
 | Criterio | Nivel | Qué exige |
 |----------|-------|-----------|
 | 1.3.1 Info and Relationships | A | La relación etiqueta-campo debe ser determinable por programa |
-| 3.3.1 Error Identification | A | El error debe describirse en texto |
-| 3.3.2 Labels or Instructions | A | Los campos con entrada requerida deben tener etiqueta |
-| 4.1.3 Status Messages | AA | Los mensajes de estado deben poder ser anunciados sin recibir foco |
+| 1.4.3 Contrast (Minimum) | AA | Etiquetas, pistas y errores con contraste mínimo de 4.5:1 |
+| 3.3.1 Error Identification | A | El error debe identificarse y describirse en texto |
+| 3.3.2 Labels or Instructions | A | Los campos que piden datos deben tener etiqueta o instrucciones |
 
 ## Video: introducción a la accesibilidad web
 
@@ -146,14 +144,14 @@ Los puntos clave:
 
 1. Navega el formulario solo con `Tab` — cada campo debe recibir foco y su etiqueta debe estar visible en pantalla.
 2. Activa NVDA + Firefox o VoiceOver + Safari — al enfocar el campo vacío el lector debe leer "Correo electrónico, edición, requerido".
-3. Envía con el campo vacío — el mensaje de error debe anunciarse automáticamente sin recargar la página.
+3. Envía con el campo vacío — tras la recarga, el foco debe llevarte al error (o a un resumen de errores) y el lector debe anunciar el campo como «no válido» junto con el mensaje.
 4. Comprueba contraste de la etiqueta y del error con la herramienta de contraste de DevTools (mínimo 4.5:1).
 
 ## Conclusión
 
 Un `<label for>` bien vinculado, un `aria-describedby` que encadena pistas y errores, y un `aria-invalid` dinámico son los tres pilares de los formularios Blade accesibles. No requieren paquetes externos ni JavaScript adicional.
 
-**Referencias:** [W3C WAI — Tutorial de formularios](https://www.w3.org/WAI/tutorials/forms/) · [MDN: `<label>`](https://developer.mozilla.org/es/docs/Web/HTML/Element/label) · [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+**Referencias:** [W3C WAI — Tutorial de formularios](https://www.w3.org/WAI/tutorials/forms/) · [MDN: `<label>`](https://developer.mozilla.org/es/docs/Web/HTML/Reference/Elements/label) · [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
 MD,
                 ],
                 'en' => [
@@ -165,8 +163,6 @@ MD,
 
 Forms are the most frequent entry point between a user and an application. A field without a label, an error with no announcement, or a button with no accessible name can completely block users who rely on screen readers or keyboard-only navigation.
 
-![Person working on a laptop with code visible on screen](https://picsum.photos/seed/forms-a11y/800/450 "Accessible forms in Laravel applications")
-
 ## The Problem: Placeholder as a Label
 
 A very common mistake in Blade is relying on the `placeholder` attribute as the only visual reference for a field:
@@ -176,7 +172,7 @@ A very common mistake in Blade is relying on the `placeholder` attribute as the 
 <input type="email" placeholder="you@email.com" name="email">
 ```
 
-The `placeholder` disappears on input, has low contrast by default, and is not consistently announced by all screen readers. This fails **WCAG 2.2 — 1.3.1 Info and Relationships (Level A)**.
+The `placeholder` disappears as soon as you type, usually has insufficient contrast, and is not a reliable label: screen readers do not all announce it the same way, and anyone reviewing the form before submitting no longer knows what each field asked for. This fails **WCAG 2.2 — 3.3.2 Labels or Instructions (Level A)** and, with the default grey, often **1.4.3 Contrast (Minimum)** as well.
 
 ## The Solution: Linked `<label>` and `aria-describedby`
 
@@ -215,16 +211,16 @@ Key points:
 - `for` on `<label>` links it to the field by `id`.
 - `aria-describedby` chains the hint `id` and the error `id` when it exists.
 - `aria-invalid="true"` tells the screen reader the field contains an error.
-- `role="alert"` on the error paragraph forces an immediate announcement without requiring focus.
+- `role="alert"` on the error paragraph: when the error is inserted without a page reload (for example, with Livewire), the screen reader announces it without moving focus. After a classic submission that reloads the page, that announcement is unreliable; move focus to the first invalid field or to an error summary at the top of the form.
 
 ## Applicable WCAG 2.2 Criteria
 
 | Criterion | Level | What it requires |
 |-----------|-------|-----------------|
 | 1.3.1 Info and Relationships | A | Label-field relationship must be programmatically determinable |
-| 3.3.1 Error Identification | A | The error must be described in text |
-| 3.3.2 Labels or Instructions | A | Fields with required input must have a label |
-| 4.1.3 Status Messages | AA | Status messages must be announceable without receiving focus |
+| 1.4.3 Contrast (Minimum) | AA | Labels, hints and errors with a minimum contrast of 4.5:1 |
+| 3.3.1 Error Identification | A | The error must be identified and described in text |
+| 3.3.2 Labels or Instructions | A | Fields that request input must have a label or instructions |
 
 ## Video: Introduction to Web Accessibility
 
@@ -234,14 +230,14 @@ Key points:
 
 1. Navigate the form using only `Tab` — every field must receive focus and its label must be visible on screen.
 2. Enable NVDA + Firefox or VoiceOver + Safari — when focusing an empty field, the reader should announce "Email address, edit, required".
-3. Submit with an empty field — the error message must be announced automatically without reloading the page.
+3. Submit with an empty field — after the reload, focus must take you to the error (or an error summary) and the reader must announce the field as "invalid" together with the message.
 4. Check the contrast of the label and error with the DevTools contrast tool (minimum 4.5:1).
 
 ## Conclusion
 
 A properly linked `<label for>`, an `aria-describedby` that chains hints and errors, and a dynamic `aria-invalid` are the three pillars of accessible Blade forms. They require no external packages or additional JavaScript.
 
-**References:** [W3C WAI — Forms Tutorial](https://www.w3.org/WAI/tutorials/forms/) · [MDN: `<label>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label) · [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+**References:** [W3C WAI — Forms Tutorial](https://www.w3.org/WAI/tutorials/forms/) · [MDN: `<label>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label) · [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
 MD,
                 ],
             ],
@@ -258,8 +254,6 @@ MD,
 ## El problema de los errores silenciosos
 
 Cuando Livewire actualiza el DOM después de una validación fallida, los lectores de pantalla no detectan el cambio automáticamente a menos que el desarrollador lo indique de forma explícita. El resultado es un formulario que parece roto: el usuario ve errores en pantalla pero el lector de pantalla no anuncia nada.
-
-![Pantalla de ordenador mostrando un formulario con mensajes de error resaltados](https://picsum.photos/seed/errors-a11y/800/450 "Mensajes de error accesibles en componentes Livewire")
 
 ## Cómo funcionan las ARIA live regions
 
@@ -281,17 +275,10 @@ Las live regions son áreas del DOM que el navegador vigila. Cuando su contenido
 
 ```blade
 {{-- resources/views/livewire/contact-form.blade.php --}}
-<form wire:submit="submit">
-    {{-- Región de estado global --}}
-    <div
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-        class="sr-only"
-    >
-        @if ($successMessage)
-            {{ $successMessage }}
-        @endif
+<form x-on:submit.prevent="$wire.submit().then(() => $el.querySelector('[aria-invalid=true]')?.focus())">
+    {{-- Región de estado global: existe siempre, solo cambia su contenido --}}
+    <div role="status" aria-atomic="true" class="text-sm text-green-800">
+        {{ $successMessage }}
     </div>
 
     <div>
@@ -299,12 +286,11 @@ Las live regions son áreas del DOM que el navegador vigila. Cuando su contenido
         <input
             type="text"
             id="name"
-            wire:model.blur="name"
-            aria-describedby="{{ $errors->has('name') ? 'name-error' : '' }}"
-            aria-invalid="{{ $errors->has('name') ? 'true' : 'false' }}"
+            wire:model.live.blur="name"
+            @error('name') aria-invalid="true" aria-describedby="name-error" @enderror
         >
         @error('name')
-            <p id="name-error" role="alert" class="text-red-600 text-sm">
+            <p id="name-error" role="alert" class="text-sm text-red-700">
                 {{ $message }}
             </p>
         @enderror
@@ -316,18 +302,23 @@ Las live regions son áreas del DOM que el navegador vigila. Cuando su contenido
 
 ```php
 // app/Livewire/ContactForm.php
+use Livewire\Attributes\Validate;
+use Livewire\Component;
+
 class ContactForm extends Component
 {
+    #[Validate('required|string|min:2|max:100')]
     public string $name = '';
-    public string $successMessage = '';
 
-    #[Rule(['required', 'string', 'min:2', 'max:100'])]
-    public string $name = '';
+    public string $successMessage = '';
 
     public function submit(): void
     {
+        $this->successMessage = '';
         $this->validate();
+
         // ... lógica de negocio
+
         $this->successMessage = 'Formulario enviado correctamente.';
         $this->reset('name');
     }
@@ -335,10 +326,11 @@ class ContactForm extends Component
 ```
 
 Los puntos clave:
-- `role="alert"` en cada error individual hace el anuncio inmediato en cuanto Livewire re-renderiza.
-- Un `role="status"` global con `aria-live="polite"` anuncia el éxito sin interrumpir al usuario.
-- `wire:model.blur` valida al perder el foco, evitando anuncios mientras el usuario escribe.
-- `aria-invalid` y `aria-describedby` se actualizan reactivamente en cada re-render.
+- `role="alert"` en cada error individual hace que se anuncie en cuanto Livewire lo inserta en el DOM.
+- La región `role="status"` (que ya implica `aria-live="polite"`) está siempre presente y visible: anuncia el éxito sin interrumpir y también lo ven quienes no usan lector de pantalla.
+- `#[Validate]` junto con `wire:model.live.blur` valida cada campo al salir de él, no mientras se escribe.
+- `aria-invalid` y `aria-describedby` solo aparecen cuando hay error, y se actualizan en cada re-render.
+- Al enviar, la promesa de `$wire.submit()` se resuelve cuando Livewire ya actualizó el DOM; en ese momento se lleva el foco al primer campo no válido. Si varios `role="alert"` aparecen a la vez, los lectores de pantalla no siempre los anuncian todos, así que el foco es la garantía.
 
 ## Criterios WCAG 2.2 aplicables
 
@@ -354,15 +346,16 @@ Los puntos clave:
 
 ## Prueba manual recomendada
 
-1. Con NVDA + Firefox: completa y envía el formulario con datos inválidos. El lector debe anunciar cada error sin que el usuario mueva el foco.
-2. Verifica que al corregir un error y salir del campo, el anuncio de error desaparece.
-3. Tras el envío exitoso, comprueba que el mensaje de confirmación se anuncia automáticamente.
+1. Con NVDA + Firefox: escribe un dato inválido y sal del campo con `Tab`. El lector debe anunciar el error sin que tengas que volver al campo.
+2. Envía el formulario con datos inválidos: el foco debe ir al primer campo con error y el lector debe anunciarlo como «no válido» junto con su mensaje.
+3. Corrige el error y sal del campo: el mensaje debe desaparecer y el lector ya no debe anunciar el campo como «no válido».
+4. Tras el envío correcto, comprueba que el mensaje de confirmación se ve en pantalla y se anuncia automáticamente.
 
 ## Conclusión
 
-`role="alert"` en errores individuales y `role="status"` en confirmaciones globales son el dúo mínimo para que Livewire comunique el estado del formulario a todos los usuarios. El coste de implementación es una clase CSS y dos atributos ARIA.
+`role="alert"` en errores individuales, una región `role="status"` siempre presente para las confirmaciones y el foco en el primer campo no válido al enviar bastan para que un formulario Livewire comunique su estado a todas las personas, sin paquetes adicionales.
 
-**Referencias:** [WAI-ARIA — Live Regions](https://www.w3.org/TR/wai-aria-1.2/#live_region_roles) · [WCAG 2.2 — 3.3.1](https://www.w3.org/TR/WCAG22/#error-identification) · [Livewire Docs](https://livewire.laravel.com/docs)
+**Referencias:** [WAI-ARIA — Live Regions](https://www.w3.org/TR/wai-aria-1.2/#live_region_roles) · [WCAG 2.2 — 3.3.1](https://www.w3.org/TR/WCAG22/#error-identification) · [Livewire 4 — Validación](https://livewire.laravel.com/docs/4.x/validation)
 MD,
                 ],
                 'en' => [
@@ -373,8 +366,6 @@ MD,
 ## The Problem of Silent Errors
 
 When Livewire updates the DOM after a failed validation, screen readers do not automatically detect the change unless the developer explicitly signals it. The result is a form that seems broken: the user sees errors on screen but the screen reader announces nothing.
-
-![Computer screen showing a form with highlighted error messages](https://picsum.photos/seed/errors-a11y/800/450 "Accessible error messages in Livewire components")
 
 ## How ARIA Live Regions Work
 
@@ -396,17 +387,10 @@ Live regions are areas of the DOM that the browser monitors. When their content 
 
 ```blade
 {{-- resources/views/livewire/contact-form.blade.php --}}
-<form wire:submit="submit">
-    {{-- Global status region --}}
-    <div
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-        class="sr-only"
-    >
-        @if ($successMessage)
-            {{ $successMessage }}
-        @endif
+<form x-on:submit.prevent="$wire.submit().then(() => $el.querySelector('[aria-invalid=true]')?.focus())">
+    {{-- Global status region: always present, only its content changes --}}
+    <div role="status" aria-atomic="true" class="text-sm text-green-800">
+        {{ $successMessage }}
     </div>
 
     <div>
@@ -414,12 +398,11 @@ Live regions are areas of the DOM that the browser monitors. When their content 
         <input
             type="text"
             id="name"
-            wire:model.blur="name"
-            aria-describedby="{{ $errors->has('name') ? 'name-error' : '' }}"
-            aria-invalid="{{ $errors->has('name') ? 'true' : 'false' }}"
+            wire:model.live.blur="name"
+            @error('name') aria-invalid="true" aria-describedby="name-error" @enderror
         >
         @error('name')
-            <p id="name-error" role="alert" class="text-red-600 text-sm">
+            <p id="name-error" role="alert" class="text-sm text-red-700">
                 {{ $message }}
             </p>
         @enderror
@@ -429,11 +412,37 @@ Live regions are areas of the DOM that the browser monitors. When their content 
 </form>
 ```
 
+```php
+// app/Livewire/ContactForm.php
+use Livewire\Attributes\Validate;
+use Livewire\Component;
+
+class ContactForm extends Component
+{
+    #[Validate('required|string|min:2|max:100')]
+    public string $name = '';
+
+    public string $successMessage = '';
+
+    public function submit(): void
+    {
+        $this->successMessage = '';
+        $this->validate();
+
+        // ... business logic
+
+        $this->successMessage = 'Form submitted successfully.';
+        $this->reset('name');
+    }
+}
+```
+
 Key points:
-- `role="alert"` on each individual error triggers an immediate announcement when Livewire re-renders.
-- A global `role="status"` with `aria-live="polite"` announces success without interrupting the user.
-- `wire:model.blur` validates on blur, preventing announcements while the user is typing.
-- `aria-invalid` and `aria-describedby` update reactively on every re-render.
+- `role="alert"` on each individual error makes it announced as soon as Livewire inserts it into the DOM.
+- The `role="status"` region (which already implies `aria-live="polite"`) is always present and visible: it announces success without interrupting, and people who do not use a screen reader see it too.
+- `#[Validate]` together with `wire:model.live.blur` validates each field when you leave it, not while you type.
+- `aria-invalid` and `aria-describedby` only appear when there is an error, and update on every re-render.
+- On submit, the `$wire.submit()` promise resolves once Livewire has updated the DOM; at that point focus moves to the first invalid field. When several `role="alert"` elements appear at once, screen readers do not always announce them all, so focus is the safety net.
 
 ## Applicable WCAG 2.2 Criteria
 
@@ -449,15 +458,16 @@ Key points:
 
 ## Recommended Manual Test
 
-1. With NVDA + Firefox: complete and submit the form with invalid data. The reader must announce each error without the user moving focus.
-2. Verify that when correcting an error and leaving the field, the error announcement disappears.
-3. After a successful submission, check that the confirmation message is automatically announced.
+1. With NVDA + Firefox: type invalid data and leave the field with `Tab`. The reader must announce the error without you returning to the field.
+2. Submit the form with invalid data: focus must move to the first invalid field and the reader must announce it as "invalid" together with its message.
+3. Fix the error and leave the field: the message must disappear and the reader must no longer announce the field as "invalid".
+4. After a successful submission, check that the confirmation message is visible on screen and announced automatically.
 
 ## Conclusion
 
-`role="alert"` on individual errors and `role="status"` on global confirmations are the minimum duo for Livewire to communicate form state to all users. The implementation cost is one CSS class and two ARIA attributes.
+`role="alert"` on individual errors, an always-present `role="status"` region for confirmations, and focus on the first invalid field on submit are enough for a Livewire form to communicate its state to everyone, with no extra packages.
 
-**References:** [WAI-ARIA — Live Regions](https://www.w3.org/TR/wai-aria-1.2/#live_region_roles) · [WCAG 2.2 — 3.3.1](https://www.w3.org/TR/WCAG22/#error-identification) · [Livewire Docs](https://livewire.laravel.com/docs)
+**References:** [WAI-ARIA — Live Regions](https://www.w3.org/TR/wai-aria-1.2/#live_region_roles) · [WCAG 2.2 — 3.3.1](https://www.w3.org/TR/WCAG22/#error-identification) · [Livewire 4 — Validation](https://livewire.laravel.com/docs/4.x/validation)
 MD,
                 ],
             ],
@@ -469,20 +479,18 @@ MD,
                 'es' => [
                     'title' => 'Navegación por teclado en componentes Livewire',
                     'slug' => 'navegacion-teclado-livewire',
-                    'excerpt' => 'Cómo gestionar el foco después de actualizaciones de Livewire, evitar trampas de foco y garantizar la navegación completa por teclado.',
+                    'excerpt' => 'Cómo conservar y mover el foco tras las actualizaciones de Livewire y la navegación con wire:navigate para que nadie que use teclado se pierda.',
                     'content' => <<<'MD'
 ## Por qué el teclado es fundamental
 
-Aproximadamente el 7 % de los usuarios con discapacidad motora navegan la web exclusivamente con teclado. Además, todos los usuarios de lectores de pantalla dependen de él. Un componente Livewire que mueve el foco al lugar incorrecto tras una actualización puede desorientar completamente al usuario.
+Muchas personas navegan solo con teclado o con dispositivos que lo emulan: personas con discapacidad motora, usuarios de lectores de pantalla en escritorio, de conmutadores o de control por voz. Un componente Livewire que pierde el foco tras una actualización, o lo deja en un lugar inesperado, obliga a esas personas a volver a recorrer la página desde el principio.
 
-![Teclado mecánico iluminado sobre un escritorio oscuro](https://picsum.photos/seed/keyboard-a11y/800/450 "Navegación por teclado en interfaces Livewire")
+## El problema: el elemento enfocado desaparece
 
-## El problema: foco perdido tras re-render
-
-Cuando Livewire reemplaza un fragmento del DOM, el navegador pierde el elemento que tenía foco si ese elemento fue destruido o recreado. El usuario queda en un estado indeterminado.
+Livewire compara el HTML nuevo con el actual y solo modifica lo que cambia, así que un elemento que sigue en el DOM conserva el foco. El problema aparece cuando se elimina el propio elemento enfocado, por ejemplo al sustituir un botón por un texto de carga:
 
 ```blade
-{{-- ❌ Problemático: el botón se destruye y recrea en cada render --}}
+{{-- ❌ Problemático: el botón enfocado se elimina mientras carga --}}
 <div>
     @if ($loading)
         <span>Cargando...</span>
@@ -492,47 +500,91 @@ Cuando Livewire reemplaza un fragmento del DOM, el navegador pierde el elemento 
 </div>
 ```
 
-## Solución 1: `wire:key` para preservar identidad de elementos
+Cuando el botón desaparece, el foco vuelve a `<body>`: quien usa teclado regresa al principio de la página y el lector de pantalla no anuncia nada.
+
+## Solución 1: no eliminar el elemento enfocado
+
+Mantén el botón en el DOM y anuncia el estado de carga en una región aparte:
 
 ```blade
-{{-- ✅ wire:key le indica a Livewire que es el mismo elemento --}}
-<button wire:key="load-more-btn" wire:click="loadMore">
+{{-- ✅ El botón permanece; la carga se anuncia sin mover el foco --}}
+<button type="button" wire:click="loadMore">
     Ver más
 </button>
+
+<p role="status" class="sr-only">
+    <span wire:loading wire:target="loadMore">Cargando más resultados…</span>
+</p>
 ```
 
-Con `wire:key`, Livewire actualiza el elemento en lugar de destruirlo y recrearlo, preservando el foco.
+En listas generadas con `@foreach`, añade `wire:key` a cada elemento para que Livewire no confunda unos con otros al insertar o reordenar, y el foco se quede en el elemento correcto.
 
-## Solución 2: gestión explícita del foco con `$this->js()`
+## Solución 2: mover el foco de forma intencionada
 
-Cuando es necesario mover el foco intencionalmente (por ejemplo, al abrir un modal o cargar nuevos resultados), usa `$this->js()` desde el componente PHP:
+Al cargar nuevos resultados, lleva el foco al primero de ellos. La promesa que devuelve una acción de `$wire` se resuelve cuando Livewire ya actualizó el DOM, así que el elemento nuevo ya existe:
 
 ```php
+// app/Livewire/PostList.php
+public int $perPage = 10;
+
+public ?int $firstNewIndex = null;
+
 public function loadMore(): void
 {
-    $this->posts = Post::published()->paginate(10);
+    $this->firstNewIndex = $this->perPage;
+    $this->perPage += 10;
+}
 
-    // Mover el foco al primer nuevo resultado
-    $this->js("
-        const firstNew = document.querySelector('[data-new-result]');
-        firstNew?.focus();
-    ");
+public function render(): View
+{
+    return view('livewire.post-list', [
+        'posts' => Post::latest()->take($this->perPage)->get(),
+    ]);
 }
 ```
 
 ```blade
-@foreach ($posts->slice($previousCount) as $post)
-    <article data-new-result tabindex="-1">
-        <h3>{{ $post->title }}</h3>
-    </article>
-@endforeach
+{{-- resources/views/livewire/post-list.blade.php --}}
+<div>
+    @foreach ($posts as $post)
+        <article
+            wire:key="post-{{ $post->id }}"
+            tabindex="-1"
+            @if ($loop->index === $firstNewIndex) data-first-new @endif
+        >
+            <h3>{{ $post->title }}</h3>
+        </article>
+    @endforeach
+
+    <button
+        type="button"
+        x-on:click="$wire.loadMore().then(() => document.querySelector('[data-first-new]')?.focus())"
+    >
+        Ver más
+    </button>
+</div>
 ```
 
-`tabindex="-1"` permite que el elemento reciba foco por programa sin añadirlo al orden de tabulación natural.
+`tabindex="-1"` permite que el elemento reciba el foco por programa sin añadirlo al orden de tabulación.
 
-## Solución 3: `wire:navigate` y scroll suave
+## Solución 3: foco tras `wire:navigate`
 
-Si usas `wire:navigate` para navegación SPA, Livewire 4 gestiona el foco automáticamente al principio de la nueva página. Asegúrate de que `<main id="main-content">` exista para que el foco aterrice en el lugar correcto.
+Con `wire:navigate` la página cambia sin recarga completa, y el foco puede quedarse en un enlace que ya no existe. Lleva el foco al contenido principal después de cada navegación. El evento `livewire:navigated` también se dispara en la carga inicial, así que solo se mueve el foco cuando antes hubo una navegación:
+
+```js
+// resources/js/app.js
+let navigatedWithLivewire = false;
+
+document.addEventListener('livewire:navigate', () => {
+    navigatedWithLivewire = true;
+});
+
+document.addEventListener('livewire:navigated', () => {
+    if (navigatedWithLivewire) {
+        document.getElementById('main-content')?.focus();
+    }
+});
+```
 
 ```blade
 {{-- En el layout --}}
@@ -546,9 +598,10 @@ Si usas `wire:navigate` para navegación SPA, Livewire 4 gestiona el foco autom�
 | Criterio | Nivel | Qué exige |
 |----------|-------|-----------|
 | 2.1.1 Keyboard | A | Toda funcionalidad debe ser operable por teclado |
-| 2.4.3 Focus Order | A | El orden de foco debe ser lógico y predecible |
+| 2.4.3 Focus Order | A | El orden del foco debe preservar el significado y la operabilidad |
 | 2.4.7 Focus Visible | AA | El indicador de foco debe ser visible |
-| 3.2.2 On Input | A | Cambiar un componente no debe provocar cambios de contexto inesperados |
+| 2.4.11 Focus Not Obscured (Minimum) | AA | El elemento enfocado no puede quedar totalmente tapado por otro contenido |
+| 4.1.3 Status Messages | AA | Mensajes como «Cargando…» deben anunciarse sin mover el foco |
 
 ## Video: compatibilidad con teclado
 
@@ -557,34 +610,33 @@ Si usas `wire:navigate` para navegación SPA, Livewire 4 gestiona el foco autom�
 ## Prueba manual recomendada
 
 1. Abre el componente y navega solo con `Tab`, `Shift+Tab`, `Enter` y `Espacio`.
-2. Activa una acción Livewire (clic en botón, búsqueda, paginación) — verifica que el foco permanece en una posición lógica.
-3. Abre y cierra cualquier modal o panel desplegable — el foco debe volver al elemento que lo abrió.
-4. Zoom al 200 % — los indicadores de foco deben ser visibles y no estar cortados.
+2. Activa una acción Livewire (botón, búsqueda, paginación) — comprueba que el foco no vuelve al principio de la página y que el lector anuncia el cambio.
+3. Pulsa «Ver más» — el foco debe pasar al primer resultado nuevo.
+4. Sigue un enlace con `wire:navigate` — el foco debe quedar en el contenido principal de la nueva página.
+5. Zoom al 200 % — los indicadores de foco deben verse y no quedar tapados por cabeceras fijas.
 
 ## Conclusión
 
-`wire:key` evita la pérdida de foco por recreación innecesaria de elementos. `$this->js()` permite moverlo intencionalmente cuando el flujo lo requiere. Con estas dos herramientas y un `tabindex="-1"` bien colocado, los componentes Livewire son plenamente navegables por teclado.
+No eliminar el elemento enfocado, mover el foco de forma intencionada cuando aparece contenido nuevo y recolocarlo tras cada `wire:navigate` son las tres reglas que mantienen navegables por teclado los componentes Livewire.
 
-**Referencias:** [Livewire 4 — JavaScript](https://livewire.laravel.com/docs/javascript) · [WCAG 2.2 — 2.1.1](https://www.w3.org/TR/WCAG22/#keyboard) · [WAI — Managing Focus](https://www.w3.org/WAI/WCAG22/Techniques/client-side-script/SCR26)
+**Referencias:** [Livewire 4 — Navigate](https://livewire.laravel.com/docs/4.x/navigate) · [Livewire 4 — wire:loading](https://livewire.laravel.com/docs/4.x/wire-loading) · [WCAG 2.2 — 2.4.3](https://www.w3.org/TR/WCAG22/#focus-order) · [WAI — SCR26](https://www.w3.org/WAI/WCAG22/Techniques/client-side-script/SCR26)
 MD,
                 ],
                 'en' => [
                     'title' => 'Keyboard Navigation in Livewire Components',
                     'slug' => 'keyboard-navigation-livewire',
-                    'excerpt' => 'How to manage focus after Livewire updates, avoid focus traps, and ensure complete keyboard navigation.',
+                    'excerpt' => 'How to keep and move focus after Livewire updates and wire:navigate visits so keyboard users never get lost.',
                     'content' => <<<'MD'
 ## Why the Keyboard is Fundamental
 
-Approximately 7% of users with motor disabilities navigate the web exclusively by keyboard. Additionally, all screen reader users depend on it. A Livewire component that moves focus to the wrong place after an update can completely disorient the user.
+Many people navigate using only a keyboard or devices that emulate one: people with motor disabilities, desktop screen reader users, switch users and voice control users. A Livewire component that loses focus after an update, or leaves it somewhere unexpected, forces those people to work through the page again from the top.
 
-![Illuminated mechanical keyboard on a dark desk](https://picsum.photos/seed/keyboard-a11y/800/450 "Keyboard navigation in Livewire interfaces")
+## The Problem: the Focused Element Disappears
 
-## The Problem: Focus Lost After Re-render
-
-When Livewire replaces a DOM fragment, the browser loses the element that had focus if that element was destroyed or recreated. The user is left in an indeterminate state.
+Livewire compares the new HTML with the current one and only changes what differs, so an element that stays in the DOM keeps its focus. The problem appears when the focused element itself is removed, for example when a button is swapped for a loading text:
 
 ```blade
-{{-- ❌ Problematic: the button is destroyed and recreated on every render --}}
+{{-- ❌ Problematic: the focused button is removed while loading --}}
 <div>
     @if ($loading)
         <span>Loading...</span>
@@ -594,47 +646,91 @@ When Livewire replaces a DOM fragment, the browser loses the element that had fo
 </div>
 ```
 
-## Solution 1: `wire:key` to Preserve Element Identity
+When the button disappears, focus falls back to `<body>`: keyboard users are sent back to the top of the page and the screen reader announces nothing.
+
+## Solution 1: Do Not Remove the Focused Element
+
+Keep the button in the DOM and announce the loading state in a separate region:
 
 ```blade
-{{-- ✅ wire:key tells Livewire it's the same element --}}
-<button wire:key="load-more-btn" wire:click="loadMore">
+{{-- ✅ The button stays; loading is announced without moving focus --}}
+<button type="button" wire:click="loadMore">
     Load more
 </button>
+
+<p role="status" class="sr-only">
+    <span wire:loading wire:target="loadMore">Loading more results…</span>
+</p>
 ```
 
-With `wire:key`, Livewire updates the element instead of destroying and recreating it, preserving focus.
+In lists rendered with `@foreach`, add `wire:key` to each item so Livewire does not mix them up when inserting or reordering, and focus stays on the right element.
 
-## Solution 2: Explicit Focus Management with `$this->js()`
+## Solution 2: Move Focus Intentionally
 
-When it is necessary to intentionally move focus (for example, when opening a modal or loading new results), use `$this->js()` from the PHP component:
+When new results load, move focus to the first one. The promise returned by a `$wire` action resolves once Livewire has updated the DOM, so the new element already exists:
 
 ```php
+// app/Livewire/PostList.php
+public int $perPage = 10;
+
+public ?int $firstNewIndex = null;
+
 public function loadMore(): void
 {
-    $this->posts = Post::published()->paginate(10);
+    $this->firstNewIndex = $this->perPage;
+    $this->perPage += 10;
+}
 
-    // Move focus to the first new result
-    $this->js("
-        const firstNew = document.querySelector('[data-new-result]');
-        firstNew?.focus();
-    ");
+public function render(): View
+{
+    return view('livewire.post-list', [
+        'posts' => Post::latest()->take($this->perPage)->get(),
+    ]);
 }
 ```
 
 ```blade
-@foreach ($posts->slice($previousCount) as $post)
-    <article data-new-result tabindex="-1">
-        <h3>{{ $post->title }}</h3>
-    </article>
-@endforeach
+{{-- resources/views/livewire/post-list.blade.php --}}
+<div>
+    @foreach ($posts as $post)
+        <article
+            wire:key="post-{{ $post->id }}"
+            tabindex="-1"
+            @if ($loop->index === $firstNewIndex) data-first-new @endif
+        >
+            <h3>{{ $post->title }}</h3>
+        </article>
+    @endforeach
+
+    <button
+        type="button"
+        x-on:click="$wire.loadMore().then(() => document.querySelector('[data-first-new]')?.focus())"
+    >
+        Load more
+    </button>
+</div>
 ```
 
-`tabindex="-1"` allows the element to receive focus programmatically without adding it to the natural tab order.
+`tabindex="-1"` lets the element receive focus programmatically without adding it to the tab order.
 
-## Solution 3: `wire:navigate` and Smooth Scroll
+## Solution 3: Focus After `wire:navigate`
 
-If you use `wire:navigate` for SPA navigation, Livewire 4 automatically manages focus at the top of the new page. Make sure `<main id="main-content">` exists so focus lands in the right place.
+With `wire:navigate` the page changes without a full reload, and focus can be left on a link that no longer exists. Move focus to the main content after each navigation. The `livewire:navigated` event also fires on the initial page load, so focus only moves when a navigation happened first:
+
+```js
+// resources/js/app.js
+let navigatedWithLivewire = false;
+
+document.addEventListener('livewire:navigate', () => {
+    navigatedWithLivewire = true;
+});
+
+document.addEventListener('livewire:navigated', () => {
+    if (navigatedWithLivewire) {
+        document.getElementById('main-content')?.focus();
+    }
+});
+```
 
 ```blade
 {{-- In the layout --}}
@@ -648,9 +744,10 @@ If you use `wire:navigate` for SPA navigation, Livewire 4 automatically manages 
 | Criterion | Level | What it requires |
 |-----------|-------|-----------------|
 | 2.1.1 Keyboard | A | All functionality must be operable by keyboard |
-| 2.4.3 Focus Order | A | Focus order must be logical and predictable |
+| 2.4.3 Focus Order | A | Focus order must preserve meaning and operability |
 | 2.4.7 Focus Visible | AA | Focus indicator must be visible |
-| 3.2.2 On Input | A | Changing a component must not cause unexpected context changes |
+| 2.4.11 Focus Not Obscured (Minimum) | AA | The focused element must not be entirely hidden by other content |
+| 4.1.3 Status Messages | AA | Messages such as "Loading…" must be announced without moving focus |
 
 ## Video: Keyboard Compatibility
 
@@ -659,15 +756,16 @@ If you use `wire:navigate` for SPA navigation, Livewire 4 automatically manages 
 ## Recommended Manual Test
 
 1. Open the component and navigate using only `Tab`, `Shift+Tab`, `Enter`, and `Space`.
-2. Trigger a Livewire action (button click, search, pagination) — verify that focus stays in a logical position.
-3. Open and close any modal or collapsible panel — focus must return to the element that opened it.
-4. Zoom to 200% — focus indicators must be visible and not clipped.
+2. Trigger a Livewire action (button, search, pagination) — check that focus does not jump back to the top of the page and that the reader announces the change.
+3. Press "Load more" — focus must move to the first new result.
+4. Follow a `wire:navigate` link — focus must land on the main content of the new page.
+5. Zoom to 200% — focus indicators must be visible and not hidden behind sticky headers.
 
 ## Conclusion
 
-`wire:key` prevents focus loss from unnecessary element recreation. `$this->js()` allows intentional focus movement when the flow requires it. With these two tools and a well-placed `tabindex="-1"`, Livewire components are fully navigable by keyboard.
+Not removing the focused element, moving focus intentionally when new content appears, and placing it again after each `wire:navigate` are the three rules that keep Livewire components keyboard navigable.
 
-**References:** [Livewire 4 — JavaScript](https://livewire.laravel.com/docs/javascript) · [WCAG 2.2 — 2.1.1](https://www.w3.org/TR/WCAG22/#keyboard) · [WAI — Managing Focus](https://www.w3.org/WAI/WCAG22/Techniques/client-side-script/SCR26)
+**References:** [Livewire 4 — Navigate](https://livewire.laravel.com/docs/4.x/navigate) · [Livewire 4 — wire:loading](https://livewire.laravel.com/docs/4.x/wire-loading) · [WCAG 2.2 — 2.4.3](https://www.w3.org/TR/WCAG22/#focus-order) · [WAI — SCR26](https://www.w3.org/WAI/WCAG22/Techniques/client-side-script/SCR26)
 MD,
                 ],
             ],
@@ -683,9 +781,7 @@ MD,
                     'content' => <<<'MD'
 ## Por qué necesitas pruebas automáticas de accesibilidad
 
-Las auditorías manuales son imprescindibles pero lentas y difícilmente escalables. axe-core puede detectar automáticamente entre el 30 % y el 40 % de los problemas de accesibilidad —los más mecánicos y repetibles— dejándote tiempo para las comprobaciones que requieren criterio humano.
-
-![Pantalla con código de pruebas y resultados de accesibilidad en terminal](https://picsum.photos/seed/testing-a11y/800/450 "Pruebas automatizadas de accesibilidad con axe-core")
+Las auditorías manuales son imprescindibles, pero lentas y difíciles de escalar. axe-core detecta de forma automática los problemas más mecánicos y repetibles —contraste, nombres accesibles, atributos ARIA no válidos— y te deja tiempo para las comprobaciones que requieren criterio humano.
 
 ## Instalación
 
@@ -693,7 +789,7 @@ Las auditorías manuales son imprescindibles pero lentas y difícilmente escalab
 npm install --save-dev @axe-core/playwright
 ```
 
-Verifica que tu `playwright.config.js` apunte a la URL correcta del entorno de pruebas:
+Configura `playwright.config.js` para que apunte a tu sitio local y, en CI, levante el servidor de Laravel por sí mismo:
 
 ```js
 // playwright.config.js
@@ -702,9 +798,12 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
     testDir: './tests/e2e',
     use: {
-        baseURL: 'https://laravel-accesible.test',
+        baseURL: process.env.BASE_URL ?? 'https://laravel-accesible.test',
         ignoreHTTPSErrors: true,
     },
+    webServer: process.env.CI
+        ? { command: 'php artisan serve --port=8000', url: 'http://127.0.0.1:8000' }
+        : undefined,
 });
 ```
 
@@ -720,8 +819,8 @@ test.describe('Portada — WCAG 2.2 AA', () => {
         await page.goto('/es');
 
         const results = await new AxeBuilder({ page })
-            .withTags(['wcag2a', 'wcag2aa', 'wcag22aa'])
-            .exclude('#herd-ai-host')   // excluir herramientas de desarrollo
+            .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+            .exclude('#herd-ai-host')   // distintivo de Laravel Herd, solo en desarrollo
             .analyze();
 
         expect(results.violations).toEqual([]);
@@ -729,8 +828,8 @@ test.describe('Portada — WCAG 2.2 AA', () => {
 });
 ```
 
-`.withTags()` limita el análisis a los criterios WCAG que te interesan.
-`.exclude()` descarta elementos fuera de tu control (badges de desarrollo, chatbots de terceros).
+`.withTags()` limita el análisis a las reglas de los niveles A y AA. axe etiqueta cada regla con la versión de WCAG que la introdujo: si solo pides `wcag2a` y `wcag2aa`, quedan fuera las reglas de WCAG 2.1 (por ejemplo, `autocomplete-valid`), así que incluye las cinco etiquetas.
+`.exclude()` descarta elementos fuera de tu control (distintivos de desarrollo, widgets de terceros).
 
 ## Interpretar los resultados
 
@@ -763,7 +862,7 @@ Organiza los tests por área funcional, no por componente. Así un test fallido 
 ## Lo que axe NO detecta
 
 axe detecta violaciones estructurales y de contraste, pero no puede evaluar:
-- Si el texto alternativo de una imagen es descriptivo y correcto.
+- Si el texto alternativo de una imagen es descriptivo y correcto (solo comprueba que exista).
 - Si el orden de lectura tiene sentido semántico.
 - Si la navegación por teclado es lógica e intuitiva.
 - Errores que dependen de contenido dinámico no renderizado en el momento del análisis.
@@ -772,26 +871,39 @@ axe detecta violaciones estructurales y de contraste, pero no puede evaluar:
 
 ## Criterios WCAG 2.2 cubiertos por axe
 
-axe cubre automáticamente criterios como: contraste de color (1.4.3, 1.4.11), etiquetas de formulario (1.3.1, 3.3.2), texto alternativo (1.1.1), estructura de encabezados (1.3.1), landmarks (1.3.6), atributos ARIA válidos (4.1.2) y varios más.
-
-## Video: Notificaciones y retroalimentación accesibles
-
-![W3C WAI Perspectives: Notifications and Feedback](https://www.youtube.com/watch?v=spxT2CmHoPk)
+axe comprueba automáticamente, entre otros: contraste de texto (1.4.3), presencia de texto alternativo (1.1.1), etiquetas de formulario y nombres accesibles (4.1.2), idioma de la página (3.1.1), propósito de los campos con `autocomplete` (1.3.5), tamaño de los objetivos (2.5.8, con la etiqueta `wcag22aa`) y atributos ARIA válidos (4.1.2). Las reglas sobre orden de encabezados y landmarks son buenas prácticas de axe (etiqueta `best-practice`), no criterios WCAG, y no se ejecutan con las etiquetas anteriores.
 
 ## Integración en CI/CD
 
-Para ejecutar los tests en GitHub Actions, añade un job que levante el servidor, ejecute las migraciones y lance Playwright:
+En GitHub Actions, prepara Laravel, compila los assets, instala el navegador y lanza Playwright. Con la configuración anterior, Playwright levanta `php artisan serve` por sí mismo:
 
 ```yaml
-- name: Run Playwright accessibility tests
+- name: Preparar Laravel
+  run: |
+    cp .env.example .env
+    php artisan key:generate
+    php artisan migrate --seed --force
+- name: Compilar assets
+  run: npm ci && npm run build
+- name: Instalar Chromium
+  run: npx playwright install --with-deps chromium
+- name: Pruebas de accesibilidad
   run: npx playwright test tests/e2e/a11y/
+  env:
+    BASE_URL: http://127.0.0.1:8000
+- name: Guardar el reporte
+  if: failure()
+  uses: actions/upload-artifact@v4
+  with:
+    name: playwright-report
+    path: playwright-report/
 ```
 
-Guarda el reporte HTML (`playwright-report/`) como artefacto para inspeccionar las violaciones visualmente.
+Ajusta la base de datos de `.env` a la que use tu CI (por ejemplo, SQLite). El reporte HTML guardado como artefacto permite revisar cada violación con su selector y su HTML.
 
 ## Conclusión
 
-Instalar `@axe-core/playwright`, añadir `.withTags(['wcag2a', 'wcag2aa', 'wcag22aa'])` y ejecutar los tests en cada PR es el paso mínimo para prevenir regresiones de accesibilidad. Combínalo con revisiones manuales periódicas para cubrir lo que ninguna herramienta puede detectar.
+Instalar `@axe-core/playwright`, usar `.withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])` y ejecutar las pruebas en cada PR es el paso mínimo para prevenir regresiones de accesibilidad. Combínalo con revisiones manuales periódicas para cubrir lo que ninguna herramienta puede detectar.
 
 **Referencias:** [axe-core en GitHub](https://github.com/dequelabs/axe-core) · [@axe-core/playwright](https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright) · [Playwright Docs](https://playwright.dev/docs/accessibility-testing)
 MD,
@@ -803,9 +915,7 @@ MD,
                     'content' => <<<'MD'
 ## Why You Need Automated Accessibility Tests
 
-Manual audits are indispensable but slow and hard to scale. axe-core can automatically detect between 30% and 40% of accessibility issues — the most mechanical and repeatable ones — leaving you time for checks that require human judgment.
-
-![Screen with test code and accessibility results in terminal](https://picsum.photos/seed/testing-a11y/800/450 "Automated accessibility testing with axe-core")
+Manual audits are indispensable, but slow and hard to scale. axe-core automatically detects the most mechanical and repeatable issues — contrast, accessible names, invalid ARIA attributes — leaving you time for the checks that require human judgment.
 
 ## Installation
 
@@ -813,7 +923,7 @@ Manual audits are indispensable but slow and hard to scale. axe-core can automat
 npm install --save-dev @axe-core/playwright
 ```
 
-Verify that your `playwright.config.js` points to the correct test environment URL:
+Configure `playwright.config.js` to point to your local site and, in CI, to start the Laravel server by itself:
 
 ```js
 // playwright.config.js
@@ -822,9 +932,12 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
     testDir: './tests/e2e',
     use: {
-        baseURL: 'https://laravel-accesible.test',
+        baseURL: process.env.BASE_URL ?? 'https://laravel-accesible.test',
         ignoreHTTPSErrors: true,
     },
+    webServer: process.env.CI
+        ? { command: 'php artisan serve --port=8000', url: 'http://127.0.0.1:8000' }
+        : undefined,
 });
 ```
 
@@ -840,8 +953,8 @@ test.describe('Homepage — WCAG 2.2 AA', () => {
         await page.goto('/en');
 
         const results = await new AxeBuilder({ page })
-            .withTags(['wcag2a', 'wcag2aa', 'wcag22aa'])
-            .exclude('#herd-ai-host')   // exclude dev tools
+            .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+            .exclude('#herd-ai-host')   // Laravel Herd badge, development only
             .analyze();
 
         expect(results.violations).toEqual([]);
@@ -849,8 +962,8 @@ test.describe('Homepage — WCAG 2.2 AA', () => {
 });
 ```
 
-`.withTags()` limits analysis to the WCAG criteria you care about.
-`.exclude()` discards elements outside your control (dev badges, third-party chatbots).
+`.withTags()` limits analysis to Level A and AA rules. axe tags each rule with the WCAG version that introduced it: if you only ask for `wcag2a` and `wcag2aa`, WCAG 2.1 rules (such as `autocomplete-valid`) are left out, so include all five tags.
+`.exclude()` discards elements outside your control (development badges, third-party widgets).
 
 ## Interpreting the Results
 
@@ -883,7 +996,7 @@ Organize tests by functional area, not by component. That way a failing test dir
 ## What axe Does NOT Detect
 
 axe detects structural and contrast violations, but cannot evaluate:
-- Whether the alternative text of an image is descriptive and accurate.
+- Whether the alternative text of an image is descriptive and accurate (it only checks that it exists).
 - Whether the reading order makes semantic sense.
 - Whether keyboard navigation is logical and intuitive.
 - Errors that depend on dynamic content not rendered at analysis time.
@@ -892,26 +1005,39 @@ axe detects structural and contrast violations, but cannot evaluate:
 
 ## WCAG 2.2 Criteria Covered by axe
 
-axe automatically covers criteria such as: color contrast (1.4.3, 1.4.11), form labels (1.3.1, 3.3.2), alternative text (1.1.1), heading structure (1.3.1), landmarks (1.3.6), valid ARIA attributes (4.1.2), and several more.
-
-## Video: Accessible Notifications and Feedback
-
-![W3C WAI Perspectives: Notifications and Feedback](https://www.youtube.com/watch?v=spxT2CmHoPk)
+axe automatically checks, among others: text contrast (1.4.3), presence of alternative text (1.1.1), form labels and accessible names (4.1.2), page language (3.1.1), input purpose with `autocomplete` (1.3.5), target size (2.5.8, with the `wcag22aa` tag), and valid ARIA attributes (4.1.2). The heading order and landmark rules are axe best practices (`best-practice` tag), not WCAG criteria, and do not run with the tags above.
 
 ## CI/CD Integration
 
-To run tests in GitHub Actions, add a job that starts the server, runs migrations, and launches Playwright:
+In GitHub Actions, prepare Laravel, build the assets, install the browser and run Playwright. With the configuration above, Playwright starts `php artisan serve` by itself:
 
 ```yaml
-- name: Run Playwright accessibility tests
+- name: Prepare Laravel
+  run: |
+    cp .env.example .env
+    php artisan key:generate
+    php artisan migrate --seed --force
+- name: Build assets
+  run: npm ci && npm run build
+- name: Install Chromium
+  run: npx playwright install --with-deps chromium
+- name: Accessibility tests
   run: npx playwright test tests/e2e/a11y/
+  env:
+    BASE_URL: http://127.0.0.1:8000
+- name: Save the report
+  if: failure()
+  uses: actions/upload-artifact@v4
+  with:
+    name: playwright-report
+    path: playwright-report/
 ```
 
-Save the HTML report (`playwright-report/`) as an artifact to visually inspect violations.
+Point the database in `.env` to the one your CI uses (for example, SQLite). The HTML report saved as an artifact lets you review each violation with its selector and HTML.
 
 ## Conclusion
 
-Installing `@axe-core/playwright`, adding `.withTags(['wcag2a', 'wcag2aa', 'wcag22aa'])`, and running tests on every PR is the minimum step to prevent accessibility regressions. Combine it with periodic manual reviews to cover what no tool can detect.
+Installing `@axe-core/playwright`, using `.withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])`, and running the tests on every PR is the minimum step to prevent accessibility regressions. Combine it with periodic manual reviews to cover what no tool can detect.
 
 **References:** [axe-core on GitHub](https://github.com/dequelabs/axe-core) · [@axe-core/playwright](https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright) · [Playwright Docs](https://playwright.dev/docs/accessibility-testing)
 MD,
