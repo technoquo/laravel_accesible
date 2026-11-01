@@ -16,7 +16,7 @@
 | 6 | SEO y rendimiento | `feature/fase-06-seo-rendimiento` | Completada | PR #8 mergeado | Canonical, OG, hreflang, sitemap, robots.txt, caché, 120/120 tests |
 | 7 | Auditoría WCAG 2.2 AA | `feature/fase-07-accesibilidad` | Completada | PR #9 mergeado | 8 hallazgos corregidos, 21 tests axe verdes, pruebas manuales responsabilidad del propietario |
 | 8 | Seguridad y preparación de producción | `chore/fase-08-seguridad-produccion` | Completada | PR #10 mergeado | SecurityHeaders middleware, HTTPS forzado en prod, .env.example actualizado |
-| 9 | Contenido y lanzamiento | `docs/fase-09-lanzamiento` | En curso | PR #11 mergeado (borradores) | 4 artículos revisados, release v1.0 documentada; falta autorización del propietario |
+| 9 | Contenido y lanzamiento | `docs/fase-09-lanzamiento` | Completada | PR #11 y PR #25 mergeados | 4 artículos revisados, release v1.0 autorizada (2026-11-01); despliegue pendiente |
 
 ---
 
@@ -265,7 +265,7 @@
 ---
 
 ### Fase 9 — Contenido y lanzamiento
-- **Estado:** En curso — release v1.0 preparada, pendiente de autorización del propietario
+- **Estado:** Completada — release v1.0 autorizada por el propietario (2026-11-01)
 - **Ramas:** `docs/fase-09-contenido-lanzamiento` (borradores), `docs/fase-09-lanzamiento` (revisión y release)
 - **Criterios de aceptación:**
   - [x] Artículo 1 (borrador ES+EN): Formularios Blade accesibles
@@ -276,15 +276,15 @@
   - [x] SEO y accesibilidad de artículos verificados (axe sin violaciones en claro y oscuro; enlaces de referencia comprobados)
   - [x] Licencia de imágenes: se retiraron las imágenes de picsum.photos (alt que no describía la foto); los artículos no llevan imágenes
   - [x] Release v1.0 documentado en `docs/RELEASE_NOTES.md`
-  - [ ] Autorización del propietario antes de publicar
+  - [x] Autorización del propietario antes de publicar (2026-11-01; el despliegue a producción se autoriza aparte, ver `docs/DEPLOYMENT.md`)
 - **Notas:**
   - `PostSeeder` crea los 4 artículos como borrador (`PostStatus::Draft`) y, si ya existen, actualiza sus traducciones sin cambiar el estado; en la base de datos local figuran como publicados
   - Vídeos de W3C WAI verificados por oEmbed; se retiró el del artículo 4 (no era de W3C ni trataba el tema)
 - **Commits:**
   - `docs: seed 4 bilingual draft articles with image and video embeds`
   - `docs: prepare bilingual launch content`
-- **PR:** #11 (borradores); revisión y release pendiente de PR
-- **Merge por propietario:** 2026-10-26 (borradores); lanzamiento pendiente
+- **PR:** #11 (borradores), #25 (revisión y release)
+- **Merge por propietario:** 2026-10-26 (borradores), 2026-11-01 (revisión y release)
 
 ---
 
@@ -407,7 +407,7 @@
 ## Mejora — Guía WCAG 2.2 para Laravel
 
 - **Rama:** `feature/guia-wcag`
-- **Estado:** En revisión — pendiente PR
+- **Estado:** Completada — PR #26 mergeado
 - **Alcance:**
   - [x] Índice bilingüe de los 55 criterios A y AA (`/es/guia-wcag`, `/en/wcag-guide`) agrupado por principio y pauta, con filtros por nivel, principio y fichas disponibles
   - [x] 15 fichas ES/EN con ejemplos Blade/Livewire, pruebas manuales y automáticas y recursos verificados
@@ -415,6 +415,7 @@
   - [x] Enlace "Guía WCAG" en el menú principal (con `aria-current`) y en el footer; índice y fichas en `sitemap.xml` con canonical y hreflang
   - [x] Pest: `WcagGuideTest.php` (29 tests); suite completa 182/182
   - [x] Playwright: axe en índice, índice filtrado y fichas ES/EN (claro y `chromium-dark`) y sin scroll horizontal a 320 CSS px
+- **PR:** #26
 - **Pendiente:** fichas de los 40 criterios restantes, que se añadirán junto con nuevos artículos
 
 ---
@@ -442,3 +443,6 @@
 | 2026-10-28 | Corrección — Auditoría axe del detalle de artículo | PR #21 | Propietario |
 | 2026-10-28 | Mejora — Página de contacto | PR #22 | Propietario |
 | 2026-10-28 | Mejora — Foto del autor en Acerca de | PR #23 | Propietario |
+| 2026-11-01 | Documentación — Sincronizar registro de progreso | PR #24 | Propietario |
+| 2026-11-01 | 9 — Revisión de contenido y release v1.0 | PR #25 | Propietario |
+| 2026-11-01 | Mejora — Guía WCAG 2.2 para Laravel | PR #26 | Propietario |
