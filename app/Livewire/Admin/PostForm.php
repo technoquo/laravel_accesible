@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use App\PostStatus;
 use App\Services\MarkdownService;
+use App\Services\WcagGuide;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -31,6 +32,9 @@ class PostForm extends Component
     public string $publishedAt = '';
 
     public array $tagIds = [];
+
+    /** @var list<string> */
+    public array $wcagCriteria = [];
 
     // Spanish translation
     public string $titleEs = '';
@@ -66,6 +70,7 @@ class PostForm extends Component
             $this->status = $post->status->value;
             $this->publishedAt = $post->published_at?->format('Y-m-d\TH:i') ?? '';
             $this->tagIds = $post->tags->pluck('id')->toArray();
+            $this->wcagCriteria = $post->wcag_criteria ?? [];
 
             $post->loadMissing('translations');
 
@@ -122,6 +127,17 @@ class PostForm extends Component
         return Tag::with('translations')->orderBy('id')->get();
     }
 
+    /**
+     * @return array<string, array<string, array<string, array<string, mixed>>>>
+     */
+    #[Computed]
+    public function wcagCriteriaByPrinciple(): array
+    {
+        $guide = app(WcagGuide::class);
+
+        return $guide->groupByPrinciple($guide->all());
+    }
+
     public function save(): void
     {
         $this->validate($this->validationRules());
@@ -133,6 +149,7 @@ class PostForm extends Component
         $post->published_at = $this->status === PostStatus::Published->value
             ? ($this->publishedAt ? Carbon::parse($this->publishedAt) : now())
             : null;
+        $post->wcag_criteria = array_values(array_intersect(array_keys(config('wcag.criteria')), $this->wcagCriteria)) ?: null;
         $post->save();
 
         foreach (['es', 'en'] as $locale) {
@@ -190,6 +207,8 @@ class PostForm extends Component
             'publishedAt' => ['nullable', 'date'],
             'tagIds' => ['array'],
             'tagIds.*' => ['integer', 'exists:tags,id'],
+            'wcagCriteria' => ['array'],
+            'wcagCriteria.*' => ['string', Rule::in(array_keys(config('wcag.criteria')))],
         ];
     }
 

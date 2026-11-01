@@ -404,6 +404,21 @@
 
 ---
 
+## Mejora — Guía WCAG 2.2 para Laravel
+
+- **Rama:** `feature/guia-wcag`
+- **Estado:** En revisión — pendiente PR
+- **Alcance:**
+  - [x] Índice bilingüe de los 55 criterios A y AA (`/es/guia-wcag`, `/en/wcag-guide`) agrupado por principio y pauta, con filtros por nivel, principio y fichas disponibles
+  - [x] 15 fichas ES/EN con ejemplos Blade/Livewire, pruebas manuales y automáticas y recursos verificados
+  - [x] Relación artículo ↔ criterios (`posts.wcag_criteria`), editable en el panel; enlaces en el artículo y artículos relacionados en la ficha; criterios asignados a los 4 artículos existentes en `PostSeeder`
+  - [x] Enlace "Guía WCAG" en el menú principal (con `aria-current`) y en el footer; índice y fichas en `sitemap.xml` con canonical y hreflang
+  - [x] Pest: `WcagGuideTest.php` (29 tests); suite completa 182/182
+  - [x] Playwright: axe en índice, índice filtrado y fichas ES/EN (claro y `chromium-dark`) y sin scroll horizontal a 320 CSS px
+- **Pendiente:** fichas de los 40 criterios restantes, que se añadirán junto con nuevos artículos
+
+---
+
 ## Registro de merges en main
 
 | Fecha | Fase | PR | Merged por |

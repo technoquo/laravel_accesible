@@ -233,6 +233,17 @@ Indicar rama activa, commits, archivos modificados, resultados de pruebas, compr
 - Registrar la decisión de marca (inline SVG, alt/nombre accesible, favicon) en `docs/DECISIONS.md` y la mejora en `docs/PROGRESS.md`.
 - Commit: `feat: add Laravel Accesible logo and site icons`.
 
+### Mejora — Guía WCAG 2.2 para Laravel
+- **Rama:** `feature/guia-wcag` (desde `main` actualizado, según el protocolo Git).
+- **Objetivo:** sección de ayuda con los 55 criterios A y AA de WCAG 2.2, fichas prácticas para Blade y Livewire y relación con los artículos, para que la guía crezca con cada artículo nuevo.
+- **Datos:** metadatos en `config/wcag.php` (nivel, slug de "Understanding" de W3C, reglas de axe, `has_guide`); nombres y resúmenes propios en `lang/{es,en}/wcag.php` con claves `2-4-3` (los puntos se interpretarían como claves anidadas); fichas Markdown en `resources/wcag/{es,en}/2-4-3.md`, renderizadas con `MarkdownService` y cacheadas por fecha de modificación (`App\Services\WcagGuide`).
+- **Rutas:** `/es/guia-wcag` y `/en/wcag-guide` (`*.wcag.index`) con filtros GET `level`, `principle` y `guides`; fichas en `/es/guia-wcag/{2-4-3}` y `/en/wcag-guide/{2-4-3}` (`*.wcag.show`), 404 si el criterio no existe o no tiene ficha.
+- **Relación con artículos:** columna JSON `posts.wcag_criteria`, editable en el panel (casillas agrupadas por principio). El artículo enlaza sus criterios (ficha o W3C) y la ficha lista los artículos publicados relacionados.
+- **Primeras fichas (15):** 1.1.1, 1.3.1, 1.4.3, 1.4.10, 2.1.1, 2.4.3, 2.4.7, 2.4.11, 2.5.8, 3.1.1, 3.1.2, 3.3.1, 3.3.2, 4.1.2, 4.1.3. Para añadir una ficha: escribir `resources/wcag/{es,en}/X-Y-Z.md` con las secciones fijas (Qué exige · Por qué importa · Cómo cumplirlo en Laravel · Errores frecuentes · Cómo probarlo · Recursos) y poner `has_guide => true`.
+- **Calidad del contenido:** contrastar con "Understanding WCAG 2.2", ejemplos de Livewire 4 según su documentación, IDs de axe comprobados con `axe.getRules()`, sin estadísticas sin fuente, enlaces verificados.
+- **Tests:** `tests/Feature/WcagGuideTest.php` (datos, filtros, 404, SEO, sitemap, navegación, relación con artículos y panel) y auditorías axe y reflow de la guía en `tests/e2e/a11y/public.spec.js`.
+- Commit: `feat: add bilingual WCAG 2.2 guide for Laravel`.
+
 ## Definition of Done global
 - Tests PHP verdes, build frontend verde, Pint sin diferencias, pruebas E2E esenciales verdes.
 - No exposición de borradores, sin XSS conocido, permisos verificados.
