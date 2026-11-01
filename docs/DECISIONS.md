@@ -1,7 +1,7 @@
 # Decisiones de arquitectura y tecnología
 
 > Proyecto: Laravel Accesible
-> Última actualización: 2026-10-26
+> Última actualización: 2026-11-01
 
 Este documento registra las decisiones técnicas relevantes, el contexto que las motivó y las alternativas descartadas. Se actualiza al final de cada fase.
 
@@ -158,6 +158,16 @@ Este documento registra las decisiones técnicas relevantes, el contexto que las
   - Nombre del enlace a portada: "Laravel Accesible, Inicio/Home" con la marca en `lang="es"` en ambos idiomas, porque el logotipo dice "Laravel Accesible" (WCAG 2.5.3). El logotipo es texto en imagen permitido (excepción de 1.4.5).
   - Favicons generados una vez desde el símbolo con Playwright (ya instalado), sin nuevas dependencias; `favicon.svg` cambia de variante con `prefers-color-scheme`.
 - **Consecuencias:** Si cambia el logo, hay que sustituir los SVG de `resources/svg/` y regenerar `favicon.ico`, `apple-touch-icon.png` y `public/favicon.svg`.
+
+### DEC-013 — Artículos sin imágenes de relleno
+
+- **Fecha:** 2026-11-01
+- **Rama:** `docs/fase-09-lanzamiento`
+- **Estado:** Aceptada
+- **Contexto:** Los artículos de lanzamiento usaban `picsum.photos/seed/...`, que sirve fotos aleatorias de Unsplash (paisajes). Su texto alternativo describía portátiles y teclados que no aparecían (falla WCAG 1.1.1) y dependían de un servicio externo.
+- **Decisión:** Retirar las imágenes. Un artículo solo lleva imagen si es propia o con licencia verificada y su `alt` describe lo que muestra. Los vídeos se verifican por oEmbed (ID, título y autor) antes de publicarse.
+- **Alternativas descartadas:** Capturas generadas para cada artículo (aplazado; el propietario puede añadir imágenes propias desde el panel).
+- **Consecuencias:** Artículos más ligeros y sin peticiones a terceros salvo los vídeos de YouTube.
 
 ---
 
