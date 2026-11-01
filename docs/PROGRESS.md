@@ -1,7 +1,7 @@
 # Progreso del proyecto — Laravel Accesible
 
 > Fecha de inicio: 2026-10-26
-> Última actualización: 2026-10-28
+> Última actualización: 2026-11-01
 
 ## Estado general
 
@@ -23,7 +23,7 @@
 ## Detalle por fase
 
 ### Fase 0 — Auditoría del entorno y planificación
-- **Estado:** En curso — rama creada, pendiente push y PR
+- **Estado:** Completada — PR #1 mergeado
 - **Rama:** `chore/fase-00-auditoria`
 - **Criterios de aceptación:**
   - [✓] Verificar versiones: PHP 8.5.12, Composer 2.10.3, Node 24.13.0, npm 11.17.0, Git 2.51.0
@@ -38,14 +38,17 @@
   - R3 (Baja): APP_URL apunta a localhost:8000; ajustar al dominio Herd en Fase 1
   - R4 (Baja): Xdebug activo en local; desactivar en producción (Fase 8)
   - R5 (Baja): Editor Markdown y hosting pendientes de decidir (Fases 4 y 8)
-- **Commits:** `docs: add project documentation and phase tracking`
-- **PR:** Pendiente push autorizado
-- **Merge por propietario:** Pendiente
+- **Commits:**
+  - `docs: add project documentation and phase tracking`
+  - `chore: ignore .claude/settings.local.json`
+  - `chore: untrack .claude/settings.local.json`
+- **PR:** PR #1
+- **Merge por propietario:** 2026-10-26
 
 ---
 
 ### Fase 1 — Bootstrap de Laravel
-- **Estado:** En curso — implementada, pendiente push y PR
+- **Estado:** Completada — PR #2 mergeado
 - **Rama:** `feature/fase-01-bootstrap`
 - **Criterios de aceptación:**
   - [✓] Laravel 13.38.0 instalado (commit inicial)
@@ -62,13 +65,13 @@
   - `.env` corregido: espacios en variables DB_ eliminados, APP_LOCALE=es
   - `phpunit.xml` ya usa SQLite en memoria para tests (aislamiento correcto)
 - **Commits:** `chore: bootstrap laravel accesible`
-- **PR:** Pendiente push autorizado
-- **Merge por propietario:** Pendiente
+- **PR:** PR #2
+- **Merge por propietario:** 2026-10-26
 
 ---
 
 ### Fase 2 — Internacionalización y layout accesible
-- **Estado:** En curso — implementada, pendiente push y PR
+- **Estado:** Completada — PR #3 mergeado
 - **Rama:** `feature/fase-02-internacionalizacion`
 - **Criterios de aceptación:**
   - [✓] Middleware `SetLocale` con validación estricta (solo `es`/`en`, abort 404 si inválido)
@@ -84,13 +87,13 @@
   - Locale activo en selector → `<span aria-current="page">`, no `<a>` (evita enlace a la página actual)
   - Archivos de traducción: `lang/es/ui.php`, `lang/en/ui.php`
 - **Commits:** `feat: add bilingual accessible shell`
-- **PR:** Pendiente push autorizado
-- **Merge por propietario:** Pendiente
+- **PR:** PR #3
+- **Merge por propietario:** 2026-10-26
 
 ---
 
 ### Fase 3 — Datos y modelos Eloquent
-- **Estado:** En curso — implementada, pendiente push y PR
+- **Estado:** Completada — PR #4 mergeado
 - **Rama:** `feature/fase-03-datos-modelos`
 - **Criterios de aceptación:**
   - [✓] Migración `users` (columna `is_admin` boolean)
@@ -109,14 +112,14 @@
   - `author_id` usa `restrictOnDelete` para evitar borrado accidental de autores con posts
   - `category_id` nullable con `nullOnDelete`
   - Índice `(locale, post_id)` en `post_translations` para búsquedas por idioma
-- **Commits:** —
-- **PR:** —
-- **Merge por propietario:** —
+- **Commits:** `feat: add localized content schema`
+- **PR:** PR #4
+- **Merge por propietario:** 2026-10-26
 
 ---
 
 ### Fase 4 — Panel de administración privado
-- **Estado:** En curso — implementada, pendiente push y PR
+- **Estado:** Completada — PR #5 mergeado
 - **Rama:** `feature/fase-04-panel-privado`
 - **Criterios de aceptación:**
   - [✓] Filament verificado (incompatible con Livewire 4); alternativa propuesta y aprobada: panel artesanal
@@ -138,12 +141,12 @@
   - `feat: add secure editorial admin panel`
   - `fix: use slot instead of yield in admin layout` (Livewire 4 pasa contenido vía `{{ $slot }}`, no `@yield`)
 - **PR:** [#5 — feat: fase 4 — panel de administración privado](https://github.com/technoquo/laravel_accesible/pull/5)
-- **Merge por propietario:** Pendiente
+- **Merge por propietario:** 2026-10-26
 
 ---
 
 ### Fase 5 — Páginas públicas del blog
-- **Estado:** En curso — implementada, pendiente push y PR
+- **Estado:** Completada — PR #6 mergeado
 - **Rama:** `feature/fase-05-paginas-publicas`
 - **Criterios de aceptación:**
   - [✓] Portada con artículos recientes (HomeController + home.blade.php)
@@ -162,14 +165,16 @@
   - Parámetros de ruta inyectados posicionalmente en Laravel: `show(string $locale, string $slug)` necesario
   - Estilos prose en `app.css` para el cuerpo de artículos sin dependencia de `@tailwindcss/typography`
   - `LocaleTest.php` actualizado con `RefreshDatabase` al consultar ahora la BD desde `HomeController`
-- **Commits:** —
-- **PR:** —
-- **Merge por propietario:** —
+- **Commits:**
+  - `feat: publish bilingual article pages`
+  - `feat: add image and YouTube embed support to Markdown renderer`
+- **PR:** PR #6
+- **Merge por propietario:** 2026-10-26
 
 ---
 
 ### Fase 6 — SEO y rendimiento
-- **Estado:** En curso — implementada, pendiente push y PR
+- **Estado:** Completada — PR #8 mergeado
 - **Rama:** `feature/fase-06-seo-rendimiento`
 - **Criterios de aceptación:**
   - [✓] `<title>` y `<meta description>` por idioma (en layout + vistas)
@@ -184,9 +189,9 @@
   - `CategoryController` y `TagController` corregidos: ahora cargan traducciones para ambos locales (antes solo el locale activo hacía que `$alternateUrls` siempre cayera al fallback)
   - hreflang en `<link>` tags solo para contenido real; el `<a hreflang>` del selector de idioma es independiente
   - Sitemap excluye borradores y artículos futuros via `Post::published()` scope
-- **Commits:** —
-- **PR:** —
-- **Merge por propietario:** —
+- **Commits:** `feat: add localized SEO and performance`
+- **PR:** PR #8
+- **Merge por propietario:** 2026-10-26
 
 ---
 
@@ -222,14 +227,14 @@
   - axe-core excluye `#herd-ai-host` (badge de Laravel Herd, herramienta de desarrollo)
   - 3 tests omitidos: detalle EN y páginas de categoría/etiqueta por falta de contenido (se activarán en Fase 9)
   - Las pruebas manuales (teclado, NVDA, zoom, reflow, reduced motion) son responsabilidad del propietario; instrucciones detalladas en `ACCESSIBILITY_CHECKLIST.md`
-- **Commits:** —
-- **PR:** —
-- **Merge por propietario:** —
+- **Commits:** `test: audit and improve accessibility WCAG 2.2 AA`
+- **PR:** PR #9
+- **Merge por propietario:** 2026-10-26
 
 ---
 
 ### Fase 8 — Seguridad y preparación de producción
-- **Estado:** En curso — implementada, pendiente push y PR
+- **Estado:** Completada — PR #10 mergeado
 - **Rama:** `chore/fase-08-seguridad-produccion`
 - **Criterios de aceptación:**
   - [✓] Revisión de dependencias — `composer audit` y `npm audit`: 0 vulnerabilidades
@@ -251,9 +256,11 @@
   - `docs/DEPLOYMENT.md` — completado con variables, headers, checklist y nota sobre CSP
   - `docs/PROGRESS.md` — fase 7 marcada como completada
 - **Nota sobre CSP:** CSP completa requiere nonces para Livewire y whitelist de CDNs (highlight.js, YouTube). Documentado en DEPLOYMENT.md como trabajo post-lanzamiento.
-- **Commits:** —
-- **PR:** —
-- **Merge por propietario:** —
+- **Commits:**
+  - `chore: prepare secure deployment`
+  - `chore: use https baseURL in Playwright config`
+- **PR:** PR #10
+- **Merge por propietario:** 2026-10-26
 
 ---
 
@@ -269,6 +276,8 @@
   - [ ] SEO y accesibilidad de artículos verificados
   - [ ] Release v1.0 documentado
   - [ ] Autorización del propietario antes de publicar
+- **Notas:**
+  - `PostSeeder` crea los 4 artículos como borrador (`PostStatus::Draft`); en la base de datos local figuran ya como publicados, pero la publicación en producción sigue pendiente de los criterios anteriores
 - **Commits:** `docs: seed 4 bilingual draft articles with image and video embeds`
 - **PR:** #11 (borradores)
 - **Merge por propietario:** 2026-10-26 (borradores); lanzamiento pendiente
@@ -285,7 +294,7 @@
   - [x] Paleta invertida en modo oscuro; prose, botón copiar y resaltado de código adaptados
   - [x] Pest: botón y script presentes en ES/EN
   - [x] Playwright: `theme.spec.js` (alternancia, teclado, persistencia, preferencia del sistema) y proyecto `chromium-dark` que repite las auditorías axe
-- **Incidencias conocidas (previas, también en `main`):** el detalle de artículo falla axe por el iframe de YouTube (terceros) y `scrollable-region-focusable` en `<pre>`.
+- **Incidencias conocidas (previas, también en `main`):** el detalle de artículo falla axe por el iframe de YouTube (terceros) y `scrollable-region-focusable` en `<pre>`. Resuelto en PR #21.
 - **PR:** #13
 
 ---
@@ -347,7 +356,7 @@
   - [x] Pest: `BrandingTest.php` (enlace y nombre accesible, SVG decorativos sin IDs duplicados, un único `<h1>`, iconos en público y panel)
   - [x] Playwright: `theme.spec.js` comprueba la variante del logo en claro, oscuro y alto contraste
   - [x] Colores de marca (`brand-ink`, `brand-teal`, `brand-teal-soft`, `brand-orange`) en `app.css`, remapeados en oscuro y alto contraste: tarjetas de "Artículos recientes", títulos, etiquetas, enlaces "Leer más", botón de búsqueda y subrayado del menú activo; axe sin violaciones de contraste
-- **Pendiente:** las auditorías axe del detalle de artículo fallaban por contenido ajeno al logo (iframe de YouTube y `<pre>` sin foco); resuelto en la corrección siguiente.
+- **Pendiente:** las auditorías axe del detalle de artículo fallaban por contenido ajeno al logo (iframe de YouTube y `<pre>` sin foco); resuelto en la corrección siguiente (PR #21).
 - **PR:** #19
 
 ---
@@ -355,12 +364,39 @@
 ## Corrección — Auditoría axe del detalle de artículo
 
 - **Rama:** `fix/axe-detalle-articulo`
-- **Estado:** En revisión — pendiente PR
+- **Estado:** Completada — PR #21 mergeado
 - **Alcance:**
   - [x] `MarkdownService` emite `<pre tabindex="0">` para que los bloques de código con scroll horizontal se puedan recorrer con teclado (axe `scrollable-region-focusable`, WCAG 2.1.1)
   - [x] Auditoría axe: se excluye el contenido interno del reproductor de YouTube (terceros); el `<iframe>` con su `title` se sigue auditando
   - [x] Pest: test unitario de bloques de código enfocables
   - [x] Playwright: 74/74 en `tests/e2e/a11y/` (claro y `chromium-dark`)
+- **PR:** #21
+
+---
+
+## Mejora — Página de contacto
+
+- **Rama:** `feature/pagina-contacto`
+- **Estado:** Completada — PR #22 mergeado
+- **Alcance:**
+  - [x] Rutas `/es/contacto` (`es.contact`) y `/en/contact` (`en.contact`) con `ContactController` invocable
+  - [x] Dirección de contacto pública como enlace `mailto:`, configurable con `MAIL_CONTACT_ADDRESS` (`config/mail.php`)
+  - [x] Enlace en el menú principal, el footer y `sitemap.xml`; textos ES/EN en `lang/*/ui.php`
+  - [x] Pest: `ContactPageTest.php`
+  - [x] Playwright: axe en ES/EN en `public.spec.js`
+- **PR:** #22
+
+---
+
+## Mejora — Foto del autor en Acerca de
+
+- **Rama:** `feature/foto-acerca-de`
+- **Estado:** Completada — PR #23 mergeado
+- **Alcance:**
+  - [x] Foto (`resources/img/leonel.png`, empaquetada con Vite) junto al texto en pantallas anchas y encima en pantallas pequeñas
+  - [x] Texto alternativo traducido en `lang/*/ui.php`
+  - [x] Pest: `AboutPageTest.php` comprueba la imagen y su `alt`
+- **PR:** #23
 
 ---
 
@@ -368,6 +404,13 @@
 
 | Fecha | Fase | PR | Merged por |
 |-------|------|----|------------|
+| 2026-10-26 | 0 — Auditoría del entorno y planificación | PR #1 | Propietario |
+| 2026-10-26 | 1 — Bootstrap de Laravel | PR #2 | Propietario |
+| 2026-10-26 | 2 — Internacionalización y layout accesible | PR #3 | Propietario |
+| 2026-10-26 | 3 — Datos y modelos Eloquent | PR #4 | Propietario |
+| 2026-10-26 | 4 — Panel de administración privado | PR #5 | Propietario |
+| 2026-10-26 | 5 — Páginas públicas del blog | PR #6 | Propietario |
+| 2026-10-26 | 6 — SEO y rendimiento | PR #8 | Propietario |
 | 2026-10-26 | 7 — Auditoría WCAG 2.2 AA | PR #9 | Propietario |
 | 2026-10-26 | 8 — Seguridad y preparación de producción | PR #10 | Propietario |
 | 2026-10-26 | 9 — Contenido y lanzamiento (borradores) | PR #11 | Propietario |
@@ -377,3 +420,6 @@
 | 2026-10-27 | Mejora — Página Acerca de | PR #16 | Propietario |
 | 2026-10-27 | Mejora — Menú responsive | PR #17 | Propietario |
 | 2026-10-28 | Mejora — Logo, encabezado e icono del sitio | PR #19 | Propietario |
+| 2026-10-28 | Corrección — Auditoría axe del detalle de artículo | PR #21 | Propietario |
+| 2026-10-28 | Mejora — Página de contacto | PR #22 | Propietario |
+| 2026-10-28 | Mejora — Foto del autor en Acerca de | PR #23 | Propietario |
