@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Services\WcagGuide;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 
@@ -32,6 +33,20 @@ class SitemapController extends Controller
                 'changefreq' => 'daily',
                 'priority' => '0.9',
             ];
+            $urls[] = [
+                'loc' => locale_route('wcag.index', [], $locale),
+                'changefreq' => 'monthly',
+                'priority' => '0.8',
+            ];
+
+            foreach (app(WcagGuide::class)->guides() as $criterion) {
+                $urls[] = [
+                    'loc' => locale_route('wcag.show', ['criterion' => $criterion['slug']], $locale),
+                    'changefreq' => 'monthly',
+                    'priority' => '0.7',
+                ];
+            }
+
             $urls[] = [
                 'loc' => locale_route('about', [], $locale),
                 'changefreq' => 'yearly',

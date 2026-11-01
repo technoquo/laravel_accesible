@@ -228,6 +228,43 @@
                     </div>
                 </fieldset>
             </div>
+
+            {{-- WCAG criteria --}}
+            <div class="bg-white rounded-lg border border-gray-200 p-5 space-y-4 lg:col-span-3">
+                <fieldset aria-describedby="wcag-criteria-hint">
+                    <legend class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Criterios WCAG 2.2</legend>
+                    <p id="wcag-criteria-hint" class="mt-1 text-sm text-gray-600">
+                        Criterios que trata el artículo. Se enlazan desde el artículo y desde la ficha de la guía WCAG.
+                    </p>
+
+                    <div class="mt-4 space-y-2">
+                        @foreach ($this->wcagCriteriaByPrinciple as $principle => $guidelines)
+                            <details class="rounded border border-gray-200">
+                                <summary class="cursor-pointer px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-900">
+                                    {{ __('wcag.principles.'.$principle, [], 'es') }}
+                                </summary>
+                                <div class="grid gap-x-6 gap-y-2 px-3 pb-3 sm:grid-cols-2">
+                                    @foreach ($guidelines as $criteria)
+                                        @foreach ($criteria as $number => $criterion)
+                                            <label class="flex items-start gap-2 text-sm cursor-pointer">
+                                                <input type="checkbox"
+                                                    wire:model="wcagCriteria"
+                                                    value="{{ $number }}"
+                                                    class="mt-0.5 rounded border-gray-300 text-gray-900 focus:ring-2 focus:ring-gray-900" />
+                                                <span>{{ $number }} {{ $criterion['name'] }} ({{ $criterion['level'] }})</span>
+                                            </label>
+                                        @endforeach
+                                    @endforeach
+                                </div>
+                            </details>
+                        @endforeach
+                    </div>
+
+                    @error('wcagCriteria.*')
+                        <p class="mt-2 text-sm text-red-600" role="alert">{{ $message }}</p>
+                    @enderror
+                </fieldset>
+            </div>
         </div>
 
         <div class="flex items-center justify-end gap-4 pt-2">

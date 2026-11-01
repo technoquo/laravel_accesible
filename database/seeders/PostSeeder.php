@@ -43,7 +43,10 @@ class PostSeeder extends Seeder
                 'category_id' => $category?->id,
             ]);
 
-        $post->update(['category_id' => $category?->id]);
+        $post->update([
+            'category_id' => $category?->id,
+            'wcag_criteria' => $article['wcag_criteria'],
+        ]);
 
         foreach (['es', 'en'] as $locale) {
             PostTranslation::updateOrCreate(
@@ -68,6 +71,7 @@ class PostSeeder extends Seeder
             [
                 'category' => 'formularios',
                 'tags' => ['wcag', 'aria', 'blade'],
+                'wcag_criteria' => ['1.3.1', '1.4.3', '3.3.1', '3.3.2'],
                 'es' => [
                     'title' => 'Formularios Blade accesibles',
                     'slug' => 'formularios-blade-accesibles',
@@ -246,6 +250,7 @@ MD,
             [
                 'category' => 'formularios',
                 'tags' => ['wcag', 'aria', 'livewire'],
+                'wcag_criteria' => ['3.3.1', '3.3.3', '4.1.3'],
                 'es' => [
                     'title' => 'Mensajes de error accesibles en Livewire',
                     'slug' => 'mensajes-de-error-accesibles-livewire',
@@ -476,6 +481,7 @@ MD,
             [
                 'category' => 'teclado',
                 'tags' => ['wcag', 'livewire'],
+                'wcag_criteria' => ['2.1.1', '2.4.3', '2.4.7', '2.4.11', '4.1.3'],
                 'es' => [
                     'title' => 'Navegación por teclado en componentes Livewire',
                     'slug' => 'navegacion-teclado-livewire',
@@ -774,6 +780,7 @@ MD,
             [
                 'category' => 'pruebas',
                 'tags' => ['wcag', 'axe-core'],
+                'wcag_criteria' => ['1.4.3', '4.1.2'],
                 'es' => [
                     'title' => 'Pruebas de accesibilidad con axe-core y Playwright',
                     'slug' => 'pruebas-accesibilidad-axe-core-playwright',

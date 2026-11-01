@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\WcagGuideController;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\SetLocale;
 use App\Livewire\Admin\CategoriesIndex;
@@ -41,6 +42,10 @@ Route::prefix('{locale}')
             ->name('es.about')->where('locale', 'es');
         Route::get('contacto', ContactController::class)
             ->name('es.contact')->where('locale', 'es');
+        Route::get('guia-wcag', [WcagGuideController::class, 'index'])
+            ->name('es.wcag.index')->where('locale', 'es');
+        Route::get('guia-wcag/{criterion}', [WcagGuideController::class, 'show'])
+            ->name('es.wcag.show')->where(['locale' => 'es', 'criterion' => '[1-4]-\d{1,2}-\d{1,2}']);
 
         // EN public routes
         Route::get('articles', [PostController::class, 'index'])
@@ -55,6 +60,10 @@ Route::prefix('{locale}')
             ->name('en.about')->where('locale', 'en');
         Route::get('contact', ContactController::class)
             ->name('en.contact')->where('locale', 'en');
+        Route::get('wcag-guide', [WcagGuideController::class, 'index'])
+            ->name('en.wcag.index')->where('locale', 'en');
+        Route::get('wcag-guide/{criterion}', [WcagGuideController::class, 'show'])
+            ->name('en.wcag.show')->where(['locale' => 'en', 'criterion' => '[1-4]-\d{1,2}-\d{1,2}']);
     });
 
 Route::prefix('admin')

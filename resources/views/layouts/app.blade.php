@@ -88,6 +88,12 @@
                               {{ request()->routeIs('*.articles.*') ? 'font-semibold underline decoration-brand-orange decoration-2' : '' }}">
                         {{ __('ui.nav_articles') }}
                     </a>
+                    <a href="{{ locale_route('wcag.index') }}"
+                       @if (request()->routeIs('*.wcag.index')) aria-current="page" @endif
+                       class="py-2 lg:py-0 hover:underline underline-offset-2
+                              {{ request()->routeIs('*.wcag.*') ? 'font-semibold underline decoration-brand-orange decoration-2' : '' }}">
+                        {{ __('wcag.nav') }}
+                    </a>
                     <a href="{{ locale_route('about') }}"
                        @if (request()->routeIs('*.about')) aria-current="page" @endif
                        class="py-2 lg:py-0 hover:underline underline-offset-2
@@ -138,6 +144,9 @@
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 text-sm text-gray-600 flex flex-wrap items-center justify-between gap-4">
             <p>{{ __('ui.footer_rights', ['year' => date('Y')]) }}</p>
             <div class="flex flex-wrap items-center gap-4">
+                <a href="{{ locale_route('wcag.index') }}" class="underline underline-offset-2 hover:text-gray-900">
+                    {{ __('wcag.nav') }}
+                </a>
                 <a href="{{ locale_route('about') }}" class="underline underline-offset-2 hover:text-gray-900">
                     {{ __('ui.nav_about') }}
                 </a>

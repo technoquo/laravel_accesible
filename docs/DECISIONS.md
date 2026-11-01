@@ -171,6 +171,22 @@ Este documento registra las decisiones técnicas relevantes, el contexto que las
 
 ---
 
+### DEC-014 — Guía WCAG en archivos versionados y relación por JSON
+
+- **Fecha:** 2026-11-01
+- **Rama:** `feature/guia-wcag`
+- **Estado:** Aceptada
+- **Contexto:** El propietario quiere una guía de ayuda sobre WCAG 2.2 en Laravel que crezca con nuevos artículos.
+- **Decisión:**
+  - Los criterios y las fichas son contenido de referencia, no editorial: viven en `config/wcag.php`, `lang/{es,en}/wcag.php` y `resources/wcag/{es,en}/*.md`, versionados y revisados por PR, sin tablas nuevas.
+  - Las claves de traducción usan la forma `2-4-3`, porque el helper `__()` interpreta los puntos de `2.4.3` como claves anidadas.
+  - La relación artículo ↔ criterios es una columna JSON `posts.wcag_criteria` (lista de números como `"2.4.3"`), validada contra `config/wcag.php` y consultada con `whereJsonContains`.
+  - Resúmenes redactados por el proyecto, sin copiar el texto normativo de W3C; cada criterio enlaza a su página "Understanding".
+- **Alternativas descartadas:** tablas `wcag_criteria` y pivote (más migraciones y CRUD para datos que casi no cambian); editar las fichas desde el panel (el contenido técnico necesita revisión por PR).
+- **Consecuencias:** Añadir una ficha = dos archivos Markdown y `has_guide => true`. Los criterios de un artículo se eligen en el panel sin tocar código.
+
+---
+
 ## Pendiente de decisión
 
 - Estrategia de caché (Laravel Cache con tags vs. sin tags según driver disponible).

@@ -225,6 +225,30 @@ test.describe('Acerca de', () => {
     });
 });
 
+// ─── Guía WCAG ───────────────────────────────────────────────────────────────
+
+test.describe('Guía WCAG', () => {
+    for (const path of ['/es/guia-wcag', '/en/wcag-guide', '/es/guia-wcag?level=AA&guides=1', '/es/guia-wcag/2-4-3', '/en/wcag-guide/4-1-3']) {
+        test(`${path} — sin violaciones axe WCAG 2.2 AA`, async ({ page }) => {
+            await page.goto(path);
+            await page.waitForLoadState('load');
+            const violations = await runAxe(page);
+            expect(violations, formatViolations(violations)).toHaveLength(0);
+        });
+    }
+
+    for (const path of ['/es/guia-wcag', '/es/guia-wcag/1-4-10']) {
+        test(`${path} — sin scroll horizontal a 320 CSS px`, async ({ page }) => {
+            await page.setViewportSize({ width: 320, height: 640 });
+            await page.goto(path);
+            const overflows = await page.evaluate(
+                () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+            );
+            expect(overflows).toBe(false);
+        });
+    }
+});
+
 // ─── Contacto ────────────────────────────────────────────────────────────────
 
 test.describe('Contacto', () => {

@@ -23,6 +23,7 @@ class Post extends Model
         'category_id',
         'status',
         'published_at',
+        'wcag_criteria',
     ];
 
     protected function casts(): array
@@ -30,6 +31,7 @@ class Post extends Model
         return [
             'status' => PostStatus::class,
             'published_at' => 'datetime',
+            'wcag_criteria' => 'array',
         ];
     }
 

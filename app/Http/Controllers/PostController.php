@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\PostTranslation;
 use App\PostStatus;
 use App\Services\MarkdownService;
+use App\Services\WcagGuide;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -89,6 +90,8 @@ class PostController extends Controller
             $hreflangUrls[$alternateLocale] = locale_route('articles.show', ['slug' => $alternateTranslation->slug], $alternateLocale);
         }
 
-        return view('articles.show', compact('post', 'translation', 'html', 'alternateUrls', 'locale', 'canonicalUrl', 'hreflangUrls'));
+        $wcagCriteria = app(WcagGuide::class)->all();
+
+        return view('articles.show', compact('post', 'translation', 'html', 'alternateUrls', 'locale', 'canonicalUrl', 'hreflangUrls', 'wcagCriteria'));
     }
 }

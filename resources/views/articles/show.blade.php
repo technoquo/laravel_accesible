@@ -61,6 +61,34 @@
             {!! $html !!}
         </div>
 
+        @if ($post->wcag_criteria)
+            <section aria-labelledby="wcag-criteria-heading" class="mt-10 max-w-2xl border-t border-gray-200 pt-6">
+                <h2 id="wcag-criteria-heading" class="text-xl font-semibold text-brand-ink">{{ __('wcag.post_criteria') }}</h2>
+                <ul class="mt-3 space-y-2" role="list">
+                    @foreach ($post->wcag_criteria as $criterionNumber)
+                        @php $wcagCriterion = $wcagCriteria[$criterionNumber] ?? null @endphp
+                        @if ($wcagCriterion)
+                            <li>
+                                @if ($wcagCriterion['has_guide'])
+                                    <a href="{{ locale_route('wcag.show', ['criterion' => $wcagCriterion['slug']]) }}"
+                                       class="text-brand-ink underline underline-offset-2 hover:text-brand-teal">
+                                        {{ $criterionNumber }} {{ $wcagCriterion['name'] }}
+                                    </a>
+                                @else
+                                    <a href="{{ $wcagCriterion['understanding_url'] }}" hreflang="en"
+                                       class="text-brand-ink underline underline-offset-2 hover:text-brand-teal">
+                                        {{ $criterionNumber }} {{ $wcagCriterion['name'] }}
+                                        <span class="text-sm">{{ __('wcag.w3c_link_suffix') }}</span>
+                                    </a>
+                                @endif
+                                <span class="text-sm text-gray-600">· {{ __('wcag.level_label', ['level' => $wcagCriterion['level']]) }}</span>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+            </section>
+        @endif
+
     </article>
 
     {{-- Accessible live region for copy feedback --}}
